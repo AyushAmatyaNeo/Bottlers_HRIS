@@ -1610,3 +1610,34 @@ ORDER_BY NUMBER(4) NOT NULL
 alter table hris_employee_travel_request add HARDCOPY_SIGNED_FLAG
 char(1) default 'N'
 check (HARDCOPY_SIGNED_FLAG IN ('N', 'Y'));
+
+----Done by Sabita Magar
+
+create or replace FUNCTION travel_status_desc ( p_status hris_employee_travel_request.status%TYPE ) RETURN VARCHAR2 IS
+    v_status_desc   VARCHAR2(50 BYTE);
+BEGIN
+    v_status_desc := ( CASE p_status
+        WHEN 'RQ' THEN 'Pending'
+        WHEN 'RC' THEN 'Recommended'
+        WHEN 'R' THEN 'Rejected'
+        WHEN 'AP' THEN 'Approved'
+        WHEN 'C' THEN 'Cancelled'
+        WHEN 'CP' THEN 'C Pending'
+        WHEN 'CR' THEN 'C Recommended'
+        WHEN 'A2' THEN 'To be accepted by HR Director'
+        WHEN 'A3' THEN 'To be accepted by Managing Director'
+        WHEN 'A4' THEN 'To be accepted by FInanace Manager'
+        WHEN 'RP' THEN 'To be accepted by Finance Manager'
+    END );
+
+    RETURN v_status_desc;
+END;
+
+
+
+
+
+
+
+
+ 

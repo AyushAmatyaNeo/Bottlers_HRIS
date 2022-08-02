@@ -664,16 +664,11 @@
             $('#travelIdsforall').append(`
             <div class="col-sm-4">
                 <div class="form-group">
-                <label>Departure</label>
-                    <input type = "text" class= "form-control" name = "departure">
+                <label>Purpose</label>
+                    <input type = "text" class= "form-control" name = "purpose">
                 </div>               
             </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                <label>Destination</label>
-                    <input type = "text" class= "form-control" name = "destination">
-                </div>               
-            </div>
+            
 
             `);
             $('#domesticConfigTable').show();

@@ -107,7 +107,7 @@ class TravelApproveRepository implements RepositoryInterface {
             new Expression("INITCAP(TO_CHAR(TR.REQUESTED_DATE, 'DD-MON-YYYY')) AS REQUESTED_DATE"),
             new Expression("TR.REMARKS AS REMARKS"),
             new Expression("TR.STATUS AS STATUS"),
-            new Expression("LEAVE_STATUS_DESC(TR.STATUS) AS STATUS_DETAIL"),
+            new Expression("LEAVE_STATUS_DESC(TR.STATUS)  AS STATUS_DETAIL"),
             new Expression("TR.RECOMMENDED_BY AS RECOMMENDED_BY"),
             new Expression("INITCAP(TO_CHAR(TR.RECOMMENDED_DATE, 'DD-MON-YYYY')) AS RECOMMENDED_DATE"),
             new Expression("TR.RECOMMENDED_REMARKS AS RECOMMENDED_REMARKS"),
@@ -140,7 +140,9 @@ class TravelApproveRepository implements RepositoryInterface {
         $select->where(["TR.TRAVEL_ID" => $id]);
         $select->order("TR.REQUESTED_DATE DESC");
         $statement = $sql->prepareStatementForSqlObject($select);
+        //  echo '<pre>';print_r($statement );die;
         $result = $statement->execute();
+        
         return $result->current();
     }
 
@@ -208,7 +210,7 @@ class TravelApproveRepository implements RepositoryInterface {
                   BS_DATE(TR.RETURNED_DATE)                                       AS RETURNED_DATE_BS,
                   TR.REMARKS                                                      AS REMARKS,
                   TR.STATUS                                                       AS STATUS,
-                  (CASE WHEN TR.STATUS = 'AP' THEN 'Accepted' ELSE 'Pending' END)                                   AS STATUS_DETAIL,
+                  LEAVE_STATUS_DESC(TR.STATUS)                                    AS STATUS_DETAIL,
                   TR.RECOMMENDED_BY                                               AS RECOMMENDED_BY,
                   RE.FULL_NAME                                                    AS RECOMMENDED_BY_NAME,
                   TO_CHAR(TR.RECOMMENDED_DATE)                                    AS RECOMMENDED_DATE_AD,
@@ -300,6 +302,7 @@ class TravelApproveRepository implements RepositoryInterface {
                   TO_CHAR(TR.TO_DATE,'DD-MON-YYYY')        AS TO_DATE_AD,
                   BS_DATE(TR.TO_DATE)                      AS TO_DATE_BS,
                   TR.DESTINATION                           AS DESTINATION,
+                  TR.DEPARTURE                             AS DEPARTURE,
                   TR.PURPOSE                               AS PURPOSE,
                   TR.REQUESTED_TYPE                        AS REQUESTED_TYPE,
                   (
@@ -325,7 +328,7 @@ class TravelApproveRepository implements RepositoryInterface {
                   BS_DATE(TR.RETURNED_DATE)                                       AS RETURNED_DATE_BS,
                   TR.REMARKS                                                      AS REMARKS,
                   TR.STATUS                                                       AS STATUS,
-                  (CASE WHEN TR.STATUS = 'AP' THEN 'Accepted' ELSE 'Pending' END)                                   AS STATUS_DETAIL,
+                  TRAVEL_STATUS_DESC(TR.STATUS)                                    AS STATUS_DETAIL,
                   TR.RECOMMENDED_BY                                               AS RECOMMENDED_BY,
                   RE.FULL_NAME                                                    AS RECOMMENDED_BY_NAME,
                   TO_CHAR(TR.RECOMMENDED_DATE)                                    AS RECOMMENDED_DATE_AD,
@@ -376,7 +379,7 @@ class TravelApproveRepository implements RepositoryInterface {
                 --   END
                 -- OR TS.EMPLOYEE_ID IS NULL)
                 AND U.EMPLOYEE_ID  ={$search['employeeId']} {$condition}";
-
+        // echo '<pre>';print_r($sql);die;
         return EntityHelper::rawQueryResult($this->adapter, $sql);
     }
     public function getAllFilteredE($search) {
@@ -418,6 +421,7 @@ class TravelApproveRepository implements RepositoryInterface {
                   TO_CHAR(TR.TO_DATE,'DD-MON-YYYY')        AS TO_DATE_AD,
                   BS_DATE(TR.TO_DATE)                      AS TO_DATE_BS,
                   TR.DESTINATION                           AS DESTINATION,
+                  TR.DEPARTURE                             AS DEPARTURE,
                   TR.PURPOSE                               AS PURPOSE,
                   TR.REQUESTED_TYPE                        AS REQUESTED_TYPE,
                   (
@@ -443,7 +447,7 @@ class TravelApproveRepository implements RepositoryInterface {
                   BS_DATE(TR.RETURNED_DATE)                                       AS RETURNED_DATE_BS,
                   TR.REMARKS                                                      AS REMARKS,
                   TR.STATUS                                                       AS STATUS,
-                  (CASE WHEN TR.STATUS = 'AP' THEN 'Accepted' ELSE 'Pending' END)                                   AS STATUS_DETAIL,
+                  LEAVE_STATUS_DESC(TR.STATUS)                                    AS STATUS_DETAIL,
                   TR.RECOMMENDED_BY                                               AS RECOMMENDED_BY,
                   RE.FULL_NAME                                                    AS RECOMMENDED_BY_NAME,
                   TO_CHAR(TR.RECOMMENDED_DATE)                                    AS RECOMMENDED_DATE_AD,
@@ -510,6 +514,7 @@ class TravelApproveRepository implements RepositoryInterface {
                   TO_CHAR(TR.TO_DATE,'DD-MON-YYYY')        AS TO_DATE_AD,
                   BS_DATE(TR.TO_DATE)                      AS TO_DATE_BS,
                   TR.DESTINATION                           AS DESTINATION,
+                  TR.DEPARTURE                             AS DEPARTURE,
                   TR.PURPOSE                               AS PURPOSE,
                   TR.REQUESTED_TYPE                        AS REQUESTED_TYPE,
                   (
@@ -601,7 +606,7 @@ class TravelApproveRepository implements RepositoryInterface {
                 --   END
                 -- OR TS.EMPLOYEE_ID IS NULL)
                 ";
-                
+        // echo '<pre>';print_r($sql);die;   
         return EntityHelper::rawQueryResult($this->adapter, $sql);
     }
     public function getEmployeeDesignation($id)
@@ -649,12 +654,7 @@ class TravelApproveRepository implements RepositoryInterface {
                 BS_DATE(TR.RETURNED_DATE)                                       AS RETURNED_DATE_BS,
                 TR.REMARKS                                                      AS REMARKS,
                 TR.STATUS                                                       AS STATUS,
-                (
-                CASE
-                WHEN TR.STATUS = 'AP'
-                THEN 'Accepted'
-                ELSE 'Pending'
-                END)                                      AS STATUS_DETAIL,
+                LEAVE_STATUS_DESC(TR.STATUS)                              AS STATUS_DETAIL,
                 TR.RECOMMENDED_BY                                               AS RECOMMENDED_BY,
                 RE.FULL_NAME                                                    AS RECOMMENDED_BY_NAME,
                 TO_CHAR(TR.RECOMMENDED_DATE)                                    AS RECOMMENDED_DATE_AD,
@@ -741,14 +741,7 @@ class TravelApproveRepository implements RepositoryInterface {
                 BS_DATE(TR.RETURNED_DATE)                                       AS RETURNED_DATE_BS,
                 TR.REMARKS                                                      AS REMARKS,
                 TR.STATUS                                                       AS STATUS,
-                (
-                CASE
-                WHEN TR.STATUS = 'AP'
-                THEN 'Accepted'
-                WHEN TR.STATUS = 'R'
-                THEN 'Rejected'
-                ELSE 'Pending'
-                END)                                      AS STATUS_DETAIL,
+                LEAVE_STATUS_DESC(TR.STATUS)                                     AS STATUS_DETAIL,
                 TR.RECOMMENDED_BY                                               AS RECOMMENDED_BY,
                 RE.FULL_NAME                                                    AS RECOMMENDED_BY_NAME,
                 TO_CHAR(TR.RECOMMENDED_DATE)                                    AS RECOMMENDED_DATE_AD,
@@ -828,14 +821,7 @@ class TravelApproveRepository implements RepositoryInterface {
                 BS_DATE(TR.RETURNED_DATE)                                       AS RETURNED_DATE_BS,
                 TR.REMARKS                                                      AS REMARKS,
                 TR.STATUS                                                       AS STATUS,
-                (
-                CASE
-                WHEN TR.STATUS = 'AP'
-                THEN 'Accepted'
-                WHEN TR.STATUS = 'R'
-                THEN 'Rejected'
-                ELSE 'Pending'
-                END)                                      AS STATUS_DETAIL,
+                LEAVE_STATUS_DESC(TR.STATUS)                                    AS STATUS_DETAIL,
                 TR.RECOMMENDED_BY                                               AS RECOMMENDED_BY,
                 RE.FULL_NAME                                                    AS RECOMMENDED_BY_NAME,
                 TO_CHAR(TR.RECOMMENDED_DATE)                                    AS RECOMMENDED_DATE_AD,

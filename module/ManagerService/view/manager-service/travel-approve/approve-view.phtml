@@ -21,6 +21,8 @@ $toDate = $form->get('toDate');
 $toDate->setAttributes(["disabled" => "disabled"]);
 $requestedAmount = $form->get('requestedAmount');
 $destination = $form->get('destination');
+$departure = $form->get('departure');
+ $departure->setAttributes(["disabled" => "disabled"]);
 $destination->setAttributes(["disabled" => "disabled"]);
 $purpose = $form->get('purpose');
 $purpose->setAttributes(["disabled" => "disabled"]);
@@ -250,6 +252,13 @@ print $this->form()->openTag($form);
                             <?php print $this->formElementErrors()->render($remarks, ['class' => 'help-block']); ?>
                         </div>
                     </div>
+                    <div class="col-sm-4"> 
+                        <div class="form-group">
+                            <?php print $this->formLabel($departure); ?>
+                            <?php print $this->formElement($departure); ?>
+                            <?php print $this->formElementErrors()->render($departure, ['class' => 'help-block']); ?>
+                        </div>               
+                    </div>
                 </div>
   
                 <?php if(!empty($files)){ ?>
@@ -346,7 +355,7 @@ print $this->form()->closeTag();
             <li>Mode of Transport: <?php echo $detail['TRANSPORT_TYPE_DETAIL']; ?></li>
         </ul>
     </div>
-
+    <label style="color:red ;" ><i>* Note:I hereby declare that all expenses, including self-stay arrangement (if any), claimed are legitimate business expenses actually incurred and claimed as per company policy.</i></label>
     <div class="row font-common signature">
         <div class="signEmployee">
             <div class="border-dotted">
@@ -406,6 +415,8 @@ print $this->form()->closeTag();
         </div>
     <?php } ?>
 </div>
+<?php if (isset($detail['STATUS'=='AP'])) { ?>
 <div class="col-md-12" style="text-align:center;">
     <a class="btn btn-success" id="print"> Print</a>
 </div>
+<?php } ?>

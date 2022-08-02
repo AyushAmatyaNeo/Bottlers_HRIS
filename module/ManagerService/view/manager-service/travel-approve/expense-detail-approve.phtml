@@ -7,6 +7,8 @@ $this->headScript()
 
 $form->setAttribute('role', 'form');
 $form->setAttribute('id', 'travelApprove-form');
+$departure = $form->get('departure');
+$departure->setAttributes(["disabled" => "disabled"]);
 
 
 $recommendedRemarks = $form->get('recommendedRemarks');
@@ -170,6 +172,18 @@ print $this->form()->openTag($form);
                             </tr>
                         </table>
                     </div> 
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-box bottomgap">
+                        <table>
+                            <tr>
+                                <td width="40%">
+                                    <label for="employeeCode">Departure:</label> 
+                                </td>
+                                <td>
+                                    <input  value="<?php echo $detail['DEPARTURE']; ?>" type="text"  disabled="disabled" name="departure" id="departure" class="form-control"> 
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
                 <div class="margin-top-10 scrollbar-horizantal">
                     <table width="100%" align="center" class="table table-striped table-bordered table-hover no-footer customTable div-font-11">
@@ -407,7 +421,8 @@ print $this->form()->closeTag();
             </ul>
         </div>
     </div>
-
+    <br>
+    <label style="color:red ;" ><i>* Note:I hereby declare that all expenses, including self-stay arrangement (if any), claimed are legitimate business expenses actually incurred and claimed as per company policy.</i></label>
     <div class="wrapper font-common signature">
         <div class="signChecked">
             <div class="border-dotted">
@@ -434,6 +449,8 @@ print $this->form()->closeTag();
     </div>
 
 </div>
+<?php if ($STATUS =='AP') { ?>
 <div class="col-md-12" style="text-align:center;">
     <a class="btn btn-success" id="print"> Print</a>
 </div>
+<?php } ?>

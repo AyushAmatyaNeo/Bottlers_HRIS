@@ -7,6 +7,8 @@ $this->headScript()
 
 $form->setAttribute('role', 'form');
 $form->setAttribute('id', 'travelApprove-form');
+$departure = $form->get('departure');
+$departure->setAttributes(["disabled" => "disabled"]);
 
 
 $recommendedRemarks = $form->get('recommendedRemarks');
@@ -170,6 +172,18 @@ print $this->form()->openTag($form);
                             </tr>
                         </table>
                     </div> 
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-box bottomgap">
+                        <table>
+                            <tr>
+                                <td width="40%">
+                                    <label for="departure">Departure :</label> 
+                                </td>
+                                <td>
+                                    <input type="text" disabled="disabled" value="<?php echo $detail['DEPARTURE'] ?>" name="departure"  id="departure" class="form-control">
+                                </td>
+                            </tr>
+                        </table>
+                    </div
                 </div>
                 <div class="margin-top-10 scrollbar-horizantal">
                     <table width="100%" align="center" class="table table-striped table-bordered table-hover no-footer customTable div-font-11">

@@ -25,7 +25,7 @@ class NewTravelRequestRepository extends HrisRepository implements RepositoryInt
         $this->tableEmployeeGateway = new TableGateway(HrEmployees::TABLE_NAME, $adapter);
         $this->fileGateway = new TableGateway(TRAVELFILES::TABLE_NAME,$adapter);
     } 
-    public function getFilteredRecords(array $search) {
+    public function getFilteredRecords(array $search) { #passes value from view
         $sql = new Sql($this->adapter);
         $employeeId = $search['employeeId'];
 
@@ -43,8 +43,7 @@ class NewTravelRequestRepository extends HrisRepository implements RepositoryInt
             new Expression("BS_DATE(TR.TO_DATE) AS TO_DATE_BS"),
             new Expression("TR.STATUS AS STATUS"),
             new Expression("TR.HARDCOPY_SIGNED_FLAG AS HARDCOPY_SIGNED_FLAG"),
-            new Expression("(CASE WHEN TR.STATUS = 'AP' THEN 'Approved' WHEN TR.STATUS = 'R' THEN 'Rejected' WHEN TR.STATUS = 'RQ' THEN 'Pending' WHEN TR.STATUS = 'A2' THEN 'To be accepted by HR Director' WHEN TR.STATUS = 'A3' THEN 'To be accepted by Managing Director' WHEN TR.STATUS = 'A4' THEN 'To be accepted by FInanace Manager
-            ' WHEN TR.STATUS = 'RP' THEN 'To be accepted by Finance Manager' ELSE 'Pending' END) AS STATUS_DETAIL"),
+            new Expression("travel_status_desc(TR.STATUS) AS STATUS_DETAIL"),
             new Expression("TR.DESTINATION AS DESTINATION"),
             new Expression("TR.DEPARTURE AS DEPARTURE"),
             new Expression("INITCAP(TO_CHAR(TR.REQUESTED_DATE, 'DD-MON-YYYY')) AS REQUESTED_DATE_AD"),
@@ -65,8 +64,8 @@ class NewTravelRequestRepository extends HrisRepository implements RepositoryInt
             new Expression("TR.RECOMMENDED_REMARKS AS RECOMMENDED_REMARKS"),
             new Expression("TR.REMARKS AS REMARKS"),
             new Expression("TR.REQUESTED_TYPE AS REQUESTED_TYPE"),
-            new Expression("TR.TRAVEL_TYPE AS TRAVEL_TYPE"),
             new Expression("TR.CURRENCY_NAME AS CURRENCY"),
+            new Expression("TR.TRAVEL_TYPE AS TRAVEL_TYPE"),
             new Expression("(CASE WHEN LOWER(TR.REQUESTED_TYPE) = 'ad' AND TRAVEL_TYPE = 'LTR' THEN 'Local Travel Request' WHEN LOWER(TR.REQUESTED_TYPE) = 'ia' THEN 'Intenational Travel Request' WHEN LOWER(TR.REQUESTED_TYPE) = 'ad' AND TRAVEL_TYPE = 'ITR' THEN 'Intenational Travel Advance Request' ELSE 'Expense' END) AS REQUESTED_TYPE"),
             new Expression("(CASE WHEN TR.STATUS = 'RQ' THEN 'Y' ELSE 'N' END) AS ALLOW_EDIT"),
             new Expression("(CASE WHEN TR.STATUS IN ('RQ','RC') THEN 'Y' ELSE 'N' END) AS ALLOW_DELETE"),
@@ -88,6 +87,11 @@ class NewTravelRequestRepository extends HrisRepository implements RepositoryInt
             "TR.STATUS  != 'C' ",
            //"LOWER(TR.REQUESTED_TYPE) = 'ad'"
         ]);
+        // if($search['travelType']){
+        //     $select->where([
+		// 	"TR.TRAVEL_TYPE = '{$search['travelType']}'",
+        //     ]);
+        // }
         if($search['year']){
             
             $select->where([
@@ -130,17 +134,17 @@ class NewTravelRequestRepository extends HrisRepository implements RepositoryInt
                 "LOWER(TR.REQUESTED_TYPE) in ('{$search['requestedType']}') "
             ]);
         }
-        if (isset($search['travelType'])) {
+        if ($search['travelType']) {
             $select->where([
                 "TR.TRAVEL_TYPE in ('{$search['travelType']}') "
             ]);
         }
         $select->order("TR.REQUESTED_DATE DESC");
         $statement = $sql->prepareStatementForSqlObject($select);
-        //echo '<pre>'; print_r($statement);die;
-        $result = $statement->execute();
-        
+        // echo '<pre>';print_r($statement);die;
 
+        $result = $statement->execute();
+        // echo '<pre>';print_r($select);die;
         return $result;
     }
     public function linkTravelWithFiles($id = null)
@@ -232,7 +236,7 @@ class NewTravelRequestRepository extends HrisRepository implements RepositoryInt
             new Expression("INITCAP(TO_CHAR(TR.REQUESTED_DATE, 'DD-MON-YYYY')) AS REQUESTED_DATE"),
             new Expression("TR.REMARKS AS REMARKS"),
             new Expression("TR.STATUS AS STATUS"),
-            new Expression("(CASE WHEN TR.STATUS = 'AP' THEN 'Approved' WHEN TR.STATUS = 'R' THEN 'Rejected' WHEN TR.STATUS = 'RQ' THEN 'Pending' WHEN TR.STATUS = 'A2' THEN 'To be accepted by HR Director' WHEN TR.STATUS = 'A3' THEN 'To be accepted by Managing Director' WHEN TR.STATUS = 'A4' THEN 'To be accepted by Finance Manager' WHEN TR.STATUS = 'RP' THEN 'To be accepted by Finance Manager' ELSE 'Pending' END) AS STATUS_DETAIL"),
+            new Expression("travel_status_desc(TR.STATUS) AS STATUS_DETAIL"),
             new Expression("TR.RECOMMENDED_BY AS RECOMMENDED_BY"),
             new Expression("INITCAP(TO_CHAR(TR.RECOMMENDED_DATE, 'DD-MON-YYYY')) AS RECOMMENDED_DATE"),
             new Expression("TR.RECOMMENDED_REMARKS AS RECOMMENDED_REMARKS"),
@@ -319,7 +323,7 @@ class NewTravelRequestRepository extends HrisRepository implements RepositoryInt
     public function getTotalExpenseAmount($travelId){
         // $sql = "select sum(total * exchange_rate) as NRP_TOTAL from hris_travel_expense where travel_id = {$travelId} and status = 'E'";
         // return $this->rawQuery($sql)[0]["NRP_TOTAL"];
-        $sql = "select sum(amount) as NRP_TOTAL from hris_travel_expense where travel_id = {$travelId} and status = 'E'";
+        $sql = "select nvl(sum(amount),0) as NRP_TOTAL from hris_travel_expense where travel_id = {$travelId} and status = 'E'";
         // var_dump($this->rawQuery($sql)[0]["NRP_TOTAL"]); die;
 
         return $this->rawQuery($sql)[0]["NRP_TOTAL"];

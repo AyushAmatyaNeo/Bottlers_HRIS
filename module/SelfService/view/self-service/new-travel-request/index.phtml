@@ -44,7 +44,7 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
     <div class="portlet-title">
         <div class="caption">
             <i class="icon-paper-plane font-green-haze"></i>
-            <span class="caption-subject bold font-green-haze uppercase"> LOCAL TRAVEL DETAILS</span>
+            <span class="caption-subject bold font-green-haze uppercase"> TRAVEL DETAILS</span>
         </div>
         <div class="tools">
             <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
@@ -53,8 +53,8 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
         <div class="actions">
             <a href="<?= $this->url('newtravelrequest', ['action' => 'add']) ?>" class="btn default btn-sm">
                 <i class="fa fa-plus-square icon-black"></i> Apply For Travel </a>
-                <a href="<?= $this->url('newtravelrequest', ['action' => 'internationalTravelRequest']) ?>" class="btn default btn-sm">
-                <i class="fa fa-arrow-right icon-black"></i> International Travel Detail </a>
+                <!-- <a href="<?= $this->url('newtravelrequest', ['action' => 'internationalTravelRequest']) ?>" class="btn default btn-sm">
+                <i class="fa fa-arrow-right icon-black"></i> International Travel Detail </a> -->
 
             <div class="btn-group">
                 <a class="btn btn-sm blue-soft" href="javascript:;" data-toggle="dropdown" aria-expanded="false">
@@ -128,9 +128,17 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                 <option value="23">2023</option>
                             </select>
                         </div>
-
                     </div>
-                </div>
+                    <div class="col-sm-3">
+                    <div class="form-group">
+                            <label for="travelType">Travel Type</label>
+                            <select name="travelType" id="travelId">
+                                <option value="">-------------</option>
+                                <option value="LTR">Local Travel</option>
+                                <option value="ITR">International Travel</option>
+                            </select>
+                        </div>
+                    </div>
             </div>
         </div>
         <div class="row">
