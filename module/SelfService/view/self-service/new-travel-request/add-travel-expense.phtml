@@ -12,7 +12,7 @@ $this->headScript()->appendFile($this->basePath('assets/global/plugins/combodate
 $this->headScript()->appendFile($this->basePath('assets/global/plugins/combodate/js/combodate.js'));
 $this->headScript()->appendFile($this->basePath('assets/global/plugins/ladda/spin.min.js'));
 $this->headScript()->appendFile($this->basePath('assets/global/plugins/ladda/ladda.min.js'));
-$this->headScript()->appendFile($this->basePath('js/SelfService/travel-request/add-travel-expense.js'));
+$this->headScript()->appendFile($this->basePath('js/SelfService/travel-request/add-travel-expense.js?1'));
 ?>
  <?php  $all_data = json_encode(file_get_contents("https://gist.githubusercontent.com/aaronhayes/5fef481815ac75f771d37b16d16d35c9/raw/edbec8eea5cc9ace57a79409cc390b7b9bcf24f6/currencies.json")); ?>
 <script>
@@ -109,7 +109,7 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                                     <th colspan="12" style="text-align:center; font-weight:bold; font-size:15px;">Domestic Travel</th>
                                                 </tr>
                                                 <tr>
-                                                    <th>Action</th> 
+                                                    <th style="padding-left:3rem;">Action</th> 
                                                     <th>ER Type</th>       
                                                     <th>Location</th>       
                                                     <th>Date</th>       
@@ -125,18 +125,18 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                                 <tr>
                                                     <td></td>
                                                     <td>
-                                                        <select name="erTypeL[]" id="ertyprL1" class="erTypeL form-control" required>
+                                                        <select name="erTypeL[]" id="ertyprL1" class="erTypeL form-control" required style="width:12rem ;">
                                                             <option value="-1">Select ER Type</option>
                                                             <option value="EP">Employeee Paid</option>
                                                             <option value="CP">Company Paid</option>
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <input type="text" name="locFromL[]" id="locFromL1"  class="locFrom form-control" required> 
+                                                        <input type="text" name="locFromL[]" id="locFromL1"  class="locFrom form-control" required style="width: 9rem;"> 
                                                     </td>
                                                 
                                                     <td>
-                                                        <input type="text" name="arrDateL[]" id="arrDateL1"  class="arrDate form-control" required> 
+                                                        <input type="text" name="arrDateL[]" id="arrDateL1"  class="arrDate form-control" required style="width:10rem ;"> 
                                                     </td>
                                                     
                                                     <td>
@@ -145,17 +145,17 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                                 
                                                     <td>
                                                         <!-- <input type="text" name=""  class="ticketNo form-control">  -->
-                                                        <select select2 class="form-control" id="expenseHeadL1" name="expenseHeadL[]" id="expensehead" required>
+                                                        <select select2 class="form-control" id="expenseHeadL1" name="expenseHeadL[]" id="expensehead" required style="width:17rem ;">
                                                             <?php  foreach($expenseHeads as $expenseLtrHead) { ?>
                                                                 <option value="<?php echo $expenseLtrHead['gl'] ?>"><?php echo $expenseLtrHead['name'] ?></option>
                                                             <?php } ?>
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <input type="number" name="conversionRateL[]" class="conversionRateL1" value="1" step="0.001" disabled >
+                                                        <input type="number" name="conversionRateL[]" class="conversionRateL1" value="1" step="0.001" disabled  style="width:10rem ;">
                                                     </td>
                                                     <td>
-                                                        <input type="text" name="currencyL[]" value="NPR" disabled >
+                                                        <input type="text" name="currencyL[]" value="NPR" disabled style="width:10rem ;" >
                                                     </td>
                                                     <td>
                                                         <input type="number" name="amountExpL[]" id="amountExpL1" step="0.001"  class="amountExpL" required>
@@ -205,7 +205,7 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                         <tr>
                                             <td></td>
                                             <td>
-                                                <select name="erTypeI[]" id="erTypeI1" class="erTypeL form-control" required>
+                                                <select name="erTypeI[]" id="erTypeI1" class="erTypeL form-control" required style="width:13rem">
                                                     <option value="-1">Select ER Type</option>
                                                     <option value="EP">Employeee Paid</option>
                                                     <option value="CP">Company Paid</option>
@@ -213,10 +213,10 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                             </td>
                                             
                                             <td>
-                                                <input type="text" name="locFrom[]" id="locFrom1"  class="locFrom form-control" required> 
+                                                <input type="text" name="locFrom[]" id="locFrom1"  class="locFrom form-control" required style="width:10rem"> 
                                             </td>
                                             <td>
-                                                <input type="text" name="arrDate[]" id="arrDate1"  class="arrDate form-control" required> 
+                                                <input type="text" name="arrDate[]" id="arrDate1"  class="arrDate form-control" required style="width:10rem"> 
                                             </td>
                                             <td>
                                                 <input type="text" name="ticketNo[]"  class="ticketNo form-control"> 

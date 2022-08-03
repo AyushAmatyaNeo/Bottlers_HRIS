@@ -9,7 +9,7 @@ function travelTypeForAdvance() {
       $('.domestic').append(` 
           <div class="col-sm-4">
             <div class="form-group">
-            <label for="advanceamount">Advance Amount</label>
+            <label for="requestedAmount">Advance Amount</label>
             <input type="text" placeholder = "NPR" id="form-requestedAmount" name="requestedAmount" class="form-control" value="" >
             </div>
            </div>
@@ -79,7 +79,7 @@ function travelTypeForAdvance() {
             </div>
         </div>
         <label>Advance Amount</label>
-        <input type="text" class="form-advanceAmount form-control" name="advanceAmount" id="form-advanceAmount" min="0",step="0.01" readonly>
+        <input type="text" class="form-requestedAmount form-control" name="requestedAmount" id="form-requestedAmount" min="0",step="0.01" readonly>
     </div>
 </div>
       <div class="col-sm-4" style="margin-left:3rem">
@@ -162,7 +162,7 @@ function travelTypeForAdvance() {
           }
           var nprTotal = 0;
           nprTotal = fTotal * $('#conversionRate').val();
-          $('#form-advanceAmount').val(nprTotal);
+          $('#form-requestedAmount').val(nprTotal);
           $('#camount').val(nprTotal);
       }
       

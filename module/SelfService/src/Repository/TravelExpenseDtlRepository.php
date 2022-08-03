@@ -82,6 +82,7 @@ class TravelExpenseDtlRepository extends HrisRepository implements RepositoryInt
     {
         $sql = "SELECT DESIGNATION_ID FROM HRIS_EMPLOYEES WHERE EMPLOYEE_ID = '{$id}'";
         $result = $this->rawQuery($sql);
+        // echo '<pre>';print_r($result);die;
         return $result[0];
     }
     public function fetchRequestedAmountP($id)

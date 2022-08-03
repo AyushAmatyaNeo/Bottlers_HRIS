@@ -43,9 +43,9 @@ $form->prepare();
     document.url = '<?= $this->url("restful", ["action" => "index"]) ?>';
     document.currencyList = <?php echo json_decode($all_data) ?>;
 </script> 
-<div class="page-bar">
+<!-- <div class="page-bar">
     <?= $this->navigation('Zend\Navigation\travelApply')->breadcrumbs()->setMinDepth(0)->setPartial('partial/breadcrumb') ?>
-</div>
+</div> -->
 <?php
 if ($this->messages && (sizeof($this->messages) > 1)) {
     print '<div class="alert alert-warning alert-dismissable">

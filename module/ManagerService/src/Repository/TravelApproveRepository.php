@@ -540,7 +540,7 @@ class TravelApproveRepository implements RepositoryInterface {
                   BS_DATE(TR.RETURNED_DATE)                                       AS RETURNED_DATE_BS,
                   TR.REMARKS                                                      AS REMARKS,
                   TR.STATUS                                                       AS STATUS,
-                  LEAVE_STATUS_DESC(TR.STATUS)                                    AS STATUS_DETAIL,
+                  TRAVEL_STATUS_DESC(TR.STATUS)                                    AS STATUS_DETAIL,
                   TR.RECOMMENDED_BY                                               AS RECOMMENDED_BY,
                   RE.FULL_NAME                                                    AS RECOMMENDED_BY_NAME,
                   TO_CHAR(TR.RECOMMENDED_DATE)                                    AS RECOMMENDED_DATE_AD,

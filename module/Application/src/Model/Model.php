@@ -29,6 +29,7 @@ class Model {
                 $tempArray[$value] = $tempValue;
             }
         }
+        // echo '<pre>';print_r($tempArray);die;
         return $tempArray;
     }
 

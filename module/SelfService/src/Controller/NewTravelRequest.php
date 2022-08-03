@@ -80,6 +80,7 @@ class NewTravelRequest extends HrisController {
         $model = new TravelRequestModel();
         if ($request->isPost()) {
             $postData = $request->getPost();
+            // echo '<pre>';print_r($postData );die;
             $postFiles = $request->getFiles();
             $travelSubstitute = null;//$postData->travelSubstitute;
             $this->form->setData($postData);

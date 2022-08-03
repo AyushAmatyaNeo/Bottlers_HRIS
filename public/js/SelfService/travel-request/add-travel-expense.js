@@ -161,26 +161,26 @@
             <tr>
                 <td><input class="dtlDelBtn btn btn-danger" type="button" value="Del -" style="padding:3px;"></td>
                 <td>
-                                                <select name="erTypeL[]" id="" class="erTypeL form-control">
+                                                <select name="erTypeL[]" id="" class="erTypeL form-control" style="width:13rem ;">
                                                     <option value="">Select ER Type</option>
                                                     <option value="EP">Employeee Paid</option>
                                                     <option value="EP">Company Paid</option>
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="text" name="locFromL[]"   class="locFrom form-control"> 
+                                                <input type="text" name="locFromL[]"   class="locFrom form-control" style="width:10rem ;"> 
                                             </td>
                                            
                                             <td>
-                                                <input type="text" name="arrDateL[]"   class="arrDate form-control"> 
+                                                <input type="text" name="arrDateL[]"   class="arrDate form-control" style="width:12rem ;"> 
                                             </td>
                                             
                                             <td>
-                                                <input type="text" name="ticketNoL[]"  class="ticketNo form-control"> 
+                                                <input type="text" name="ticketNoL[]"  class="ticketNo form-control" style="width:12rem ;"> 
                                             </td> 
                                            
                                             <td>
-                                                <select name="expenseHeadL[]" id="expenseheadLtr" class="form-control">
+                                                <select name="expenseHeadL[]" id="expenseheadLtr" class="form-control" >
                                                      <option value="">---select expense head---</option>
                                                      <option value="Accommodation">Accommodation</option>
                                                      <option value="Car hire">Car hire</option>
@@ -230,7 +230,7 @@
                                                 </select> 
                                             </td>
                                             <td>
-                                                <input type="number" name="conversionRateL[]" value="1" step="0.001" >
+                                                <input type="number" name="conversionRateL[]" value="1" step="0.001"  style="width:10rem ;">
                                             </td>
                                             <td>
                                                 <input type="text" name="currencyL[]" value="NPR" >
@@ -241,7 +241,7 @@
                                             </td>
                                             <td>
                                                 <div style="width:150px">
-                                                    <textarea name="detRemarksL[]"  class="detRemarks"></textarea>
+                                                    <textarea name="detRemarksL[]"  class="detRemarks" style="width:13rem ;"></textarea>
                                                 </div>
                                             </td>
             </tr>
@@ -279,7 +279,7 @@
             <tr>
                 <td><input class="dtlDelBtnInternational btn btn-danger" type="button" value="Del -" style="padding:3px;"></td>
                 <td>
-                                                <select name="erTypeI[]" id="" class="erTypeL form-control">
+                                                <select name="erTypeI[]" id="" class="erTypeL form-control" style="width:13rem">
                                                     <option value="-1">Select ER Type</option>
                                                     <option value="EP">Employeee Paid</option>
                                                     <option value="CP">Company Paid</option>
@@ -287,10 +287,10 @@
                                             </td>
                                             
                                             <td>
-                                                <input type="text" name="locFrom[]"   class="locFrom form-control"> 
+                                                <input type="text" name="locFrom[]"   class="locFrom form-control" style="width:10rem"> 
                                             </td>
                                             <td>
-                                                <input type="text" name="arrDate[]"   class="arrDate form-control"> 
+                                                <input type="text" name="arrDate[]"   class="arrDate form-control" style="width:10rem"> 
                                             </td>
                                             <td>
                                                 <input type="text" name="ticketNo[]"  class="ticketNo form-control"> 

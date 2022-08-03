@@ -175,6 +175,7 @@ class NewTravelRequestRepository extends HrisRepository implements RepositoryInt
         $addData=$model->getArrayCopyForDB();
         // echo '<pre>'; print_r($addData); die;
         $this->tableGateway->insert($addData);
+        // var_dump('dgdv');die;
 
         if ($addData['STATUS']=='AP' && date('Y-m-d', strtotime($model->fromDate)) <= date('Y-m-d')) {
             //THE FOLLOWING CODE WAS DONE IN THE URGENCY FOR MAKING THE DATE COMPATIBLE WITH SAP HANA

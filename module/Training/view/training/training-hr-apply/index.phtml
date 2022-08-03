@@ -8,6 +8,8 @@ $this->headScript()
 
 $this->headScript()->appendFile($this->basePath('js/training/training-hr-apply/index.js'));
 
+$employeeId = $form->get('employeeId');
+$employeeId->setValueOptions($employees);
 $trainingId = $form->get('trainingId');
 $startDate = $form->get('startDate');
 $endDate = $form->get('endDate');
@@ -19,7 +21,7 @@ $remarks = $form->get('remarks');
 $isWithinCompany = $form->get('isWithinCompany');
 $dailyTrainingHour = $form->get('dailyTrainingHour');
 $submit = $form->get('submit');
-$form->setAttribute('action', $this->url('trainingStatus', ['action' => 'index']));
+$form->setAttribute('action', $this->url('trainingHrApply', ['action' => 'index']));
 $form->prepare();
 ?>
 <script>
@@ -41,7 +43,16 @@ $form->prepare();
             </div>
             <div class="portlet-body">
                 <?php print $this->form()->openTag($form); ?>
+            
                 <div class=" row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <?php print $this->formLabel($employeeId); ?>
+                            <?php print $this->formElement($employeeId); ?>
+                            <?php print $this->formElementErrors()->render($employeeId, ['class' => 'help-block']); ?>
+                        </div> 
+                    </div>
+                   
                     <div class="col-sm-4">
                         <div class="form-group">
                             <?php print $this->formLabel($trainingId); ?>
@@ -50,6 +61,7 @@ $form->prepare();
                         </div> 
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">

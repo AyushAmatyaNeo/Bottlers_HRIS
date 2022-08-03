@@ -31,7 +31,7 @@ class TravelApproveController extends HrisController {
 
         $expenseDtlRepo = new TravelExpenseDtlRepository($this->adapter);
         $result = $expenseDtlRepo->fetchDesignation($empId);
-        // var_dump($result); die;
+        // echo '<pre>';print($result); die;
         $request = $this->getRequest();
         if ($request->isPost()) {
             try {
