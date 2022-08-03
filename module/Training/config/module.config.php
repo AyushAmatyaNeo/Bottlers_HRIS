@@ -7,6 +7,7 @@ use Training\Controller\TrainingApplyController;
 use Training\Controller\TrainingAssignController;
 use Training\Controller\TrainingAttendanceController;
 use Training\Controller\TrainingStatusController;
+use Training\Controller\TrainingHrApplyController;
 use Zend\Router\Http\Segment;
 
 return [
@@ -36,6 +37,20 @@ return [
                     ],
                     'defaults' => [
                         'controller' => TrainingStatusController::class,
+                        'action' => 'index'
+                    ],
+                ],
+            ],
+            'trainingHrApply' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/training/trainingHrApply[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => TrainingHrApplyController::class,
                         'action' => 'index'
                     ],
                 ],
@@ -122,8 +137,8 @@ return [
                         'route' => 'trainingStatus',
                         'action' => 'view',
                     ],
-                ]
-            ]
+                ],
+            ],
         ],
         'trainingAtt' => [
             [
@@ -147,6 +162,23 @@ return [
                 ],
             ],
         ],
+        'trainingHrApply' => [
+            [
+                'label' => "Training",
+                'route' => "trainingHrApply"
+            ],
+            [
+                'label' => "Training",
+                'route' => "trainingHrApply",
+                'pages' => [
+                    [
+                        'label' => 'Training',
+                        'route' => 'trainingHrApply',
+                        'action' => 'index',
+                    ],
+                ],
+            ],
+        ],
         'trainingApply' => [
             [
                 'label' => "Training",
@@ -165,12 +197,14 @@ return [
             ],
         ],
     ],
+   
     'controllers' => [
         'factories' => [
             Controller\TrainingAssignController::class => ControllerFactory::class,
             Controller\TrainingStatusController::class => ControllerFactory::class,
             Controller\TrainingAttendanceController::class => ControllerFactory::class,
             Controller\TrainingApplyController::class => ControllerFactory::class,
+            Controller\TrainingHrApplyController::class=>ControllerFactory::class,
         ],
     ],
     'view_manager' => [

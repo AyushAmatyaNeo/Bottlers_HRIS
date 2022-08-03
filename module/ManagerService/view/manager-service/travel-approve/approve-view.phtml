@@ -415,8 +415,7 @@ print $this->form()->closeTag();
         </div>
     <?php } ?>
 </div>
-<?php if (isset($detail['STATUS'=='AP'])) { ?>
-<div class="col-md-12" style="text-align:center;">
+
+<div class="col-md-12" style="text-align:center; display:<?php echo $detail['STATUS'] == 'AP' ? 'block' : 'none'; ?>">">
     <a class="btn btn-success" id="print"> Print</a>
 </div>
-<?php } ?>
