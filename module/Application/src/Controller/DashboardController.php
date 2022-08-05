@@ -175,7 +175,8 @@ class DashboardController extends AbstractActionController {
                 $monthRepo = new MonthRepository($this->adapter);
                 $month = $monthRepo->fetchByDate(Helper::getcurrentExpressionDate());
                 $dashboardRepo = new DashboardRepository($this->adapter);
-                $employeeDetail = $dashboardRepo->fetchEmployeeDashboardDetail($this->employeeId, $month->FROM_DATE, Helper::getCurrentDate());
+               $employeeDetail = $dashboardRepo->fetchEmployeeDashboardDetail($this->employeeId, $month->FROM_DATE, Helper::getCurrentDate());
+            //    echo '<pre>';print_r($employeeDetail);die;
                 return new CustomViewModel(['success' => true, 'data' => $employeeDetail, 'error' => '']);
             } else {
                 throw new Exception("The request should be of type post");

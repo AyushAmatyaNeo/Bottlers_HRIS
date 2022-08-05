@@ -21,10 +21,16 @@
         columnOptions.push({'VALUES' : '0', 'COLUMNS' : 'Previous'});
         columnOptions.push({'VALUES' : '1', 'COLUMNS' : 'Total'});
         columnOptions.push({'VALUES' : '2', 'COLUMNS' : 'Taken'});
-        columnOptions.push({'VALUES' : '3', 'COLUMNS' : 'Encashed'});
-
-        var $options = $('#options');
-        app.populateSelect($options, columnOptions, 'VALUES', 'COLUMNS');
+        // columnOptions.push({'VALUES' : '3', 'COLUMNS' : 'Encashed'});
+        
+        var $options = $('#options'); 
+        // select multiple values from dropdown  
+        var html = "";
+        $.each(columnOptions,function(i,v){
+            html += "<option value='"+v.VALUES+"' selected>"+v.COLUMNS+"</option>";
+        });
+        $options.html(html);
+        //app.populateSelect($options, columnOptions, 'VALUES', 'COLUMNS');
         
         var leaveList = document.leaves;
         app.populateSelect($leaveId, leaveList, 'LEAVE_ID', 'LEAVE_ENAME');
@@ -39,7 +45,7 @@
                 //'EMPLOYEE_ID': 'Id', 
                 'FULL_NAME': 'Name',
                 'DEPARTMENT_NAME': 'Department',
-                'FUNCTIONAL_TYPE_EDESC': 'Functional Type'
+                'POSITION_NAME': 'Grade'
             };
             var flag, flag2;
             var columnsList;

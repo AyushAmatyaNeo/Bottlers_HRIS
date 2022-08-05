@@ -233,7 +233,7 @@ class EntityHelper {
             'functionalType' => $functionalTypeList,
         ];
         /* end of search values */
-
+        // echo '<pre>';print_r($searchValues);die;
         return $searchValues;
     }
 

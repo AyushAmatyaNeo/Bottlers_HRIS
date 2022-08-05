@@ -186,6 +186,7 @@ class Helper {
 
     public static function getcurrentExpressionDate() {
         $currentDate = date(self::PHP_DATE_FORMAT);
+        // echo '<pre>';print_r($currentDate);die;
         return self::getExpressionDate($currentDate);
     }
 

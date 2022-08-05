@@ -20,6 +20,7 @@ class ShiftAssignRepository extends HrisRepository {
 
     public function edit(Model $model, $id) {
         $this->tableGateway->update($model->getArrayCopyForDB(), [ShiftAssign::EMPLOYEE_ID . "=$id[0]", ShiftAssign::SHIFT_ID . " =$id[1]"]);
+
     }
 
     public function fetchAll() {
@@ -36,6 +37,7 @@ class ShiftAssignRepository extends HrisRepository {
 
     public function fetchByEmployeeId($employeeId) {
         $result = $this->tableGateway->select([ShiftAssign::EMPLOYEE_ID . "=" . $employeeId, ShiftAssign::STATUS => 'E']);
+        // echo '<pre>';print_r($result);die;
         return $result->current();
     }
 

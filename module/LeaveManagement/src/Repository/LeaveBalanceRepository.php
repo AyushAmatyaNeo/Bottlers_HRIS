@@ -40,6 +40,7 @@ class LeaveBalanceRepository {
         $condition = $isMonthly ? " AND IS_MONTHLY = 'Y' " : "  AND IS_MONTHLY = 'N' ";
         $sql = "SELECT LEAVE_ID,INITCAP(LEAVE_ENAME) AS LEAVE_ENAME FROM HRIS_LEAVE_MASTER_SETUP WHERE STATUS='E' {$condition} {$leaveCondition} ORDER BY LEAVE_ENAME";
         $statement = $this->adapter->query($sql);
+        // echo '<pre>';print_r($statement);die;
         return $statement->execute();
     }
 
@@ -227,7 +228,7 @@ FROM (SELECT *
     left join Hris_Functional_Types funt on funt.Functional_Type_Id=e.Functional_Type_Id
     left join Hris_Service_Types st on (st.service_type_id=E.Service_Type_Id)
 ";
-//var_dump($sql); die;
+// echo '<pre>';print_r($sql);die;
         return EntityHelper::rawQueryResult($this->adapter, $sql);
     }
 

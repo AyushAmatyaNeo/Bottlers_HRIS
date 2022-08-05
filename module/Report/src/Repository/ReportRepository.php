@@ -1418,12 +1418,24 @@ FROM
  (
     SELECT 
 AA.*,
+CASE 
+WHEN 
+(OVERALL_STATUS!='WD' and OVERALL_STATUS!='WH') THEN
 CASE WHEN TOTAL_OT>=4 THEN 
 2
-WHEN TOTAL_OT>=2  AND TOTAL_OT<4 THEN 
+WHEN TOTAL_OT>=2  AND TOTAL_OT<4
+THEN 
 1
 ELSE
 0
+END
+ELSE
+ CASE WHEN TOTAL_OT>=4 THEN 
+ 2
+ WHEN TOTAL_OT>=2  AND TOTAL_OT<4 THEN 
+ 1
+ ELSE
+ 0
 END
 AS FOOD_ALLOWANCE
 FROM 
@@ -1499,6 +1511,8 @@ FULL_NAME,
         DESIGNATION_TITLE,
         POSITION_NAME ";
         $statement = $this->adapter->query($sql);
+        // echo '<pre>';print_r($statement);die;
+
         $result = $statement->execute();
         return Helper::extractDbData($result);
     }

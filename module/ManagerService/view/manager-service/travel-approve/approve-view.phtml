@@ -335,6 +335,8 @@ print $this->form()->closeTag();
                 <li>Name: <?php echo $detail['FULL_NAME']; ?></li>
                 <li>Place of Visit: <?= $detail['DESTINATION']; ?></li>
                 <li>Purpose of Visit: <?= $detail['PURPOSE']; ?></li>
+                <li>Status: <?= $detail['STATUS_DETAIL']; ?></li>
+
             </ul>
         </div>
         <div class="dtlDate">
@@ -416,6 +418,6 @@ print $this->form()->closeTag();
     <?php } ?>
 </div>
 
-<div class="col-md-12" style="text-align:center; display:<?php echo $detail['STATUS'] == 'AP' ? 'block' : 'none'; ?>">">
+<div class="col-md-12" style="text-align:center; display:<?php echo $detail['STATUS'] == 'AP' ? 'block' : 'none'; ?>">
     <a class="btn btn-success" id="print"> Print</a>
 </div>

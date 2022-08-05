@@ -203,6 +203,7 @@ class Profile extends HrisController {
         $profilePictureId = null;
         $getEmpShiftDtl = null;
         $employeePreDtl = null;
+
         if ($id != 0) {
             $employeeData = (array) $this->repository->fetchById($id);
             $profilePictureId = $employeeData[HrEmployees::PROFILE_PICTURE_ID];
@@ -215,6 +216,7 @@ class Profile extends HrisController {
             switch ($tab) {
                 case 1:
                     $this->formOne->setData($postData);
+
                     if ($this->formOne->isValid()) {
 
                         $formOneModel->exchangeArrayFromForm($this->formOne->getData());
@@ -242,6 +244,7 @@ class Profile extends HrisController {
                 case 2:
                     $this->formTwo->setData($postData);
                     if ($this->formTwo->isValid()) {
+
                         $formTwoModel->exchangeArrayFromForm($this->formTwo->getData());
                         $formTwoModel->famSpouseBirthDate = Helper::getExpressionDate($formTwoModel->famSpouseBirthDate);
                         $formTwoModel->famSpouseWeddingAnniversary = Helper::getExpressionDate($formTwoModel->famSpouseWeddingAnniversary);
@@ -263,10 +266,12 @@ class Profile extends HrisController {
                         $formThreeModel->modifiedDt = Helper::getcurrentExpressionDate();
                         $this->repository->edit($formThreeModel, $id);
                         return $this->redirect()->toRoute('profile', ['action' => 'edit', 'id' => $id, 'tab' => 4]);
+
                     }
                     break;
                 case 4:
                     $this->formFour->setData($postData);
+
                     if ($this->formFour->isValid()) {
                         $formFourModel->exchangeArrayFromForm($this->formFour->getData());
                         $formFourModel->modifiedBy = $this->employeeId;
@@ -288,22 +293,32 @@ class Profile extends HrisController {
                             unset($shiftAssignClone->createdDt);
 
                             if ($shiftId != $getEmpShiftDtl['SHIFT_ID']) {
+
                                 $shiftAssignClone->status = 'D';
                                 $shiftAssignClone->modifiedDt = Helper::getcurrentExpressionDate();
                                 $shiftAssignClone->modifiedBy = $this->employeeId;
                                 $shiftAssignRepo->edit($shiftAssignClone, [$id, $getEmpShiftDtl['SHIFT_ID']]);
 
                                 $shiftAssign->createdDt = Helper::getcurrentExpressionDate();
+                                // echo '<pre>';print_r($shiftAssign);die;?
+
                                 $shiftAssign->createdBy = $this->employeeId;
                                 $shiftAssign->status = 'E';
+                                // echo '<pre>';print_r($shiftAssign);die;
                                 $shiftAssignRepo->add($shiftAssign);
+
                             }
                         } else {
                             $shiftAssign->createdDt = Helper::getcurrentExpressionDate();
+                            $shiftAssign->id= ((int) Helper::getMaxId($this->adapter, "HRIS_EMPLOYEE_SHIFT_ASSIGN", "ID"))+1;
                             $shiftAssign->createdBy = $this->employeeId;
                             $shiftAssign->status = 'E';
+                           
+
+                        //    echo '<pre>';print_r($shiftAssign);die;
                             $shiftAssignRepo->add($shiftAssign);
                         }
+                        // var_dump('dghd');die;
                         /*
                          * 
                          */
@@ -379,7 +394,7 @@ class Profile extends HrisController {
                 $this->formFour->bind($formFourModel);
             }
             if ($tab != 5 || !$request->isPost()) {
-                
+             
             }
             if ($tab != 6 || !$request->isPost()) {
                 $formSixModel->exchangeArrayFromDB($employeeData);

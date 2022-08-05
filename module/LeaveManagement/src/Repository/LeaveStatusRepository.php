@@ -21,7 +21,7 @@ class LeaveStatusRepository extends HrisRepository {
                 INITCAP(TO_CHAR(LA.RECOMMENDED_DT, 'DD-MON-YYYY')) AS RECOMMENDED_DT,
                 INITCAP(TO_CHAR(LA.APPROVED_DT, 'DD-MON-YYYY'))    AS APPROVED_DT,
                 INITCAP(E.FIRST_NAME) AS FIRST_NAME,
-                INITCAP(E.MIDDLE_NAME AS MIDDLE_NAME,
+                INITCAP(E.MIDDLE_NAME) AS MIDDLE_NAME,
                 INITCAP(E.LAST_NAME) AS LAST_NAME
                 FROM HRIS_EMPLOYEE_LEAVE_REQUEST LA,
                   HRIS_LEAVE_MASTER_SETUP L,
@@ -47,6 +47,7 @@ class LeaveStatusRepository extends HrisRepository {
         $statement = $this->adapter->query($sql);
 
         $result = $statement->execute();
+        // echo '<pre>';print_r($result);die;
         return $result;
     }
 

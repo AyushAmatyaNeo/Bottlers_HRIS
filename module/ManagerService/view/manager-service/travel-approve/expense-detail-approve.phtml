@@ -330,6 +330,7 @@ print $this->form()->closeTag();
                 </li>
                 <li>Date of Travel Order: <?= $detail['REQUESTED_DATE']; ?></li>
                 <li>Destination: <?= $detail['DESTINATION']; ?></li>
+
             </ul>
         </div>
         <div  id="employeeTrvlDtl">
@@ -341,6 +342,7 @@ print $this->form()->closeTag();
                     Departure Date:<?= $detail['DEPARTURE_DATE']; ?>
                 </li>
                 <li>Returned Date: <?= $detail['RETURNED_DATE']; ?></li>
+                <li>Status: <?= $detail['STATUS_DETAIL']; ?></li>
             </ul>
         </div>
     </div>
@@ -449,8 +451,8 @@ print $this->form()->closeTag();
     </div>
 
 </div>
-<?php if ($STATUS =='AP') { ?>
-<div class="col-md-12" style="text-align:center;">
+
+<div class="col-md-12" style="text-align:center;display:<?php echo $detail['STATUS'] == 'AP' ? 'block' : 'none'; ?>">
     <a class="btn btn-success" id="print"> Print</a>
 </div>
-<?php } ?>
+<?php 
