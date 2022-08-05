@@ -782,6 +782,7 @@ LEFT JOIN HRIS_BRANCHES B ON (B.BRANCH_ID=E.BRANCH_ID)
 WHERE AD.ATTENDANCE_DT=TRUNC(SYSDATE)
 AND AD.OVERALL_STATUS='LV'
 --AND E.COMPANY_ID={$companyId}";
+//echo '<pre>';print_r($sql);die;
         $statement = $this->adapter->query($sql);
         $result = $statement->execute();
         return Helper::extractDbData($result);
