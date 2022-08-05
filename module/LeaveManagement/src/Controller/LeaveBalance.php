@@ -30,6 +30,7 @@ class LeaveBalance extends HrisController {
     public function indexAction() {
         $leaveList = $this->repository->getAllLeave();
         $leaves = Helper::extractDbData($leaveList);
+            //    echo '<pre>';print_r(employee_detail);die; 
         return $this->stickFlashMessagesTo([
                     'leavesArrray' => $leaves,
                     'searchValues' => EntityHelper::getSearchData($this->adapter),

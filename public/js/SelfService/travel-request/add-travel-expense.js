@@ -230,10 +230,10 @@
                                                 </select> 
                                             </td>
                                             <td>
-                                                <input type="number" name="conversionRateL[]" value="1" step="0.001"  style="width:10rem ;">
+                                                <input type="number" name="conversionRateL[]" value="1" step="0.001"  style="width:10rem ;" disabled>
                                             </td>
                                             <td>
-                                                <input type="text" name="currencyL[]" value="NPR" >
+                                                <input type="text" name="currencyL[]" value="NPR" style="width:10rem ;" disabled >
                                             </td>
                             
                                             <td>
@@ -241,7 +241,7 @@
                                             </td>
                                             <td>
                                                 <div style="width:150px">
-                                                    <textarea name="detRemarksL[]"  class="detRemarks" style="width:13rem ;"></textarea>
+                                                    <textarea name="detRemarksL[]"  class="detRemarks" ></textarea>
                                                 </div>
                                             </td>
             </tr>
@@ -357,7 +357,7 @@
                                                 <input type="number" name="amountExp[]" step="0.001"  class="amountExpI">
                                             </td>
                                             <td>
-                                                <textarea name="detRemarks[]"  class="detRemarks form-control"></textarea>
+                                                <textarea name="detRemarks[]"  class="detRemarks form-control" style="width:15rem ;padding:2rem"></textarea>
                                             </td>
 
             </tr>

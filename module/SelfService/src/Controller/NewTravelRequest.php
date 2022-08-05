@@ -899,7 +899,7 @@ class NewTravelRequest extends HrisController {
 
         $expenseDtlRepo = new TravelExpenseDtlRepository($this->adapter);
         $result = $expenseDtlRepo->fetchByTravelId($id);
-        
+        // echo '<pre>';print_r($result);die;
         
         $totalAmount = 0;
         $balance = $detail['REQUESTED_AMOUNT'] - $totalAmount;
