@@ -1397,122 +1397,124 @@ EOT;
         $toDate = $searchQuery['toDate'];
 
         $searchConditon = EntityHelper::getSearchConditon($searchQuery['companyId'], $searchQuery['branchId'], $searchQuery['departmentId'], $searchQuery['positionId'], $searchQuery['designationId'], $searchQuery['serviceTypeId'], $searchQuery['serviceEventTypeId'], $searchQuery['employeeTypeId'], $searchQuery['employeeId']);
-        $sql = "SELECT
-    employee_id,
-    employee_code,
-    full_name,
-    company_name,
-    branch_name,
-    department_name,
-    designation_title,
-    POSITION_NAME,
-    TRUNC(SUM(OT_MINUTES)/60,2) AS SYSTEM_OVERTIME,
-    TRUNC(SUM(TOTAL_OT),2) AS manual_overtime,
-    SUM(food_allowance) AS food_allowance,
-    SUM(shift_allowance) AS shift_allowance,
-    SUM(night_shift_allowance) AS night_shift_allowance,
-    SUM(holiday_count) AS holiday_count,
-    SUM(week_off_allow) AS week_off_allow
-FROM
-
- (
-    SELECT 
-AA.*,
-CASE 
-WHEN 
-(OVERALL_STATUS!='WD' and OVERALL_STATUS!='WH') THEN
-CASE WHEN TOTAL_OT>=4 THEN 
-2
-WHEN TOTAL_OT>=2  AND TOTAL_OT<4
-THEN 
-1
-ELSE
-0
-END
-ELSE
- CASE WHEN TOTAL_OT>=4 THEN 
- 2
- WHEN TOTAL_OT>=2  AND TOTAL_OT<4 THEN 
- 1
- ELSE
- 0
-END
-AS FOOD_ALLOWANCE
-FROM 
-(SELECT
-            e.employee_id,
-            e.employee_code,
-            e.full_name,
-            c.company_name,
-            b.branch_name,
-            d.department_name,
-            des.designation_title,
-            p.position_name,
-            ad.shift_allowance,
-            AD.NIGHT_SHIFT_ALLOWANCE,
-            ad.holiday_count,
-             CASE WHEN 
-AD.OT_MINUTES >=0
-THEN AD.OT_MINUTES
-ELSE
-0
-END
-AS
-OT_MINUTES
-,OM.OVERTIME_HOUR,
-CASE WHEN OM.OVERTIME_HOUR IS NULL AND AD.OT_MINUTES >=0
-THEN 
-OT_MINUTES/60
-WHEN OM.OVERTIME_HOUR IS NULL AND AD.OT_MINUTES <0
-then
-0
-ELSE
-OM.OVERTIME_HOUR
-END
-as total_ot,
-(case when ad.SHIFT_ID = 6 and ad.IN_TIME is not null and ad.OUT_TIME is not null
-then 1 else 0 end) 
-as week_off_allow
-        FROM
-            hris_attendance_detail ad
-            LEFT JOIN hris_overtime_manual om ON (
-                    om.employee_id = ad.employee_id
-                AND
-                    om.attendance_date = ad.attendance_dt
-            )
-            LEFT JOIN hris_employees e ON (
-                ad.employee_id = e.employee_id
-            )
-            LEFT JOIN hris_company c ON (
-                c.company_id = e.company_id
-            )
-            LEFT JOIN hris_branches b ON (
-                b.branch_id = e.branch_id
-            )
-            LEFT JOIN hris_departments d ON (
-                d.department_id = e.department_id
-            )
-            LEFT JOIN hris_designations des ON (
-                des.designation_id = e.designation_id
-            )
-            LEFT JOIN hris_positions p ON (
-                p.position_id = e.position_id
-            )
-        WHERE
- AD.Attendance_Dt
-        BETWEEN TO_DATE('{$fromDate}','DD-MON-YYYY') AND TO_DATE('{$toDate}','DD-MON-YYYY') {$searchConditon}
-        ) AA) TAB_A
-        GROUP BY EMPLOYEE_ID,
-EMPLOYEE_CODE,
-FULL_NAME,
-        COMPANY_NAME,
-        BRANCH_NAME, 
-        DEPARTMENT_NAME,
-        DESIGNATION_TITLE,
-        POSITION_NAME ";
+        $sql = " SELECT
+        employee_id,
+        employee_code,
+        full_name,
+        company_name,
+        branch_name,
+        department_name,
+        designation_title,
+        POSITION_NAME,
+        TRUNC(SUM(OT_MINUTES)/60,2) AS SYSTEM_OVERTIME,
+        TRUNC(SUM(TOTAL_OT),2) AS manual_overtime,
+        SUM(food_allowance) AS food_allowance,
+        SUM(shift_allowance) AS shift_allowance,
+        SUM(night_shift_allowance) AS night_shift_allowance,
+        SUM(holiday_count) AS holiday_count,
+        SUM(week_off_allow) AS week_off_allow
+    FROM
+    
+     (
+        SELECT 
+    AA.*,
+    CASE 
+    WHEN 
+    (OVERALL_STATUS!='WD' and OVERALL_STATUS!='WH') THEN
+    CASE WHEN TOTAL_OT>=4 THEN 
+    2
+    WHEN TOTAL_OT>=2  AND TOTAL_OT<4
+    THEN 
+    1
+    ELSE
+    0
+    END
+    ELSE
+     CASE WHEN TOTAL_OT-8>=4 THEN 
+    2
+    WHEN TOTAL_OT-8>=2  AND TOTAL_OT-8<4
+    THEN 
+    1
+    ELSE
+    0
+    END
+    END
+    AS FOOD_ALLOWANCE
+    FROM 
+    (SELECT
+                e.employee_id,
+                e.employee_code,
+                e.full_name,
+                c.company_name,
+                b.branch_name,
+                d.department_name,
+                des.designation_title,
+                p.position_name,
+                ad.shift_allowance,
+                AD.NIGHT_SHIFT_ALLOWANCE,
+                AD.overall_status,
+                ad.holiday_count,
+                 CASE WHEN 
+    AD.OT_MINUTES >=0
+    THEN AD.OT_MINUTES
+    ELSE
+    0
+    END
+    AS
+    OT_MINUTES
+    ,OM.OVERTIME_HOUR,
+    CASE WHEN OM.OVERTIME_HOUR IS NULL AND AD.OT_MINUTES >=0
+    THEN 
+    OT_MINUTES/60
+    WHEN OM.OVERTIME_HOUR IS NULL AND AD.OT_MINUTES <0
+    then
+    0
+    ELSE
+    OM.OVERTIME_HOUR
+    END
+    as total_ot,
+    (case when ad.SHIFT_ID = 6 and ad.IN_TIME is not null and ad.OUT_TIME is not null
+    then 1 else 0 end) 
+    as week_off_allow
+            FROM
+                hris_attendance_detail ad
+                LEFT JOIN hris_overtime_manual om ON (
+                        om.employee_id = ad.employee_id
+                    AND
+                        om.attendance_date = ad.attendance_dt
+                )
+                LEFT JOIN hris_employees e ON (
+                    ad.employee_id = e.employee_id
+                )
+                LEFT JOIN hris_company c ON (
+                    c.company_id = e.company_id
+                )
+                LEFT JOIN hris_branches b ON (
+                    b.branch_id = e.branch_id
+                )
+                LEFT JOIN hris_departments d ON (
+                    d.department_id = e.department_id
+                )
+                LEFT JOIN hris_designations des ON (
+                    des.designation_id = e.designation_id
+                )
+                LEFT JOIN hris_positions p ON (
+                    p.position_id = e.position_id
+                )
+            WHERE
+     AD.Attendance_Dt
+            BETWEEN TO_DATE('{$fromDate}','DD-MON-YYYY') AND TO_DATE('{$toDate}','DD-MON-YYYY') {$searchConditon}
+            ) AA) TAB_A
+            GROUP BY EMPLOYEE_ID,
+    EMPLOYEE_CODE,
+    FULL_NAME,
+            COMPANY_NAME,
+            BRANCH_NAME, 
+            DEPARTMENT_NAME,
+            DESIGNATION_TITLE,
+            POSITION_NAME  ";
+          echo '<pre>';print_r($sql);die;
         $statement = $this->adapter->query($sql);
-        // echo '<pre>';print_r($statement);die;
-
         $result = $statement->execute();
         return Helper::extractDbData($result);
     }

@@ -782,7 +782,7 @@ LEFT JOIN HRIS_BRANCHES B ON (B.BRANCH_ID=E.BRANCH_ID)
 WHERE AD.ATTENDANCE_DT=TRUNC(SYSDATE)
 AND AD.OVERALL_STATUS='LV'
 --AND E.COMPANY_ID={$companyId}";
-echo '<pre>';print_r($sql);die;
+// echo '<pre>';print_r($sql);die;
         $statement = $this->adapter->query($sql);
         $result = $statement->execute();
         return Helper::extractDbData($result);
@@ -796,8 +796,10 @@ LEFT JOIN HRIS_EMPLOYEES E ON (E.EMPLOYEE_ID=AD.EMPLOYEE_ID)
 LEFT JOIN HRIS_EMPLOYEE_TRAVEL_REQUEST TR ON (TR.TRAVEL_ID=AD.TRAVEL_ID)
 LEFT JOIN HRIS_BRANCHES B ON (B.BRANCH_ID=E.BRANCH_ID)
 WHERE AD.ATTENDANCE_DT=TRUNC(SYSDATE)
+-- AND E.EMPLOYEE_ID in (select employee_id from hris_recommender_approver where approved_by={$employeeId} or recommend_by={$employeeId} ) 
 AND AD.OVERALL_STATUS='TV' 
 --AND E.COMPANY_ID={$companyId}";
+// echo '<pre>';print_r($sql);die;
         $statement = $this->adapter->query($sql);
         $result = $statement->execute();
         return Helper::extractDbData($result);
