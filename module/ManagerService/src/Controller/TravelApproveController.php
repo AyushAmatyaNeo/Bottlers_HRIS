@@ -95,7 +95,7 @@ class TravelApproveController extends HrisController {
                     $this->makeDecision0($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
                 } else {
                     // var_dump('here5'); die;
-                    $this->makeDecision($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
+                    $this->makeDecisionTravel($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
                 }
             }
            
@@ -264,6 +264,54 @@ class TravelApproveController extends HrisController {
                 $model->approvedBy = $this->employeeId;
                 $model->status = ($approve == 'Approve') ? "AP" : "R";
                 $message = $approve ? "Travel Request Approved" : "Travel Request Rejected";
+                $notificationEvent = $approve ? NotificationEvents::TRAVEL_APPROVE_ACCEPTED : NotificationEvents::TRAVEL_APPROVE_REJECTED;
+                break;
+        } 
+        $editError=$this->repository->edit($model, $id);
+        if ($enableFlashNotification) {
+            $this->flashmessenger()->addMessage($message);
+            $this->flashmessenger()->addMessage($editError);
+        }
+        try {
+            HeadNotification::pushNotification($notificationEvent, $model, $this->adapter, $this);
+        } catch (Exception $e) {
+            $this->flashmessenger()->addMessage($e->getMessage());
+        }
+    }
+
+    private function makeDecisionTravel($id, $role, $approve, $remarks = null, $enableFlashNotification = false) {
+        // 
+        $notificationEvent = null;
+        $message = null;
+        $model = new TravelRequest();
+        $model->travelId = $id;
+        // var_dump($role); die;
+        switch ($role) {
+            case 2:
+                $model->approvedRemarks = $remarks;
+                $model->approvedDate = Helper::getcurrentExpressionDate();
+                $model->approvedBy = $this->employeeId;
+                $model->recommendedDate = Helper::getcurrentExpressionDate();
+                $model->recommendedBy = $this->employeeId;
+                $model->status = ($approve == 'Approve') ? "AP" : "R";
+                $notificationEvent = $approve ? NotificationEvents::TRAVEL_APPROVE_ACCEPTED : NotificationEvents::TRAVEL_APPROVE_REJECTED;
+                break;
+            case 4:
+                $model->approvedRemarks = $remarks;
+                $model->approvedDate = Helper::getcurrentExpressionDate();
+                $model->approvedBy = $this->employeeId;
+                $model->recommendedDate = Helper::getcurrentExpressionDate();
+                $model->recommendedBy = $this->employeeId;
+                $model->status = ($approve == 'Approve') ? "AP" : "R";
+                $notificationEvent = $approve ? NotificationEvents::TRAVEL_APPROVE_ACCEPTED : NotificationEvents::TRAVEL_APPROVE_REJECTED;
+                break;
+            case 3:
+                $model->approvedRemarks = $remarks;
+                $model->approvedDate = Helper::getcurrentExpressionDate();
+                $model->approvedBy = $this->employeeId;
+                $model->recommendedDate = Helper::getcurrentExpressionDate();
+                $model->recommendedBy = $this->employeeId;
+                $model->status = ($approve == 'Approve') ? "AP" : "R";
                 $notificationEvent = $approve ? NotificationEvents::TRAVEL_APPROVE_ACCEPTED : NotificationEvents::TRAVEL_APPROVE_REJECTED;
                 break;
         } 

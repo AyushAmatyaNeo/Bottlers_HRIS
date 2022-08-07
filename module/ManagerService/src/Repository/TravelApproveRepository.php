@@ -592,19 +592,20 @@ class TravelApproveRepository implements RepositoryInterface {
                 WHERE 1               =1
                 AND E.STATUS          ='E'
                 AND E.RETIRED_FLAG    ='N'
-                AND 
-                (((RAA.EMPLOYEE_ID     = {$employeeId})  OR (ALA.R_A_ID = U.EMPLOYEE_ID))
+                 AND ((
+                ((RA.RECOMMEND_BY = U.EMPLOYEE_ID) OR (ALR.R_A_ID = U.EMPLOYEE_ID))
                 AND TR.STATUS         ='RQ')
-                -- OR 
-                -- (((RA.APPROVED_BY    = U.EMPLOYEE_ID)  OR (ALA.R_A_ID = U.EMPLOYEE_ID))
-                -- AND TR.STATUS         ='RC') )
-                -- -- AND U.EMPLOYEE_ID     ={$employeeId}
-                -- AND (TS.APPROVED_FLAG =
-                --   CASE
-                --     WHEN TS.EMPLOYEE_ID IS NOT NULL
-                --     THEN ('Y')
-                --   END
-                -- OR TS.EMPLOYEE_ID IS NULL)
+                OR 
+                (((RA.APPROVED_BY    = U.EMPLOYEE_ID)  OR (ALA.R_A_ID = U.EMPLOYEE_ID))
+                AND TR.STATUS         ='RC') )
+                AND U.EMPLOYEE_ID     ={$employeeId}
+                AND (TS.APPROVED_FLAG =
+                  CASE
+                    WHEN TS.EMPLOYEE_ID IS NOT NULL
+                    THEN ('Y')
+                  END
+                OR TS.EMPLOYEE_ID IS NULL) order by TR.REQUESTED_DATE desc
+                
                 ";
         // echo '<pre>';print_r($sql);die;   
         return EntityHelper::rawQueryResult($this->adapter, $sql);
