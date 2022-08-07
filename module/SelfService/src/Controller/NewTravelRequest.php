@@ -75,12 +75,10 @@ class NewTravelRequest extends HrisController {
     public function addAction() {
         $request = $this->getRequest();
         $employeeId = $this->employeeId;
-        // print_r($employeeId); die;
         $employeeDetails = $this->repository->getEmployeeData($employeeId);
         $model = new TravelRequestModel();
         if ($request->isPost()) {
             $postData = $request->getPost();
-            // echo '<pre>';print_r($postData );die;
             $postFiles = $request->getFiles();
             $travelSubstitute = null;//$postData->travelSubstitute;
             $this->form->setData($postData);
@@ -107,8 +105,6 @@ class NewTravelRequest extends HrisController {
                 $model->toDate = Helper::getExpressionDate($model->toDate);
                 $model->traveltype = $postData['travelType'];
 
-                // $addData=$model->getArrayCopyForDB();
-                // echo '<pre>'; print_r($model); die;
                 $this->repository->add($model);
                 if ($postData['travelType'] == 'LTR') {
                     try {
@@ -385,11 +381,26 @@ class NewTravelRequest extends HrisController {
             $reqModel->returnedDate = Helper::getExpressionDate($returnedDate);
             $reqModel->fromDate = Helper::getExpressionDate($reqModel->fromDate);
             $reqModel->toDate = Helper::getExpressionDate($reqModel->toDate);
+            if ($postData['erTypeL'][0] != null){
+                $reqModel->traveltype = 'LTR';
+            }
+            if ($postData['erTypeI'][0] != null){
+                $reqModel->traveltype = 'ITR';
+            }
             $this->repository->add($reqModel);
 
             $error = "";
             try {
-                HeadNotification::pushNotification(NotificationEvents::TRAVEL_APPLIED, $reqModel, $this->adapter, $this);
+                if ($postData['erTypeL'][0] != null){
+                    if(isset($this->preference['travelSingleApprover']) && $this->preference['travelSingleApprover'] == 'Y'){
+                        HeadNotification::pushNotification(NotificationEvents::TRAVEL_EXPENSE_APPLIED, $reqModel, $this->adapter, $this);
+                    }else{
+                        HeadNotification::pushNotification(NotificationEvents::TRAVEL_APPLIED, $reqModel, $this->adapter, $this);
+                    }
+                }
+                if ($postData['erTypeI'][0] != null){
+                    HeadNotification::pushNotification(NotificationEvents::TRAVEL_APPLIED, $reqModel, $this->adapter, $this);
+                }
             } catch (Exception $e) {
                 $error = $e->getMessage();
             }
@@ -623,7 +634,11 @@ class NewTravelRequest extends HrisController {
             
             $error = "";
             try {
-                HeadNotification::pushNotification(NotificationEvents::TRAVEL_APPLIED, $reqModel, $this->adapter, $this);
+                if(isset($this->preference['travelSingleApprover']) && $this->preference['travelSingleApprover'] == 'Y'){
+                    HeadNotification::pushNotification(NotificationEvents::TRAVEL_EXPENSE_APPLIED, $reqModel, $this->adapter, $this);
+                }else{
+                    HeadNotification::pushNotification(NotificationEvents::TRAVEL_APPLIED, $reqModel, $this->adapter, $this);
+                } 
             } catch (Exception $e) {
                 $error = $e->getMessage();
             }

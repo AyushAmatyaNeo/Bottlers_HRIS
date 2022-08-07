@@ -1612,6 +1612,9 @@ class HeadNotification {
                 break;
             case NotificationEvents::TRAVEL_APPLIED:
                 self::travelApplied($model, $adapter, $url, self::RECOMMENDER);
+                break;
+            case NotificationEvents::TRAVEL_EXPENSE_APPLIED:
+                self::travelApplied($model, $adapter, $url, self::RECOMMENDER);
                 self::travelApplied($model, $adapter, $url, self::APPROVER);
                 break;
             case NotificationEvents::TRAVEL_RECOMMEND_ACCEPTED:

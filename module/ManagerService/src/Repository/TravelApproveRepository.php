@@ -520,15 +520,15 @@ class TravelApproveRepository implements RepositoryInterface {
                   (
                   CASE
                     WHEN TR.REQUESTED_TYPE = 'ad' AND TR.TRAVEL_TYPE = 'LTR'
-                    THEN 'Request for Local Travel'
+                    THEN 'Local Travel Advance'
                     WHEN TR.REQUESTED_TYPE = 'ia'
-                    THEN 'Request for International Travel'
+                    THEN 'International Travel'
                     WHEN TR.REQUESTED_TYPE = 'ad' AND TR.TRAVEL_TYPE = 'ITR'
-                    THEN 'Request for International Travel Advance'
+                    THEN 'International Travel Advance'
                     WHEN TR.REQUESTED_TYPE = 'ep' AND TR.TRAVEL_TYPE = 'LTR'
-                    THEN 'Expense Request for Local Travel'
+                    THEN 'Local Travel Expense'
                     WHEN TR.REQUESTED_TYPE = 'ep' AND TR.TRAVEL_TYPE = 'ITR'
-                    THEN 'Expense Request for International Travel'
+                    THEN 'International Travel Expense'
                     ELSE 'Expense'
                   END)                                                            AS REQUESTED_TYPE_DETAIL,
                   NVL(TR.REQUESTED_AMOUNT,0)                                      AS REQUESTED_AMOUNT,
@@ -604,12 +604,125 @@ class TravelApproveRepository implements RepositoryInterface {
                     WHEN TS.EMPLOYEE_ID IS NOT NULL
                     THEN ('Y')
                   END
-                OR TS.EMPLOYEE_ID IS NULL) order by TR.REQUESTED_DATE desc
+                OR TS.EMPLOYEE_ID IS NULL) 
+                and TR.requested_type = 'ad' order by TR.REQUESTED_DATE desc
                 
                 ";
         // echo '<pre>';print_r($sql);die;   
         return EntityHelper::rawQueryResult($this->adapter, $sql);
     }
+
+    public function getPendingListExpense($employeeId) {
+        $sql = "SELECT TR.TRAVEL_ID                        AS TRAVEL_ID,
+                  TR.TRAVEL_CODE                           AS TRAVEL_CODE,
+                  TR.EMPLOYEE_ID                           AS EMPLOYEE_ID,
+                  E.FULL_NAME                              AS EMPLOYEE_NAME,
+                  E.EMPLOYEE_CODE                             AS EMPLOYEE_CODE,
+                  TO_CHAR(TR.REQUESTED_DATE,'DD-MON-YYYY') AS REQUESTED_DATE_AD,
+                  BS_DATE(TR.REQUESTED_DATE)               AS REQUESTED_DATE_BS,
+                  TO_CHAR(TR.FROM_DATE,'DD-MON-YYYY')      AS FROM_DATE_AD,
+                  BS_DATE(TR.FROM_DATE)                    AS FROM_DATE_BS,
+                  TO_CHAR(TR.TO_DATE,'DD-MON-YYYY')        AS TO_DATE_AD,
+                  BS_DATE(TR.TO_DATE)                      AS TO_DATE_BS,
+                  TR.DESTINATION                           AS DESTINATION,
+                  TR.DEPARTURE                             AS DEPARTURE,
+                  TR.PURPOSE                               AS PURPOSE,
+                  TR.REQUESTED_TYPE                        AS REQUESTED_TYPE,
+                  (
+                    CASE
+                    WHEN TR.REQUESTED_TYPE = 'ad' AND TR.TRAVEL_TYPE = 'LTR'
+                    THEN 'Local Travel Advance'
+                    WHEN TR.REQUESTED_TYPE = 'ia'
+                    THEN 'International Travel'
+                    WHEN TR.REQUESTED_TYPE = 'ad' AND TR.TRAVEL_TYPE = 'ITR'
+                    THEN 'International Travel Advance'
+                    WHEN TR.REQUESTED_TYPE = 'ep' AND TR.TRAVEL_TYPE = 'LTR'
+                    THEN 'Local Travel Expense'
+                    WHEN TR.REQUESTED_TYPE = 'ep' AND TR.TRAVEL_TYPE = 'ITR'
+                    THEN 'International Travel Expense'
+                    ELSE 'Expense'
+                  END)                                                            AS REQUESTED_TYPE_DETAIL,
+                  NVL(TR.REQUESTED_AMOUNT,0)                                      AS REQUESTED_AMOUNT,
+                  TR.TRANSPORT_TYPE                                               AS TRANSPORT_TYPE,
+                  (CASE WHEN TR.TRANSPORT_TYPE = 'AP' THEN 'Aeroplane' WHEN TR.TRANSPORT_TYPE = 'OV' THEN 'Office Vehicles' WHEN TR.TRANSPORT_TYPE = 'TI' THEN 'Taxi' WHEN TR.TRANSPORT_TYPE = 'BS' THEN 'BUS' WHEN TR.TRANSPORT_TYPE = 'VV' THEN 'Own Vehicle' ELSE 'Others' END) AS TRANSPORT_TYPE_DETAIL,
+                  TO_CHAR(TR.DEPARTURE_DATE)                                      AS DEPARTURE_DATE_AD,
+                  BS_DATE(TR.DEPARTURE_DATE)                                      AS DEPARTURE_DATE_BS,
+                  TO_CHAR(TR.RETURNED_DATE)                                       AS RETURNED_DATE_AD,
+                  BS_DATE(TR.RETURNED_DATE)                                       AS RETURNED_DATE_BS,
+                  TR.REMARKS                                                      AS REMARKS,
+                  TR.STATUS                                                       AS STATUS,
+                  TRAVEL_STATUS_DESC(TR.STATUS)                                    AS STATUS_DETAIL,
+                  TR.RECOMMENDED_BY                                               AS RECOMMENDED_BY,
+                  RE.FULL_NAME                                                    AS RECOMMENDED_BY_NAME,
+                  TO_CHAR(TR.RECOMMENDED_DATE)                                    AS RECOMMENDED_DATE_AD,
+                  BS_DATE(TR.RECOMMENDED_DATE)                                    AS RECOMMENDED_DATE_BS,
+                  TR.RECOMMENDED_REMARKS                                          AS RECOMMENDED_REMARKS,
+                  TR.APPROVED_BY                                                  AS APPROVED_BY,
+                  AE.FULL_NAME                                                    AS APPROVED_BY_NAME,
+                  TO_CHAR(TR.APPROVED_DATE)                                       AS APPROVED_DATE_AD,
+                  BS_DATE(TR.APPROVED_DATE)                                       AS APPROVED_DATE_BS,
+                  TR.APPROVED_REMARKS                                             AS APPROVED_REMARKS,
+                  RAR.EMPLOYEE_ID                                                 AS RECOMMENDER_ID,
+                  RAR.FULL_NAME                                                   AS RECOMMENDER_NAME,
+                  RAA.EMPLOYEE_ID                                                 AS APPROVER_ID,
+                  RAA.FULL_NAME                                                   AS APPROVER_NAME,
+                  REC_APP_ROLE(U.EMPLOYEE_ID,
+                  CASE WHEN ALR.R_A_ID IS NOT NULL THEN ALR.R_A_ID ELSE RA.RECOMMEND_BY END,
+                  CASE WHEN ALA.R_A_ID IS NOT NULL THEN ALA.R_A_ID ELSE RA.APPROVED_BY END
+                  )      AS ROLE,
+                  REC_APP_ROLE_NAME(U.EMPLOYEE_ID,
+                  CASE WHEN ALR.R_A_ID IS NOT NULL THEN ALR.R_A_ID ELSE RA.RECOMMEND_BY END,
+                  CASE WHEN ALA.R_A_ID IS NOT NULL THEN ALA.R_A_ID ELSE RA.APPROVED_BY END
+                  ) AS YOUR_ROLE
+                FROM HRIS_EMPLOYEE_TRAVEL_REQUEST TR
+                LEFT JOIN HRIS_TRAVEL_SUBSTITUTE TS
+                ON TR.TRAVEL_ID = TS.TRAVEL_ID
+                LEFT JOIN HRIS_EMPLOYEES E
+                ON (E.EMPLOYEE_ID =TR.EMPLOYEE_ID)
+                LEFT JOIN HRIS_EMPLOYEES RE
+                ON(RE.EMPLOYEE_ID =TR.RECOMMENDED_BY)
+                LEFT JOIN HRIS_EMPLOYEES AE
+                ON (AE.EMPLOYEE_ID =TR.APPROVED_BY)
+                LEFT JOIN HRIS_RECOMMENDER_APPROVER RA
+                ON (RA.EMPLOYEE_ID=TR.EMPLOYEE_ID)
+                LEFT JOIN HRIS_EMPLOYEES RAR
+                ON (RA.RECOMMEND_BY=RAR.EMPLOYEE_ID)
+                LEFT JOIN HRIS_EMPLOYEES RAA
+                ON(RA.APPROVED_BY=RAA.EMPLOYEE_ID)
+                LEFT JOIN HRIS_ALTERNATE_R_A ALR
+                ON(ALR.R_A_FLAG='R' AND ALR.EMPLOYEE_ID=TR.EMPLOYEE_ID AND ALR.R_A_ID={$employeeId})
+                LEFT JOIN HRIS_ALTERNATE_R_A ALA
+                ON(ALA.R_A_FLAG='A' AND ALA.EMPLOYEE_ID=TR.EMPLOYEE_ID AND ALA.R_A_ID={$employeeId})
+                LEFT JOIN HRIS_EMPLOYEES U
+                ON(U.EMPLOYEE_ID      = RA.RECOMMEND_BY
+                OR U.EMPLOYEE_ID      = RA.APPROVED_BY
+                OR
+                U.EMPLOYEE_ID = ALR.R_A_ID
+                OR
+                U.EMPLOYEE_ID = ALA.R_A_ID )
+                WHERE 1               =1
+                AND E.STATUS          ='E'
+                AND E.RETIRED_FLAG    ='N'
+                 AND ((
+                ((RA.RECOMMEND_BY = U.EMPLOYEE_ID) OR (ALR.R_A_ID = U.EMPLOYEE_ID))
+                AND TR.STATUS         ='RQ')
+                OR 
+                (((RA.APPROVED_BY    = U.EMPLOYEE_ID)  OR (ALA.R_A_ID = U.EMPLOYEE_ID))
+                AND TR.STATUS         ='RQ') )
+                AND U.EMPLOYEE_ID     ={$employeeId}
+                AND (TS.APPROVED_FLAG =
+                  CASE
+                    WHEN TS.EMPLOYEE_ID IS NOT NULL
+                    THEN ('Y')
+                  END
+                OR TS.EMPLOYEE_ID IS NULL) 
+                and TR.requested_type = 'ep' order by TR.REQUESTED_DATE desc
+                
+                ";
+        // echo '<pre>';print_r($sql);die;   
+        return EntityHelper::rawQueryResult($this->adapter, $sql);
+    }
+
     public function getEmployeeDesignation($id)
     {
         $sql = "SELECT HRIS_EMPLOYEES.DESIGNATION_ID FROM HRIS_EMPLOYEES WHERE EMPLOYEE_ID = '{$id}' ";
