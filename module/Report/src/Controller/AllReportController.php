@@ -503,7 +503,7 @@ class AllReportController extends HrisController {
                 $data = $request->getPost();
                 $postedData = $request->getPost();
                 $data = $this->repository->getMonthlyAllowance($postedData);
-                print_r($data);die;
+                // print_r($data);die;
                 return new JsonModel(['success' => true, 'data' => $data, 'error' => '']);
             } catch (Exception $e) {
                 return new JsonModel(['success' => false, 'data' => [], 'error' => $e->getMessage()]);

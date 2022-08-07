@@ -2,6 +2,7 @@
 namespace Travel;
 
 use Application\Controller\ControllerFactory;
+use Finance\Controller\FinanceStatus;
 use Travel\Controller\TravelStatus;
 use Travel\Controller\TravelApply;
 use Zend\Router\Http\Segment;
@@ -34,6 +35,20 @@ return [
                     'defaults' => [
                         'controller' => TravelApply::class,
                         'action' => 'index'
+                    ],
+                ],
+            ],
+            'financeStatus'=>[
+                'type'=>Segment::class,
+                'options'=>[
+                    'route'=>'/travel/financeStatus[/:action[/:id]]',
+                    'constraints'=>[
+                        'action'=>'[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'=>'[0-9]+',
+                    ],
+                    'defaults'=>[
+                        'controller'=>FinanceStatus::class,
+                        'action'=>'index'
                     ],
                 ],
             ],
@@ -99,12 +114,35 @@ return [
                 ],
             ],
         ],
+        'financeStatus'=>[
+            [
+                'label'=>"Finance Status",
+                'route'=>"financeStatus"
+            ],
+            [
+                'label' => "Finance Status",
+                'route' => "financeStatus",
+                'pages' => [
+                        [
+                        'label' => 'List',
+                        'route' => 'financeStatus',
+                        'action' => 'index',
+                    ],
+                        [
+                        'label' => 'Detail',
+                        'route' => 'financeStatus',
+                        'action' => 'view',
+                    ],
+                ],
+            ],
+        ],
     ],
     
     'controllers' => [
         'factories' => [
             Controller\TravelStatus::class => ControllerFactory::class,
-            Controller\TravelApply::class => ControllerFactory::class
+            Controller\TravelApply::class => ControllerFactory::class,
+            Controller\FinanceStatus::class => ControllerFactory::class
         ],
     ],
     'view_manager' => [
