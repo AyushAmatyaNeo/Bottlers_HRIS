@@ -35,7 +35,7 @@ print $this->form()->openTag($form);
         <div class="portlet box custom-box">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-user"></i>Travel Request Detail
+                    <i class="fa fa-user"></i>Expense Reimbursement Detail
                 </div>
             </div>
             <div class="portlet-body div-font-11">
@@ -57,11 +57,11 @@ print $this->form()->openTag($form);
                                 <td width="40%">
                                     <label for="yourRole">Your Role :</label>
                                 </td>
-                                <td><input type="text" disabled="disabled" value="<?php echo ($role == 3) ? 'Approver' : ( ($role == 2) ? 'Recommender' : ( ($role == 'RP') ? 'Finance Approver' : 'Recommender\Approver' ) ); ?> " name="yourRole" id="yourRole" class="form-control"></td>
+                                <td><input type="text" disabled="disabled" value="<?php echo ($role == 3) ? 'Approver 2' : ( ($role == 2) ? 'Approver 1' : ( ($role == 'RP') ? 'Finance Approver' : 'Approver 1\2' ) ); ?> " name="yourRole" id="yourRole" class="form-control"></td>
                             </tr>
                         </table>
                     </div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-box bottomgap">
+                    <?php /* <div class="col-xs-12 col-sm-4 col-md-4 col-box bottomgap">
                         <table>
                             <?php if ($role != 4) { ?>
                                 <tr>
@@ -72,7 +72,7 @@ print $this->form()->openTag($form);
                                 </tr>     
                             <?php } ?>
                         </table>
-                    </div>
+                    </div> */ ?>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-4 col-box bottomgap">

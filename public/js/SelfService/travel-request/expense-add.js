@@ -253,10 +253,10 @@
                                                 <input type="number" name="amountExp[]"  class="addTotalExp" >
                                             </td>
                                             <td>
-                                            <input type="number" name="conversionRate[]" class="exchangeRate" value="1" step="0.001" >
+                                            <input type="number" name="conversionRate[]" class="exchangeRate" value="1" step="0.001" readonly>
                                         </td>
                                         <td>
-                                            <input type="text" name="currency[]" value="NPR" >
+                                            <input type="text" name="currency[]" value="NPR" readonly>
                                         </td>
                                             <td>
                                                 <div style="width:150px">

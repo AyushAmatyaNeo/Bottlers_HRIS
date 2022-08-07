@@ -65,7 +65,6 @@ class TravelRequest extends HrisController {
 
     public function addAction() {
         $request = $this->getRequest();
-
         $model = new TravelRequestModel();
         if ($request->isPost()) {
             $postData = $request->getPost();

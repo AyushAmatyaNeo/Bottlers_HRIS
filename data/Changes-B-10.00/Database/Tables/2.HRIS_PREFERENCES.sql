@@ -1,0 +1,1 @@
+insert into hris_preferences values ('TRAVEL_SINGLE_APPROVAL','Y');

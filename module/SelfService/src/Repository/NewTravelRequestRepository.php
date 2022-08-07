@@ -347,7 +347,7 @@ class NewTravelRequestRepository extends HrisRepository implements RepositoryInt
         (
 		SELECT reference_travel_id FROM hris_employee_travel_request
          where requested_type = 'ep' and requested_date > '01-JAN-2022'
-		 and employee_id = {$id} AND reference_travel_id IS NOT null)
+		 and employee_id = {$id} AND reference_travel_id IS NOT null AND STATUS NOT IN ('R','C'))
         and requested_type='ad' and employee_id = {$id} and travel_type = 'LTR'
          and status= 'AP' and requested_date > '01-JAN-2022'";
         $result =  $this->rawQuery($sql);
@@ -369,9 +369,9 @@ class NewTravelRequestRepository extends HrisRepository implements RepositoryInt
       hris_employee_travel_request
        where requested_type = 'ep' 
        and requested_date > '01-JAN-2022' 
-       and employee_id = 32 AND reference_travel_id IS NOT null)
+       and employee_id = {$id} AND reference_travel_id IS NOT null  AND STATUS NOT IN ('R','C'))
       and requested_type='ad' and 
-      employee_id = 32 and 
+      employee_id = {$id} and 
       travel_type = 'ITR'
        and status= 'AP'";
         $result =  $this->rawQuery($sql);

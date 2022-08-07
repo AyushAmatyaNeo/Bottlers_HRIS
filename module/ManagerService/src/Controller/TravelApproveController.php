@@ -49,7 +49,33 @@ class TravelApproveController extends HrisController {
             
             'designation' =>$result['DESIGNATION_ID']
             //'files' => $filesData
-]);
+        ]);
+    }
+
+    public function expenseIndexAction() {
+        $empId = $this->employeeId;
+
+        $expenseDtlRepo = new TravelExpenseDtlRepository($this->adapter);
+        $result = $expenseDtlRepo->fetchDesignation($empId);
+        // echo '<pre>';print($result); die;
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            try {
+                $search['employeeId'] = $this->employeeId;
+                $search['status'] = ['RQ', 'RC'];
+                $rawList = $this->repository->getPendingListExpense($this->employeeId);
+                $list = Helper::extractDbData($rawList);
+                // echo '<pre>'; print_r($list); die;
+                return new JsonModel(['success' => true, 'data' => $list, 'error' => '']);
+            } catch (Exception $e) {
+                return new JsonModel(['success' => false, 'data' => [], 'error' => $e->getMessage()]);
+            }
+        }
+        return Helper::addFlashMessagesToArray($this, [
+            
+            'designation' =>$result['DESIGNATION_ID']
+            //'files' => $filesData
+        ]);
     }
 
     public function viewAction() {
@@ -92,10 +118,14 @@ class TravelApproveController extends HrisController {
                 }
             }else {
                 if ($detail['REQUESTED_TYPE'] == 'ep') {
-                    $this->makeDecision0($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
+                    if(isset($this->preference['travelSingleApprover']) && $this->preference['travelSingleApprover'] == 'Y'){
+                        $this->makeDecisionTravel($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
+                    }else{
+                        $this->makeDecision($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
+                    }
                 } else {
                     // var_dump('here5'); die;
-                    $this->makeDecisionTravel($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
+                    $this->makeDecision($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
                 }
             }
            
@@ -128,7 +158,7 @@ class TravelApproveController extends HrisController {
         $role = $this->params()->fromRoute('role');
 
         if ($id === 0) {
-            return $this->redirect()->toRoute("travelApprove");
+            return $this->redirect()->toRoute("travelApprove", ['action'=>'expenseIndex']);
         }
         // if ($role = 'RP') {
         //     $role = 4;
