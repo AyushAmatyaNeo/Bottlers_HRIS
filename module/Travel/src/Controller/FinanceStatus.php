@@ -34,12 +34,12 @@ class FinanceStatus extends HrisController {
     }
 
     public function indexAction() {
-        var_dump('sgfds');die;
         $request = $this->getRequest();
         if ($request->isPost()) {
             try {
                 $search = $request->getPost();
-                $list = $this->travelStatusRepository->getFilteredRecord($search);
+                // echo '<pre>';print_r($search);die;
+                $list = $this->travelStatusRepository->getFinanceRecord($search);
 
                 if($this->preference['displayHrApproved'] == 'Y'){
                     for($i = 0; $i < count($list); $i++){
@@ -97,6 +97,7 @@ class FinanceStatus extends HrisController {
     }
 
     public function viewAction() {
+        // print_r(' bvcn');die;
         $id = (int) $this->params()->fromRoute('id');
         if ($id === 0) {
             return $this->redirect()->toRoute("travelStatus");
@@ -178,11 +179,12 @@ class FinanceStatus extends HrisController {
 
     public function expenseDetailAction() {
         $id = (int) $this->params()->fromRoute('id');
+        
         if ($id === 0) {
             return $this->redirect()->toRoute("travelApprove");
         }
         $detail = $this->travelApproveRepository->fetchById($id);
-
+        
         $authRecommender = $detail['RECOMMENDED_BY_NAME'] == null ? $detail['RECOMMENDER_NAME'] : $detail['RECOMMENDED_BY_NAME'];
         $authApprover = $detail['APPROVED_BY_NAME'] == null ? $detail['APPROVER_NAME'] : $detail['APPROVED_BY_NAME'];
         $recommenderId = $detail['RECOMMENDED_BY'] == null ? $detail['RECOMMENDER_ID'] : $detail['RECOMMENDED_BY'];
@@ -206,6 +208,7 @@ class FinanceStatus extends HrisController {
         $numberInWord = new NumberHelper();
         $totalAmountInWords = $numberInWord->toText($totalAmount);
         $balance = $detail['REQUESTED_AMOUNT'] - $totalAmount;
+
         return Helper::addFlashMessagesToArray($this, [
                     'form' => $this->form,
                     'id' => $id,

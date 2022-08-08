@@ -1513,7 +1513,7 @@ EOT;
             DEPARTMENT_NAME,
             DESIGNATION_TITLE,
             POSITION_NAME  ";
-          echo '<pre>';print_r($sql);die;
+          // echo '<pre>';print_r($sql);die;
         $statement = $this->adapter->query($sql);
         $result = $statement->execute();
         return Helper::extractDbData($result);

@@ -53,8 +53,8 @@ class DashboardController extends AbstractActionController {
             "leftEmployees" => $dashboardRepo->fetchLeftEmployees(),
             "employeeNews" => $dashboardRepo->fetchAllNews($this->employeeId),
             "noticeType" => $this->noticeType,
-            "leaveEmpToday"=>$dashboardRepo->empOnLeaveToday($companyId),
-            "travelEmpToday"=>$dashboardRepo->empOnTravelToday($companyId),
+            "leaveEmpToday"=>$dashboardRepo->empOnLeaveToday($companyId,$this->employeeId),
+            "travelEmpToday"=>$dashboardRepo->empOnTravelToday($companyId,$this->employeeId),
             "calendarType"=>$calenderType
         ];
         $view = new ViewModel(Helper::addFlashMessagesToArray($this, $data));

@@ -8,34 +8,35 @@
         var $status = $('#status');
         var $fromDate = $('#fromDate');
         var $toDate = $('#toDate');
-        var $bulkActionDiv = $('#bulkActionDiv');
-        var $bulkBtns = $(".btnApproveReject");
-        var $superpower = $("#super_power");
+        // var $bulkActionDiv = $('#bulkActionDiv');
+        // var $bulkBtns = $(".btnApproveReject");
+        // var $superpower = $("#super_power");
         var action = `
             <div class="clearfix">
-                #if(REQUESTED_TYPE=='ad'){#
+                #if(REQUESTED_TYPE=='ep'){#
                 <a class="btn btn-icon-only green" href="${document.viewLink}/#:TRAVEL_ID#" style="height:17px;" title="View Detail">
                     <i class="fa fa-search"></i>
                 </a>
-                #}else{#
-                <a class="btn btn-icon-only green" href="${document.expenseDetailLink}/#:TRAVEL_ID#" style="height:17px;" title="View Detail">
-                    <i class="fa fa-search"></i>
-                </a>
-                #}#
-                 #if(ALLOW_EDIT=='Y'){#
-                    #if(REQUESTED_TYPE=='ad'){#
-                        <a class="btn btn-icon-only orange" href="${document.editLink}/#:TRAVEL_ID#" style="height:17px;" title="View Detail">
-                            <i class="fa fa-edit"></i>
-                        </a>
-                        #}else{#
-                        <a class="btn btn-icon-only orange" href="${document.expenseeditLink}/#:TRAVEL_ID#" style="height:17px;" title="View Detail">
-                            <i class="fa fa-edit"></i>
-                        </a>
-                        #}#
+               
                 </a>
                 #}#
             </div>
         `;
+        // #}else{#
+        //     <a class="btn btn-icon-only green" href="${document.expenseDetailLink}/#:TRAVEL_ID#" style="height:17px;" title="View Detail">
+        //         <i class="fa fa-search"></i>
+        //     </a>
+        //     #}#
+        //      #if(ALLOW_EDIT=='Y'){#
+        //         #if(REQUESTED_TYPE=='ad'){#
+        //             <a class="btn btn-icon-only orange" href="${document.editLink}/#:TRAVEL_ID#" style="height:17px;" title="View Detail">
+        //                 <i class="fa fa-edit"></i>
+        //             </a>
+        //             #}else{#
+        //             <a class="btn btn-icon-only orange" href="${document.expenseeditLink}/#:TRAVEL_ID#" style="height:17px;" title="View Detail">
+        //                 <i class="fa fa-edit"></i>
+        //             </a>
+        //             #}#
         var columns = [
             {field: "EMPLOYEE_CODE", title: "Code", width: 100},
             {field: "EMPLOYEE_NAME", title: "Employee", width: 100},
@@ -81,13 +82,7 @@
         ];
         columns=app.prependPrefColumns(columns);
         var pk = 'TRAVEL_ID';
-        var grid = app.initializeKendoGrid($table, columns, null, {id: pk, atLast: false, fn: function (selected) {
-                if (selected) {
-                    $bulkActionDiv.show();
-                } else {
-                    $bulkActionDiv.hide();
-                }
-            }});
+        var grid = app.initializeKendoGrid($table, columns, null, null);
         $search.on('click', function () {
             var search = document.searchManager.getSearchValues();
             search['status'] = $status.val();
@@ -140,21 +135,21 @@
             app.exportToPDF($table, exportMap, 'Travel Request List.pdf');
         });
 
-        $bulkBtns.bind("click", function () {
-            var list = grid.getSelected();
-            var action = $(this).attr('action');
-            var superPower = $superpower.prop('checked');
+        // $bulkBtns.bind("click", function () {
+        //     var list = grid.getSelected();
+        //     var action = $(this).attr('action');
+        //     // var superPower = $superpower.prop('checked');
 
-            var selectedValues = [];
-            for (var i in list) {
-                selectedValues.push({id: list[i][pk], action: action, status: list[i]['STATUS'], super_power: superPower});
-            }
-            app.bulkServerRequest(document.bulkLink, selectedValues, function () {
-                $search.trigger('click');
-            }, function (data, error) {
+        //     var selectedValues = [];
+        //     for (var i in list) {
+        //         selectedValues.push({id: list[i][pk], action: action, status: list[i]['STATUS'], super_power: superPower});
+        //     }
+        //     app.bulkServerRequest(document.bulkLink, selectedValues, function () {
+        //         $search.trigger('click');
+        //     }, function (data, error) {
 
-            });
-        });
+        //     });
+        // });
         
     });
 })(window.jQuery, window.app);
