@@ -560,16 +560,16 @@ class HeadNotification {
         // var_dump($notification); die;
         switch ($request->requestedType) {
             case self::TRAVEL_ADVANCE_REQUEST:
-                $notification->route = json_encode(["route" => "travelApprove", "action" => "view", "id" => $request->travelId]);
+                $notification->route = json_encode(["route" => "travelApprove", "action" => "view", "id" => $request->travelId, "role" => 'A3']);
                 break;
             case self::TRAVEL_EXPENSE_REQUEST :
-                $notification->route = json_encode(["route" => "travelApprove", "action" => "viewExpense", "id" => $request->travelId]);
+                $notification->route = json_encode(["route" => "travelApprove", "action" => "viewExpense", "id" => $request->travelId, "role" => 'A3']);
                 break;
             case self::TRAVEL_ADVANCE_INTER :
-                $notification->route = json_encode(["route" => "travelApprove", "action" => "view", "id" => $request->travelId]);
+                $notification->route = json_encode(["route" => "travelApprove", "action" => "view", "id" => $request->travelId, "role" => 'A3']);
                 break;
             default:
-                $notification->route = json_encode(["route" => "travelApprove", "action" => "view", "id" => $request->travelId]);
+                $notification->route = json_encode(["route" => "travelApprove", "action" => "view", "id" => $request->travelId, "role" => 'A3']);
                 break;
         }
         $title = "Travel Approval";
@@ -1632,18 +1632,22 @@ class HeadNotification {
                 break;
             case NotificationEvents::TRAVEL_ACCEPTED_THIRD:
                 // var_dump('herfsdc'); die;
+                self::travelApprove($model, $adapter, $url, self::ACCEPTED);
                 self::travelApproveThird($model, $adapter, $url, self::ACCEPTED);
                 break;
             case NotificationEvents::TRAVEL_ACCEPTED_FOURTH:
                 // var_dump('hern'); die;
+                self::travelApprove($model, $adapter, $url, self::ACCEPTED);
                 self::travelApproveFourth($model, $adapter, $url, self::ACCEPTED);
                 break;
             case NotificationEvents::TRAVEL_ACCEPTED_FIFTH:
                 // var_dump('hern'); die;
+                self::travelApprove($model, $adapter, $url, self::ACCEPTED);
                 self::travelApproveFifth($model, $adapter, $url, self::ACCEPTED);
                 break;
             case NotificationEvents::TRAVEL_APPROVE_SIXTH:
                 // var_dump('hern'); die;
+                self::travelApprove($model, $adapter, $url, self::ACCEPTED);
                 self::travelApproveSixth($model, $adapter, $url, self::ACCEPTED);
                 break;
             case NotificationEvents::TRAVEL_EXPENSE_APPROVE_ACCEPTED:
