@@ -671,7 +671,7 @@ class HeadNotification {
         //  $recommdAppModel = self::findthirdApprover($designation, $adapter);
         $recommdAppModel = self::findRecApp($request->employeeId, $adapter);
         $notification = self::initializeNotificationModel(
-            1000133, $request->employeeId  , \Notification\Model\TravelReqNotificationModel::class, $adapter);
+            $recommdAppModel[RecommendApprove::APPROVED_BY], $request->employeeId  , \Notification\Model\TravelReqNotificationModel::class, $adapter);
             
             
         $notification->destination = $request->destination;

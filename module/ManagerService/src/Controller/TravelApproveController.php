@@ -542,6 +542,13 @@ class TravelApproveController extends HrisController {
                 $message = $approve ? "Travel Request Approved" : "Travel Request Rejected";
                 $notificationEvent = $approve ? NotificationEvents::TRAVEL_ACCEPTED_FIFTH : NotificationEvents::TRAVEL_RECOMMEND_REJECTED;
                 break;
+            case 'A4':
+                $model->recommendedDate = Helper::getcurrentExpressionDate();
+                $model->recommendedBy = $this->employeeId;
+                $model->status = ($approve == 'Approve') ? "AP" : "R";
+                $message = $approve ? "Travel Request Approved" : "Travel Request Rejected";
+                $notificationEvent = $approve ? NotificationEvents::TRAVEL_APPROVE_SIXTH : NotificationEvents::TRAVEL_APPROVE_REJECTED;
+                break;
         } 
         $editError=$this->repository->edit($model, $id);
         if ($enableFlashNotification) {
