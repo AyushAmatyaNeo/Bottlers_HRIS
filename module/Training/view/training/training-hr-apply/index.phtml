@@ -26,6 +26,8 @@ $form->prepare();
 ?>
 <script>
     document.trainingList =<?= json_encode($trainingList) ?>;
+    document.wspullTrainingDetailWidEmployeeId = '<?= $this->url("trainingHrApply", ["action" => "pullTrainingDetailWidEmployeeId"]) ?>';
+    document.wsPullTrainingDetail = '<?= $this->url("trainingHrApply", ["action" => "pullTrainingDetail"]) ?>';
 </script>
 <div class="page-bar">
     <?= $this->navigation('Zend\Navigation\trainingRequest')->breadcrumbs()->setMinDepth(0)->setPartial('partial/breadcrumb') ?>
@@ -53,12 +55,14 @@ $form->prepare();
                         </div> 
                     </div>
                    
-                    <div class="col-sm-4">
+                    <div class="col-sm-4">                        
                         <div class="form-group">
-                            <?php print $this->formLabel($trainingId); ?>
-                            <?php print $this->formElement($trainingId); ?>
-                            <?php print $this->formElementErrors()->render($trainingId, ['class' => 'help-block']); ?>
-                        </div> 
+                            <label for="trainingId">Training Type</label>
+                            <span class="required" aria-required="true">*</span>
+                            <select name="trainingId" required="required" id="trainingId" class="form-control">
+                                <option value="" disabled="" selected="" >Please select</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
