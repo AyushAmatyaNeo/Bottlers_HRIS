@@ -391,14 +391,9 @@ class NewTravelRequest extends HrisController {
 
             $error = "";
             try {
-                if ($postData['erTypeL'][0] != null){
-                    if(isset($this->preference['travelSingleApprover']) && $this->preference['travelSingleApprover'] == 'Y'){
-                        HeadNotification::pushNotification(NotificationEvents::TRAVEL_EXPENSE_APPLIED, $reqModel, $this->adapter, $this);
-                    }else{
-                        HeadNotification::pushNotification(NotificationEvents::TRAVEL_APPLIED, $reqModel, $this->adapter, $this);
-                    }
-                }
-                if ($postData['erTypeI'][0] != null){
+                if(isset($this->preference['travelSingleApprover']) && $this->preference['travelSingleApprover'] == 'Y'){
+                    HeadNotification::pushNotification(NotificationEvents::TRAVEL_EXPENSE_APPLIED, $reqModel, $this->adapter, $this);
+                }else{
                     HeadNotification::pushNotification(NotificationEvents::TRAVEL_APPLIED, $reqModel, $this->adapter, $this);
                 }
             } catch (Exception $e) {
