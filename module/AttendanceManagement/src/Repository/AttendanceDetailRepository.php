@@ -949,6 +949,7 @@ FROM (SELECT
                 ) Q {$orderByString}
                 {$rowNums}
                 ";
+        // echo '<pre>';print_r($sql);die;
         return EntityHelper::rawQueryResult($this->adapter, $sql);
     }
 

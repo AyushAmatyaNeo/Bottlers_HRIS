@@ -12,6 +12,7 @@ use Setup\Model\Training;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Sql;
+use Training\Model\TrainingAssign;
 use Zend\Db\TableGateway\TableGateway;
 
 class TrainingRepository implements RepositoryInterface {
@@ -121,9 +122,66 @@ class TrainingRepository implements RepositoryInterface {
 
         $select->order("T.START_DATE DESC");
         $statement = $sql->prepareStatementForSqlObject($select);
-//       print_r($statement->getSql()); die();
+        // print_r($statement); die();
         $result = $statement->execute();
         return $result;
+    }
+
+    public function getTrainingDetails($employeeId,$trainingId) {
+        $today = Helper::getcurrentExpressionDate();
+        $sql = new Sql($this->adapter);
+        $select = $sql->select();
+        $select->columns(EntityHelper::getColumnNameArrayWithOracleFns(
+                        Training::class, [
+                    Training::TRAINING_NAME
+                        ], [
+                    Training::START_DATE,
+                    Training::END_DATE
+                        ], NULL, NULL, NULL, 'T')
+                , false);
+        $select->from(['T' => Training::TABLE_NAME]);
+        $select->join(['I' => Institute::TABLE_NAME], "T." . Training::INSTITUTE_ID . "=I." . Institute::INSTITUTE_ID, [Institute::INSTITUTE_NAME => new Expression('(I.' . Institute::INSTITUTE_NAME . ')')], 'left');
+
+        $select->where([
+            "T.STATUS='E'",
+    // "T.TRAINING_ID NOT IN (SELECT TRAINING_ID FROM HRIS_EMPLOYEE_TRAINING_ASSIGN WHERE STATUS='E' AND 
+    "T.TRAINING_ID  IN (SELECT TRAINING_ID FROM HRIS_EMPLOYEE_TRAINING_ASSIGN WHERE STATUS='E' AND TRAINING_ID=$trainingId AND
+    EMPLOYEE_ID=$employeeId)"
+//            "T.END_DATE<=".$today->getExpression()
+        ]);
+
+        $select->order("T.START_DATE DESC");
+        $statement = $sql->prepareStatementForSqlObject($select);
+        // print_r($statement); die();
+        $result = $statement->execute();
+        return $result->current();
+    }
+//    Select Training assign for specific employee
+    public function selectTrainingList($employeeId,$selfRequest='N') {
+        $selfRequestCondition = "1=1";
+        if($selfRequest == 'Y'){
+            $selfRequestCondition = "T.HR_ONLY = 'N'";
+        }
+        $sql = new Sql($this->adapter);
+        $select = $sql->select();
+        $select->from(['TA' => TrainingAssign::TABLE_NAME])
+                ->join(['T' => 'hris_training_master_setup'], "T.TRAINING_ID=TA.TRAINING_ID", ['TRAINING_CODE', 'TRAINING_NAME' => new Expression("INITCAP(T.TRAINING_NAME)")]);
+        $select->where([
+            "T.STATUS='E'",
+            "TA.EMPLOYEE_ID=" . $employeeId,
+            $selfRequestCondition
+        ]);
+
+        $statement = $sql->prepareStatementForSqlObject($select);
+
+        $resultset = $statement->execute();
+
+        $entitiesArray = array();
+        foreach ($resultset as $result) {
+            $entitiesArray[$result['TRAINING_ID']] = $result['TRAINING_NAME'];
+        }
+        return $entitiesArray;
+
     }
 
     public function delete($id) {

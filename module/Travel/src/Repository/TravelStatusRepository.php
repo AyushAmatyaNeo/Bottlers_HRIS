@@ -76,7 +76,7 @@ class TravelStatusRepository extends HrisRepository {
                   BS_DATE(TR.RETURNED_DATE)                                       AS RETURNED_DATE_BS,
                   TR.REMARKS                                                      AS REMARKS,
                   TR.STATUS                                                       AS STATUS,
-                  leave_status_desc(TR.STATUS)                                    AS STATUS_DETAIL,
+                  travel_status_desc(TR.STATUS)                                    AS STATUS_DETAIL,
                   TR.RECOMMENDED_BY                                               AS RECOMMENDED_BY,
                   RE.FULL_NAME                                                    AS RECOMMENDED_BY_NAME,
                   TO_CHAR(TR.RECOMMENDED_DATE)                                    AS RECOMMENDED_DATE_AD,
@@ -123,6 +123,21 @@ class TravelStatusRepository extends HrisRepository {
       $startdate = '01-JAN-'.$search['year'];
       $enddate = '30-DEC-'.$search['year'];
 
+<<<<<<< HEAD
+=======
+    public function getFinanceRecord($search):array {
+      $condition = "";
+      $condition = EntityHelper::getSearchConditon($search['companyId'], $search['branchId'], $search['departmentId'], $search['positionId'], $search['designationId'], $search['serviceTypeId'], $search['serviceEventTypeId'], $search['employeeTypeId'], $search['employeeId'], null, null, $search['functionalTypeId']);
+      if (isset($search['fromDate']) && $search['fromDate'] != null) {
+          $condition .= " AND TR.FROM_DATE>=TO_DATE('{$search['fromDate']}','DD-MM-YYYY') ";
+      }
+      if (isset($search['fromDate']) && $search['toDate'] != null) {
+          $condition .= " AND TR.TO_DATE<=TO_DATE('{$search['toDate']}','DD-MM-YYYY') ";
+      }
+      $startdate = '01-JAN-'.$search['year'];
+      $enddate = '30-DEC-'.$search['year'];
+
+>>>>>>> 3f24e63a9a56b420dfd498376929e98bd6a8e43b
       if (isset($search['status']) && $search['status'] != null && $search['status'] != -1) {
           if (gettype($search['status']) === 'array') {
               $csv = "";
@@ -160,9 +175,15 @@ class TravelStatusRepository extends HrisRepository {
                 (
                 CASE
                 WHEN TR.REQUESTED_TYPE = 'ep' and TR.TRAVEL_TYPE = 'LTR'
+<<<<<<< HEAD
                   THEN 'Expense For Domestic Travel'
                   WHEN TR.REQUESTED_TYPE = 'ep' and TR.TRAVEL_TYPE = 'ITR'
                   THEN 'Expense For International Travel'
+=======
+                    THEN 'Expense For Domestic Travel'
+                    WHEN TR.REQUESTED_TYPE = 'ep' and TR.TRAVEL_TYPE = 'ITR'
+                    THEN 'Expense For International Travel'
+>>>>>>> 3f24e63a9a56b420dfd498376929e98bd6a8e43b
                   WHEN TR.REQUESTED_TYPE = 'ep' and TR.TRAVEL_TYPE = 'DT'
                   THEN 'Expense Reimbursement'
                   ELSE 'Expense For Travel'
@@ -206,12 +227,22 @@ class TravelStatusRepository extends HrisRepository {
               ON(RA.APPROVED_BY=RAA.EMPLOYEE_ID)
               WHERE 1          =1 {$condition}
               AND TR.REQUESTED_DATE BETWEEN '{$startdate}' AND '{$enddate}'
+<<<<<<< HEAD
               AND  TR.REQUESTED_TYPE ='EP'
               ";
 
       $finalSql = $this->getPrefReportQuery($sql);
       return $this->rawQuery($finalSql);
   }
+=======
+              AND TR.REQUESTED_TYPE = 'ep'";
+      // echo '<pre>';print_r($sql);die;
+      $finalSql = $this->getPrefReportQuery($sql);
+      return $this->rawQuery($finalSql);
+  }
+
+
+>>>>>>> 3f24e63a9a56b420dfd498376929e98bd6a8e43b
     public function notSettled(): array {
         $sql = "SELECT TR.TRAVEL_ID                   AS TRAVEL_ID,
                   TR.TRAVEL_CODE                      AS TRAVEL_CODE,

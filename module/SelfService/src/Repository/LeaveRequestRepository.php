@@ -167,6 +167,7 @@ class LeaveRequestRepository implements RepositoryInterface {
                   END
                 OR LA.FISCAL_YEAR_MONTH_NO IS NULL ) 
                 ";
+                // echo '<pre>';print_r($sql);die;
         $statement = $this->adapter->query($sql);
         return $statement->execute()->current();
     }
@@ -359,6 +360,8 @@ LEFT JOIN Hris_Holiday_Master_Setup H ON (WH.HOLIDAY_ID=H.HOLIDAY_ID))"], "SLR.I
         }
         $select->order("LA.REQUESTED_DT DESC");
         $statement = $sql->prepareStatementForSqlObject($select);
+        // echo '<pre>';print_r($statement);die;
+
         $result = $statement->execute();
         return $result;
     }

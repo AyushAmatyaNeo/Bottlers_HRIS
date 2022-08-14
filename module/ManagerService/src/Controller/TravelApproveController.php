@@ -107,15 +107,16 @@ class TravelApproveController extends HrisController {
             $action = $postedData['submit'];
             // var_dump($action); die;
             if (trim($detail['TRAVEL_TYPE']) == 'ITR') {
-                if ($detail['STATUS'] == 'RQ' || $detail['STATUS'] == 'RC') {
                     $this->makeDecision2($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks'] ], true);
-                } elseif ($detail['STATUS'] == 'A2') {
-                    $this->makeDecision3($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
-                }elseif ($detail['STATUS'] == 'A3') {
-                    $this->makeDecision4($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
-                }else{
-                    $this->makeDecision5($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
-                }
+                // if ($detail['STATUS'] == 'RQ' || $detail['STATUS'] == 'RC') {
+                //     $this->makeDecision2($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks'] ], true);
+                // } elseif ($detail['STATUS'] == 'A2') {
+                //     $this->makeDecision3($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
+                // }elseif ($detail['STATUS'] == 'A3') {
+                //     $this->makeDecision4($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
+                // }else{
+                //     $this->makeDecision5($id, $role, $action, $postedData[$role == 2 ? $postedData['recommendedRemarks'] : $postedData['approvedRemarks']], true);
+                // }
             }else {
                 if ($detail['REQUESTED_TYPE'] == 'ep') {
                     if(isset($this->preference['travelSingleApprover']) && $this->preference['travelSingleApprover'] == 'Y'){
@@ -526,6 +527,27 @@ class TravelApproveController extends HrisController {
                 $model->status = $approve ? "A2" : "R";
                 $message = $approve ? "Travel Request Approved" : "Travel Request Rejected";
                 $notificationEvent = $approve ? NotificationEvents::TRAVEL_ACCEPTED_THIRD : NotificationEvents::TRAVEL_APPROVE_REJECTED;
+                break;
+            case 'A2':
+                $model->recommendedDate = Helper::getcurrentExpressionDate();
+                $model->recommendedBy = $this->employeeId;
+                $model->status = ($approve == 'Approve') ? "A3" : "R";
+                $message = $approve ? "Travel Request Approved" : "Travel Request Rejected";
+                $notificationEvent = $approve ? NotificationEvents::TRAVEL_ACCEPTED_FOURTH : NotificationEvents::TRAVEL_RECOMMEND_REJECTED;
+                break;
+            case 'A3':
+                $model->recommendedDate = Helper::getcurrentExpressionDate();
+                $model->recommendedBy = $this->employeeId;
+                $model->status = ($approve == 'Approve') ? "A4" : "R";
+                $message = $approve ? "Travel Request Approved" : "Travel Request Rejected";
+                $notificationEvent = $approve ? NotificationEvents::TRAVEL_ACCEPTED_FIFTH : NotificationEvents::TRAVEL_RECOMMEND_REJECTED;
+                break;
+            case 'A4':
+                $model->recommendedDate = Helper::getcurrentExpressionDate();
+                $model->recommendedBy = $this->employeeId;
+                $model->status = ($approve == 'Approve') ? "AP" : "R";
+                $message = $approve ? "Travel Request Approved" : "Travel Request Rejected";
+                $notificationEvent = $approve ? NotificationEvents::TRAVEL_APPROVE_SIXTH : NotificationEvents::TRAVEL_APPROVE_REJECTED;
                 break;
         } 
         $editError=$this->repository->edit($model, $id);

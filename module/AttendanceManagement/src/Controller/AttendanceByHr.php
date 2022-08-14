@@ -451,6 +451,7 @@ class AttendanceByHr extends HrisController {
     }
     
     public function attdBotAction() {
+        
         $shiftRepo = new ShiftRepository($this->adapter);
         $shiftList = iterator_to_array($shiftRepo->fetchAll(), false);
         return Helper::addFlashMessagesToArray($this, [

@@ -25,6 +25,7 @@ class MapsRepository implements RepositoryInterface {
 
     public function fetchCheckInLocation($employeeId, $attd_date){
       $sql = "select LOCATION,ATTENDANCE_TIME from (select * from HRIS_ATTENDANCE WHERE EMPLOYEE_ID = $employeeId AND ATTENDANCE_DT = '$attd_date' order by ATTENDANCE_TIME asc ) where ROWNUM <= 1";
+      // echo '<pre>';print_r($sql);die;
       $statement = $this->adapter->query($sql);
       return $statement->execute();
     }

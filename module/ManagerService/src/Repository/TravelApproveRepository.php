@@ -892,6 +892,7 @@ class TravelApproveRepository implements RepositoryInterface {
             AND E.STATUS          ='E'
             AND E.RETIRED_FLAG    ='N'
             AND TR.STATUS         ='{$st}'
+            order by TR.travel_id desc
             ";
         return EntityHelper::rawQueryResult($this->adapter, $sql);
     }

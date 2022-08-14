@@ -35,6 +35,7 @@ class TrainingHrApplyController extends HrisController {
     public function indexAction() {
         $request = $this->getRequest();
         $model = new TrainingRequestModel();
+        // echo '<pre>';print_r($request);die;
 
         if ($request->isPost()) {
             $postData = $request->getPost();
@@ -51,7 +52,6 @@ class TrainingHrApplyController extends HrisController {
                 $model->status = 'RQ';
 
                 $this->repository->add($model);
-                // var_dump('fbd');die;
 
                 $this->flashmessenger()->addMessage("Training Request Successfully added!!!");
                 try {
@@ -64,7 +64,9 @@ class TrainingHrApplyController extends HrisController {
         }
         $this->prepareForm();
         $trainings = $this->getTrainingList($this->employeeId);
-        // echo '<pre>';print_r($trainings );die;
+
+
+        //  echo '<pre>';print_r($trainings );die;
 
         return Helper::addFlashMessagesToArray($this, [
                     'form' => $this->form,
@@ -83,7 +85,6 @@ class TrainingHrApplyController extends HrisController {
         $trainingType->setValueOptions($this->trainingTypes);
     }
     private function getTrainingList($employeeId) {
-        // echo '<pre>';print_r('cbvcb');die;
         if ($this->trainingList === null) {
             $trainingRepo = new TrainingRepository($this->adapter);
             $trainingResult = $trainingRepo->selectAll($employeeId);
@@ -97,6 +98,47 @@ class TrainingHrApplyController extends HrisController {
             $this->trainingList = ['trainingKVList' => $trainingList, 'trainingList' => $allTrainings];
         }
         return $this->trainingList;
+    }
+
+    public function pullTrainingDetailWidEmployeeIdAction() {
+        try {
+            $request = $this->getRequest();
+            if ($request->isPost()) {
+                $postedData = $request->getPost();
+
+                $trainingRepo = new TrainingRepository($this->adapter);
+                $employeeId = $postedData['employeeId'];
+                $trainingList = $trainingRepo->selectTrainingList($employeeId);
+                $trainingRow = [];
+                foreach ($trainingList as $key => $value) {
+                    array_push($trainingRow, ["id" => $key, "name" => $value]);
+                }
+                return new CustomViewModel(['success' => true, 'data' => $trainingRow, 'error' => '']);
+            } else {
+                throw new Exception("The request should be of type post");
+            }
+        } catch (Exception $e) {
+            return new CustomViewModel(['success' => false, 'data' => [], 'error' => $e->getMessage()]);
+        }
+    }
+
+    public function pullTrainingDetailAction() {
+        try {
+            $request = $this->getRequest();
+            if ($request->isPost()) {
+                $postedData = $request->getPost();
+                $trainingRepo = new TrainingRepository($this->adapter);
+                $employeeId = $postedData['employeeId'];
+                $trainingId = $postedData['trainingId'];
+                $TrainingDetail = $trainingRepo->getTrainingDetails($employeeId,$trainingId);
+                // echo '<pre>';print_r($TrainingDetail);die;
+                return new CustomViewModel(['success' => true, 'data' => $TrainingDetail, 'error' => '']);
+            } else {
+                throw new Exception("The request should be of type post");
+            }
+        } catch (Exception $e) {
+            return new CustomViewModel(['success' => false, 'data' => [], 'error' => $e->getMessage()]);
+        }
     }
     
     private $trainingList = null;
