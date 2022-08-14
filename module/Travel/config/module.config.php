@@ -2,7 +2,7 @@
 namespace Travel;
 
 use Application\Controller\ControllerFactory;
-use Finance\Controller\FinanceStatus;
+use Travel\Controller\FinanceStatus;
 use Travel\Controller\TravelStatus;
 use Travel\Controller\TravelApply;
 use Zend\Router\Http\Segment;
