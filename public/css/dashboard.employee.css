@@ -733,6 +733,13 @@ li.line:after {
      background-color: #cc0000;
  }
 
+ .colorbox-color6 {
+    background-color: #FFC0CB;
+}
+
+
+ 
+
 .calendar-colorbox span {
     display: inline-block;
     padding-left: 4px;

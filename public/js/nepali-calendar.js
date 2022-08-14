@@ -362,6 +362,10 @@ window.nepaliCalendar = (function ($) {
                     $date.find('.in-time').html(value.IN_TIME);
                     $date.find('.out-time').html(value.OUT_TIME);
                     $date.find('.status').html(value.ATTENDANCE_STATUS);
+                    if (value.SP_ID !== null) {
+                        $date.css('background-color', '#edc0c0');
+                        $date.children().css('background-color', '#FFC0CB');
+                    }
                     if (value.OVERALL_STATUS == 'DO') {
                         $date.css('background-color', '#ADFF2F');
                         $date.children().css('background-color', '#ADFF2F');
