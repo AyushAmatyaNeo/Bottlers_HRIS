@@ -580,6 +580,12 @@ class EntityHelper {
         return Helper::extractDbData($result)[0]['EMPLOYEE_ID'];
     }
 
+    public function getShiftIdfromName($adapter,$name){
+        $sql="select shift_id from hris_shifts where lower(shift_ename) = lower('$name') and status='E'";
+        $result=self::rawQueryResult($adapter,$sql);
+        return Helper::extractDbData($result)[0]['SHIFT_ID'];
+    }
+
     public static function getProvinceList($adapter) {
         return self::getTableKVListWithSortOption($adapter, "HRIS_PROVINCES", "PROVINCE_ID", ["PROVINCE_NAME"], ["STATUS" => 'E'], "PROVINCE_ID", "ASC", "-");
     }
