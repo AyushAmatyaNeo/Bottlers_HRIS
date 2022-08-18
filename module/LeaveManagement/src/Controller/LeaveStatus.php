@@ -31,7 +31,7 @@ class LeaveStatus extends HrisController {
         $leaveList = EntityHelper::getTableKVListWithSortOption($this->adapter, LeaveMaster::TABLE_NAME, LeaveMaster::LEAVE_ID, [LeaveMaster::LEAVE_ENAME], [LeaveMaster::STATUS => 'E'], LeaveMaster::LEAVE_ENAME, "ASC", NULL, ['-1' => 'All Leaves'], TRUE);
         $leaveSE = $this->getSelectElement(['name' => 'leave', 'id' => 'leaveId', 'class' => 'form-control reset-field', 'label' => 'Type'], $leaveList);
         $leaveStatusSE = $this->getStatusSelectElement(['name' => 'leaveStatus', 'id' => 'leaveRequestStatusId', 'class' => 'form-control reset-field', 'label' => 'Status']);
-        // echo '<pre>';print_r( $leaveSE);die;
+        // echo '<pre>';print_r($this->storageData['employee_detail']);die;
         return $this->stickFlashMessagesTo([
                     'leaves' => $leaveSE,
                     'leaveStatus' => $leaveStatusSE,

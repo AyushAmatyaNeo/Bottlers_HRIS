@@ -38,6 +38,16 @@ return [
                     ]
                 ]
             ],
+            'leaveReport'=>[
+                'type'=>Segment::class,
+                'options'=>[
+                    'route'=>'/leave-report[/:action[/:id]]',
+                    'defaults'=>[
+                        'controller'=>Controller\LeaveReport::class,
+                        'action'=>'index'
+                        ]
+                    ]
+                ],
             'leavestatus' => [
                 'type' => Segment::class,
                 'options' => [
@@ -118,6 +128,23 @@ return [
                         'label' => 'Edit',
                         'route' => 'leavesetup',
                         'action' => 'edit',
+                    ],
+                ]
+            ]
+        ],
+        'leaveReport'=>[
+            [
+                'label'=>'Leave Report',
+                'route'=>'leaveReport',
+            ],
+            [
+                'label'=>'Leave Report',
+                'route'=>'leaveReport',
+                'pages'=>[
+                    [
+                        'label'=>'List',
+                        'route'=>'leaveReport',
+                        'action'=>'index',
                     ],
                 ]
             ]
@@ -250,7 +277,8 @@ return [
             Controller\LeaveStatus::class => ControllerFactory::class,
             Controller\LeaveBalance::class => ControllerFactory::class,
             Controller\LeaveSubBypass::class => ControllerFactory::class,
-            Controller\LeaveReportCard::class => ControllerFactory::class
+            Controller\LeaveReportCard::class => ControllerFactory::class,
+            Controller\LeaveReport::class=>ControllerFactory::class
         ],
     ],
     'view_manager' => [

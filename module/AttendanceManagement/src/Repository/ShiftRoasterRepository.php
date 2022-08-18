@@ -34,7 +34,8 @@ class ShiftRoasterRepository extends HrisRepository{
 
         // echo '<pre>';print_r($sql);die; 
         $statement=$this->adapter->query($sql);
-        return $statement;
+        return $statement->execute();
     }
 }
 ?>
+
