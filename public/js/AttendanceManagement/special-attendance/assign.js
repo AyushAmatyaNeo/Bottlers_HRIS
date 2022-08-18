@@ -140,13 +140,25 @@ angular.module('hris', [])
         $scope.assign = function () {
             let fromDate = $("#fromDate").val();
             let toDate = $("#toDate").val();
-            if (fromDate == null) {
-                window.app.showMessage("No date selected", "error");
+            if (fromDate == null || fromDate == "") {
+                window.app.showMessage("Date not selected", "error");
                 return;
             }
             if ($scope.employeeList.length == 0) {
                 window.app.showMessage("No Employees to Assign.", "error");
                 return;
+            }
+            if ($scope.employeeList.length > 0) {
+                var ischecked = 0;
+                $.each($scope.employeeList, function(i,v){
+                    if(v.checked == true){
+                        ischecked = 1;
+                    }
+                });
+                if(ischecked == 0){
+                    window.app.showMessage("Assign any employees.", "error");
+                    return;
+                }
             }
             if ($scope.sp == null) {
                 window.app.showMessage("Select the Attendance type first to assign to", "error");
