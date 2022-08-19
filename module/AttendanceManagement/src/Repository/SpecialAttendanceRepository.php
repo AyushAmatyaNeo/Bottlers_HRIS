@@ -116,7 +116,7 @@ class SpecialAttendanceRepository extends HrisRepository implements RepositoryIn
     END;
     ";
 
-    // print_r($sql);die;
+     //echo '<pre>';print_r($sql);die;
     $this->executeStatement($sql, $boundedParameter);
   }
 
@@ -132,7 +132,7 @@ class SpecialAttendanceRepository extends HrisRepository implements RepositoryIn
     $boundedParameter = [];
     $boundedParameter['employeeId'] = $employeeId;
     $boundedParameter['date'] = $date;
-    $this->executeStatement("BEGIN HRIS_REATTENDANCE(:date, :employeeId, :date); END;", $boundedParameter);
+    $this->executeStatement("BEGIN HRIS_REATTENDANCE('$date', '$employeeId', '$date'); END;", $boundedParameter);
   }
 
 }
