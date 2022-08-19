@@ -92,6 +92,20 @@ return [
                     ]
                 ],
             ],
+            'shiftRoaster'=>[
+                'type'=>Segment::class,
+                'options'=>[
+                    'route'=>'/attendance/shiftRoaster[/:action[/:id]]',
+                    'constants'=>[
+                        'action'=>'[a-zA-Z][a-zA-Z0-9]*',
+                        'id'=>'[0-9]+',
+                    ],
+                    'defaults'=>[
+                        'controller' => Controller\ShiftRoaster::class,
+                        'index'=>'index',
+                    ]
+                ],
+            ],
             'attendancestatus' => [
                 'type' => Segment::class,
                 'options' => [
@@ -192,6 +206,24 @@ return [
                 ],
             ],
         ],
+        'shiftRoaster'=>[
+            [
+                'label'=>'Shift Roaster',
+                'route'=>'shiftRoaster',
+            ],
+            [
+                'label'=>'Shit Roaster',
+                'route'=>'shiftRoaster',
+                'pages'=>[
+                    [
+                        'label'=>'List',
+                        'route'=>'shiftRoaster',
+                        'action'=>'index',
+                    ],
+                ],
+            ],  
+        ],
+
         'attendancebyhr' => [
             [
                 'label' => 'Attendance',
@@ -388,8 +420,7 @@ return [
             Controller\Penalty::class => ControllerFactory::class,
             Controller\Roaster::class => ControllerFactory::class,
             Controller\GroupShiftAssign::class => ControllerFactory::class,
-            Controller\Whereabouts::class => ControllerFactory::class,
-            Controller\SpecialAttendanceController::class => ControllerFactory::class
+            Controller\Whereabouts::class => ControllerFactory::class
         ],
     ],
     'view_manager' => [

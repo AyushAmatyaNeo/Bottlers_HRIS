@@ -102,8 +102,6 @@
                             $dailyTrainingHour.val('');
                             $dailyTrainingHour.prop('readonly',false);
                             }
-                    
-            
                         $title.val((training == null) ? '' : training["TRAINING_NAME"]);
                         $startDate.datepicker('setStartDate', startDate);
                         $startDate.datepicker('setEndDate', endDate);

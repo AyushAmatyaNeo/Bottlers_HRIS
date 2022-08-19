@@ -1,9 +1,9 @@
 (function ($, app) {
     'use strict';
     $(document).ready(function () {
-        app.startEndDatePickerWithNepali('nepaliFromDate', 'fromDate', 'nepaliToDate', 'toDate', null, true);
+        app.startEndDatePickerWithNepali('nepaliFromDate', 'fromDate', 'c', 'toDate', null, true);
         var $tableContainer = $("#leaveRequestStatusTable");
-        var $leave = $('#leaveId');
+        var $leave = $('#companyId');
         var $status = $('#leaveRequestStatusId');
         var $search = $('#search');
         var $bulkActionDiv = $('#bulkActionDiv');
