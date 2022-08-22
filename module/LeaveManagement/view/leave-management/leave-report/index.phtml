@@ -23,6 +23,7 @@ $this->headScript()
     document.acl =<?php echo json_encode($acl); ?>;
     document.preference =<?php echo json_encode($preference) ?>;
     document.pullLeaveReportListLink='<?=$this->url("leaveReport",["action"=>"pullLeaveReportList"])?>';
+    document.getLeaveYearMonthLink = '<?php echo $this->url("leaveReport", ['action' => 'getLeaveYearMonth']); ?>';
 </script>
 
 
@@ -82,22 +83,14 @@ if ($this->message && (sizeof($this->messages)>1)){
 <div class="portlet-body">
     <div class="row">
         <div class="col-sm-2">
-            <label>From Date</label>
-            <input type="text" id="fromDate"  name="fromDate" class="form-control reset-field" />
+            <label>Year</label> <br>
+            <select  id="leaveYear"></select>
         </div>
-        <!-- <div class="col-sm-2">
-            <label>From Date Nepali</label>
-            <input type="text" id="nepaliFromDate"  name="nepaliFromDate" class="form-control reset-field" />
-        </div> -->
-        <div class="col-sm-2">
-            <label>To Date</label>
-            <input type="text" id="toDate"  name="toDate" class="form-control reset-field" />
-        </div>
-        <!-- <div class="col-sm-2">
-            <label>To Date Nepali</label>
-            <input type="text" id="nepaliToDate"  name="nepaliToDate" class="form-control reset-field"/>
-        </div> -->
-        <div class="col-sm-2">
+       <div class="col-sm-2">
+        <label>Month</label> <br>
+        <select id="leaveMonth"></select>
+       </div>
+        <div class="col-sm-2 " >
             <label>Company</label>
             <select multiple class="form-control" name="company" id="companyId">
             </select>
@@ -114,4 +107,3 @@ if ($this->message && (sizeof($this->messages)>1)){
 <div class="leaveReportTable" id="leaveReportTable">
 
 </div>
- 
