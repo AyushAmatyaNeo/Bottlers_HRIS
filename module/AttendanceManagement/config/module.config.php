@@ -22,6 +22,20 @@ return [
                     ]
                 ],
             ],
+            'special-attendance' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/attendance/special[/:action[/:id]]',
+                    'constants' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\SpecialAttendanceController::class,
+                        'action' => 'index',
+                    ]
+                ],
+            ],
             'groupshiftassign' => [
                 'type' => Segment::class,
                 'options' => [
@@ -406,8 +420,7 @@ return [
             Controller\Penalty::class => ControllerFactory::class,
             Controller\Roaster::class => ControllerFactory::class,
             Controller\GroupShiftAssign::class => ControllerFactory::class,
-            Controller\Whereabouts::class => ControllerFactory::class,
-            Controller\ShiftRoaster::class=>ControllerFactory::class,
+            Controller\Whereabouts::class => ControllerFactory::class
         ],
     ],
     'view_manager' => [
