@@ -25,7 +25,7 @@ $this->headScript()
 	document.expenseeditLink = '<?= $this->url("financeStatus", ["action" => "edit"]) ?>';
 </script>
 <div class="page-bar">
-    <?= $this->navigation('Zend\Navigation\travelStatus')->breadcrumbs()->setMinDepth(0)->setPartial('partial/breadcrumb') ?>
+    <?= $this->navigation('Zend\Navigation\financeStatus')->breadcrumbs()->setMinDepth(0)->setPartial('partial/breadcrumb') ?>
 </div>
 <?php
 if ($this->messages && (sizeof($this->messages) > 1)) {

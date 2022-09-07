@@ -3,7 +3,7 @@
     $(document).ready(function(){
         app.startEndDatePickerWithNepali('nepaliFromDate', 'fromDate', 'c', 'toDate', null, true);
 
-        var $table=$('#leaveReportTable');
+        var $table=$("#leaveReportTable");
         var $search = $('#search');
         var $companyId = $('#companyId');
 
@@ -12,30 +12,30 @@
         });
 
       
-
+  debugger;
         app.initializeKendoGrid($table,[
-            {field:"Head_count", title:"Function"},
-            {field:"Total_employee",title:"Head Count"},
-            {field:"Total_Leave_Assign",title:"Earned Leave"},
-            {field:"Leave_Used",title:"Actual Leave Used"},
-            {field:"Used_leave_Percentage",title:"Used Leave %"},
+            {field:"HEAD_COUNT", title:"Function"},
+            {field:"TOTAL_EMPLOYEE",title:"Head Count"},
+            {field:"TOTAL_LEAVE_ASSIGN",title:"Earned Leave"},
+            {field:"LEAVE_USED",title:"Actual Leave Used"},
+            {field:"USED_LEAVE_PERCENTAGE",title:"Used Leave %"},
 
         ]);
 
-        // app.searchTable('leaveReportTable');
+        /// app.searchTable('leaveReportTable');
 
         // app.pullDataById("", {}).then(function (response) {
         //     app.renderkendoGrid($table, response.data);
         // }, function (error) {
 
-        // });
+        /// });
 
         var exportMap = {
-            'Head_count':'Function',
-            'Total_employee':'Head Count',
-            'Total_Leave_Assign':'Earned Leave',
-            'Leave_Used':'Actual Leave Used',
-            'Used_leave_Percentage':'Used Leave %'
+            'HEAD_COUNT':'Function',
+            'TOTAL_EMPLOYEE':'Head Count',
+            'TOTAL_LEAVE_ASSIGN':'Earned Leave',
+            'LEAVE_USED':'Actual Leave Used',
+            'USED_LEAVE_PERCENTAGE':'Used Leave %'
         }
         // map = app.prependPrefExportMap(map);
         var months=null;
@@ -54,7 +54,7 @@
                 'leaveMonth':$month.val()
             }).then(function(success){
                 App.unblockUI("#hris-page-content");
-                console.log(success);
+                
                 app.renderKendoGrid($table,success.data);
             },function(failure){
                 App.unblockUI('#hris_page-content');

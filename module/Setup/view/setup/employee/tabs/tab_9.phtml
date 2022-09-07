@@ -40,17 +40,17 @@ $dob = $formNine->get('dob');
                         <td>
                             <input type="text" ng-model="relation.personName" name="personName_{{relation.checkbox}}" id="personName_{{relation.checkbox}}" class="form-control" value="" required="required">
                             <div ng-show="employeeRelationForm.$submitted || employeeRelationForm.dob_{{relation.checkbox}}.$touched">
-                                <ul ng-show="employeeRelationForm.personName_{{relation.checkbox}}.$error.required" class="help-block error">
+                                <!-- <ul ng-show="employeeRelationForm.personName_{{relation.checkbox}}.$error.required" class="help-block error">
                                     <li>Name is required.</li>
-                                </ul>
+                                </ul> -->
                             </div>
                         </td>
                         <td>
                             <input dvalue="{{relation.dob}}" datepicker ng-model="relation.dob"  type="text"  name="dob_{{relation.checkbox}}" required="required" class="form-control" id="dob_{{relation.checkbox}}" value="">
                             <div ng-show="employeeRelationForm.$submitted || employeeRelationForm.dob_{{relation.checkbox}}.$touched">
-                                <ul ng-show="employeeRelationForm.dob_{{relation.checkbox}}.$error.required" class="help-block error">
+                                <!-- <ul ng-show="employeeRelationForm.dob_{{relation.checkbox}}.$error.required" class="help-block error">
                                     <li>Date is required.</li>
-                                </ul>
+                                </ul> -->
                             </div>
                         </td>
                         <td>

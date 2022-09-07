@@ -46,7 +46,7 @@ $submit = $form->get('submit');
 $submit->setAttribute('value', 'Approve');
 $submit->setAttribute('id', 'approve');
 
-$form->setAttribute('action', $this->url('travelStatus', ['action' => 'action', 'id' => $id]));
+$form->setAttribute('action', $this->url('financeStatus', ['action' => 'action', 'id' => $id]));
 
 
 $form->prepare();
@@ -86,7 +86,7 @@ print $this->form()->openTag($form);
                                     </td>
                                     <td width="15">:</td>
                                     <td>
-                                        <?= $recommender ?>
+                                    <?php echo $detail['RECOMMENDER_NAME']; ?>
                                     </td>
                                 </tr>  
 
@@ -120,7 +120,8 @@ print $this->form()->openTag($form);
                                     </td>
                                     <td width="15">:</td>
                                     <td>
-                                        <?= $approver ?>
+                                    <?php echo $detail['APPROVER_NAME']; ?>
+
                                     </td>
                                 </tr>     
                             </table>

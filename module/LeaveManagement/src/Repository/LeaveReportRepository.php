@@ -158,9 +158,10 @@ class LeaveReportRepository extends HrisRepository{
             department_name)
             ) group by Head_count
         ";
-         $statement = $this->adapter->query($sql);
-         $result = $statement->execute();
-         return $result->current();
+         return $this->rawQuery($sql);
+        //  $statement = $this->adapter->query($sql);
+        //  $result = $statement->execute();
+        //  return $result->current();
     }
     public function fetchLeaveYearMonth() {
         $rowset = $this->leaveMonthTableGateway->select(function (Select $select) {

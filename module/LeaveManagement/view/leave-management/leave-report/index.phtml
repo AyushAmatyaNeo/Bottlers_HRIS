@@ -18,6 +18,21 @@ $this->headScript()
     ->appendFile($this->basepath('js/Leavemanagement/LeaveReport/index.js'));
 
 ?>
+<style>
+    .table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #e3e3e3 !important;
+}
+ .table th {
+    padding: 0.75rem;
+    border-top: 1px solid #e3e3e3;
+    background-color:#f1f4f7;
+    box-shadow: #ccc;
+    text-align: center;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+}
+</style>
 <script>
     document.searchValues =<?php echo json_encode($searchValues) ?>;
     document.acl =<?php echo json_encode($acl); ?>;
@@ -105,5 +120,27 @@ if ($this->message && (sizeof($this->messages)>1)){
   </div>
 </div>
 <div class="leaveReportTable" id="leaveReportTable">
+    <!-- <table class="table">
+        <thead class="thead-dark">
+            <tr style="height:50px ;" >
+                <th class="thead" >Function</th>
+                <th class="thead">Head Count</th>
+                <th class="thead">Earned Leave</th>
+                <th class="thead">Actual Leave Used</th>
+                <th class="thead">Used Leave %</th>
+            </tr>
+            <?php
+                // while($rows=$result->fetch_assoc())
+                // {
+                // ?>
+                // }
+                // <tr>
+                //     <td><?php echo $recordList['']?></td>
+                // </tr>
+            <?php
+                // }
+            ?>
+        </thead>
 
+    </table> -->
 </div>

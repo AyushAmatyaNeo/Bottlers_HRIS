@@ -271,7 +271,6 @@ class NewTravelRequestRepository extends HrisRepository implements RepositoryInt
         $select->where(["TR.TRAVEL_ID" => $id]);
         $select->order("TR.REQUESTED_DATE DESC");
         $statement = $sql->prepareStatementForSqlObject($select);
-
         $result = $statement->execute();
         return $result->current();
     }
