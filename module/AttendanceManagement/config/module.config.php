@@ -412,6 +412,7 @@ return [
     'controllers' => [
         'factories' => [
             Controller\ShiftAssign::class => ControllerFactory::class,
+            Controller\SpecialAttendanceController::class => ControllerFactory::class,
             Controller\AttendanceByHr::class => ControllerFactory::class,
             Controller\ShiftSetup::class => ControllerFactory::class,
             Controller\AttendanceStatus::class => ControllerFactory::class,
@@ -420,7 +421,8 @@ return [
             Controller\Penalty::class => ControllerFactory::class,
             Controller\Roaster::class => ControllerFactory::class,
             Controller\GroupShiftAssign::class => ControllerFactory::class,
-            Controller\Whereabouts::class => ControllerFactory::class
+            Controller\Whereabouts::class => ControllerFactory::class,
+            Controller\ShiftRoaster::class => ControllerFactory::class
         ],
     ],
     'view_manager' => [

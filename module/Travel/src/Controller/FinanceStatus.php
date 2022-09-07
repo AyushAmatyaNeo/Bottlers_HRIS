@@ -34,10 +34,6 @@ class FinanceStatus extends HrisController {
     }
 
     public function indexAction() {
-<<<<<<< HEAD
-        // var_dump('sgfds');die;
-=======
->>>>>>> 3f24e63a9a56b420dfd498376929e98bd6a8e43b
         $request = $this->getRequest();
         if ($request->isPost()) {
             try {
