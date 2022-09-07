@@ -18,11 +18,27 @@ $this->headScript()
     ->appendFile($this->basepath('js/Leavemanagement/LeaveReport/index.js'));
 
 ?>
+<style>
+    .table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #e3e3e3 !important;
+}
+ .table th {
+    padding: 0.75rem;
+    border-top: 1px solid #e3e3e3;
+    background-color:#f1f4f7;
+    box-shadow: #ccc;
+    text-align: center;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+}
+</style>
 <script>
     document.searchValues =<?php echo json_encode($searchValues) ?>;
     document.acl =<?php echo json_encode($acl); ?>;
     document.preference =<?php echo json_encode($preference) ?>;
     document.pullLeaveReportListLink='<?=$this->url("leaveReport",["action"=>"pullLeaveReportList"])?>';
+    document.getLeaveYearMonthLink = '<?php echo $this->url("leaveReport", ['action' => 'getLeaveYearMonth']); ?>';
 </script>
 
 
@@ -82,22 +98,14 @@ if ($this->message && (sizeof($this->messages)>1)){
 <div class="portlet-body">
     <div class="row">
         <div class="col-sm-2">
-            <label>From Date</label>
-            <input type="text" id="fromDate"  name="fromDate" class="form-control reset-field" />
+            <label>Year</label> <br>
+            <select  id="leaveYear"></select>
         </div>
-        <!-- <div class="col-sm-2">
-            <label>From Date Nepali</label>
-            <input type="text" id="nepaliFromDate"  name="nepaliFromDate" class="form-control reset-field" />
-        </div> -->
-        <div class="col-sm-2">
-            <label>To Date</label>
-            <input type="text" id="toDate"  name="toDate" class="form-control reset-field" />
-        </div>
-        <!-- <div class="col-sm-2">
-            <label>To Date Nepali</label>
-            <input type="text" id="nepaliToDate"  name="nepaliToDate" class="form-control reset-field"/>
-        </div> -->
-        <div class="col-sm-2">
+       <div class="col-sm-2">
+        <label>Month</label> <br>
+        <select id="leaveMonth"></select>
+       </div>
+        <div class="col-sm-2 " >
             <label>Company</label>
             <select multiple class="form-control" name="company" id="companyId">
             </select>
@@ -112,6 +120,27 @@ if ($this->message && (sizeof($this->messages)>1)){
   </div>
 </div>
 <div class="leaveReportTable" id="leaveReportTable">
+    <!-- <table class="table">
+        <thead class="thead-dark">
+            <tr style="height:50px ;" >
+                <th class="thead" >Function</th>
+                <th class="thead">Head Count</th>
+                <th class="thead">Earned Leave</th>
+                <th class="thead">Actual Leave Used</th>
+                <th class="thead">Used Leave %</th>
+            </tr>
+            <?php
+                // while($rows=$result->fetch_assoc())
+                // {
+                // ?>
+                // }
+                // <tr>
+                //     <td><?php echo $recordList['']?></td>
+                // </tr>
+            <?php
+                // }
+            ?>
+        </thead>
 
+    </table> -->
 </div>
- 

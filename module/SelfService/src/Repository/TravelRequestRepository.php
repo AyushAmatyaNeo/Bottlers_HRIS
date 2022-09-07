@@ -122,8 +122,7 @@ class TravelRequestRepository implements RepositoryInterface {
                 EXCEPTION
                 WHEN NO_DATA_FOUND THEN
                   DBMS_OUTPUT.PUT('NO DATA FOUND FOR ID =>'|| V_TRAVEL_ID);
-                END;
-");
+END;");
     }
  
     public function edit(Model $model, $id) {

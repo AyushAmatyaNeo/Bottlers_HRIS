@@ -5,9 +5,11 @@ namespace LeaveManagement\Controller;
 use Application\Controller\HrisController;
 use Application\Helper\EntityHelper;
 use Application\Helper\Helper;
+use Application\Model\FiscalYear;
 use Exception;
 use LeaveManagement\Repository\LeaveReportRepository;
 use Zend\Authentication\Storage\StorageInterface;
+use Zend\Db\Adapter\Adapter;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\View\Model\JsonModel;
 
@@ -22,11 +24,12 @@ public function __construct(AdapterInterface $adapter,StorageInterface $storage)
 
     public function indexAction()
     {
+        $fiscalYearKV=EntityHelper::getTableKVList($this->adapter,FiscalYear::TABLE_NAME,FiscalYear::FISCAL_YEAR_ID,[FiscalYear::FISCAL_YEAR_NAME]);
         return $this->stickFlashMessagesTo([
             'searchValues'=>EntityHelper::getSearchData($this->adapter),
             'acl' => $this->acl,
-            'preference' => $this->preference
-
+            'preference' => $this->preference,
+            'fiscalYearKV'=>$fiscalYearKV
 
         ]);
     }
@@ -35,15 +38,25 @@ public function __construct(AdapterInterface $adapter,StorageInterface $storage)
         try{
             $request=$this->getRequest();
             $data=$request->getPost();
-            // echo '<pre>';print_r($data);die;
             $recordList=$this->repository->getLeaveReport($data);
-            // echo '<pre>';print_r($recordList);die;
             return new JsonModel(["success"=>"true","data"=>$recordList,"message"=>null]);
         } catch(Exception $e){
             return new JsonModel(['success'=>false,'data'=>null,'message'=>$e->getMessage()]);
         }
     }
 
+    public function getLeaveYearMonthAction(){
+        try{
+        $data['years']=EntityHelper::getTableList($this->adapter,"HRIS_LEAVE_YEARS",["LEAVE_YEAR_ID","LEAVE_YEAR_NAME"]);
+        $data['months']=iterator_to_array($this->repository->fetchLeaveYearMonth(),false);
+
+        //echo '<pre>';print_r(  $data['months']);die;
+        $data['currentMonth']=$this->repository->getCurrentLeaveMonth();
+        return new JsonModel(['success'=>true,'data'=>$data,'error'=>'']);
+    }catch (Exception $e){
+        return new JsonModel(['success'=>false,'data'=>[],'error'=>$e->getMessage()]);
+    }
+}
     
 }
-?>
+

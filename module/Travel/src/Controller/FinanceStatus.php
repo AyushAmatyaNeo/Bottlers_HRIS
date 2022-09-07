@@ -34,16 +34,14 @@ class FinanceStatus extends HrisController {
     }
 
     public function indexAction() {
-<<<<<<< HEAD
-        // var_dump('sgfds');die;
-=======
->>>>>>> 3f24e63a9a56b420dfd498376929e98bd6a8e43b
         $request = $this->getRequest();
+
         if ($request->isPost()) {
             try {
                 $search = $request->getPost();
                 // echo '<pre>';print_r($search);die;
                 $list = $this->travelStatusRepository->getFinanceRecord($search);
+        // echo '<pre>';print_r($request);die;
 
                 if($this->preference['displayHrApproved'] == 'Y'){
                     for($i = 0; $i < count($list); $i++){
@@ -104,10 +102,11 @@ class FinanceStatus extends HrisController {
         // print_r(' bvcn');die;
         $id = (int) $this->params()->fromRoute('id');
         if ($id === 0) {
-            return $this->redirect()->toRoute("travelStatus");
+            return $this->redirect()->toRoute("financeStatus");
         }
         $travelRequestModel = new TravelRequest();
         $detail = $this->travelApproveRepository->fetchById($id);
+        // echo '<pre>';print_r($detail);die;
 
         if($this->preference['displayHrApproved'] == 'Y' && $detail['HARDCOPY_SIGNED_FLAG'] == 'Y'){
             $detail['APPROVER_ID'] = '-1';
