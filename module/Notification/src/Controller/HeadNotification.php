@@ -504,7 +504,7 @@ class HeadNotification {
         $recommdAppModel = self::findRecApp($request->employeeId, $adapter);
        
         $notification = self::initializeNotificationModel(
-            $recommdAppModel[RecommendApprove::APPROVED_BY], $hrDirId[0]['EMPLOYEE_ID'] , \Notification\Model\TravelReqNotificationModel::class, $adapter);
+            $recommdAppModel[RecommendApprove::EMPLOYEE_ID], $hrDirId[0]['EMPLOYEE_ID'] , \Notification\Model\TravelReqNotificationModel::class, $adapter);
             
         $notification->destination = $request->destination;
         $notification->fromDate = $request->fromDate;
@@ -533,7 +533,7 @@ class HeadNotification {
         $desc = "Travel Approval";
 
         self::addNotifications($notification, $title, $desc, $adapter);
-        self::sendEmail($notification, 11, $adapter, $url);
+        self::sendEmail($notification, 9, $adapter, $url);
        
         // return 'sdv';
         // var_dump('here6'); die;
@@ -576,7 +576,7 @@ class HeadNotification {
         $desc = "Travel Approval";
 
         self::addNotifications($notification, $title, $desc, $adapter);
-        self::sendEmail($notification, 11, $adapter, $url);
+        self::sendEmail($notification, 9, $adapter, $url);
        
         // return 'sdv';
         // var_dump('here6'); die;
@@ -617,7 +617,7 @@ class HeadNotification {
         $desc = "Travel Approval";
 
         self::addNotifications($notification, $title, $desc, $adapter);
-        self::sendEmail($notification, 11, $adapter, $url);
+        self::sendEmail($notification, 9, $adapter, $url);
         
         // return 'sdv';
         // var_dump('here6'); die;
@@ -671,7 +671,7 @@ class HeadNotification {
         //  $recommdAppModel = self::findthirdApprover($designation, $adapter);
         $recommdAppModel = self::findRecApp($request->employeeId, $adapter);
         $notification = self::initializeNotificationModel(
-            $recommdAppModel[RecommendApprove::APPROVED_BY], $request->employeeId  , \Notification\Model\TravelReqNotificationModel::class, $adapter);
+            $recommdAppModel[RecommendApprove::EMPLOYEE_ID], $request->employeeId  , \Notification\Model\TravelReqNotificationModel::class, $adapter);
             
             
         $notification->destination = $request->destination;

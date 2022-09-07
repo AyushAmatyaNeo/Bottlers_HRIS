@@ -422,7 +422,11 @@ return [
             Controller\Roaster::class => ControllerFactory::class,
             Controller\GroupShiftAssign::class => ControllerFactory::class,
             Controller\Whereabouts::class => ControllerFactory::class,
+<<<<<<< HEAD
             Controller\ShiftRoaster::class => ControllerFactory::class
+=======
+            controller\SpecialAttendanceController::class=>ControllerFactory::class
+>>>>>>> a22011afa63023f9ded85a6c7f625f3258895d41
         ],
     ],
     'view_manager' => [

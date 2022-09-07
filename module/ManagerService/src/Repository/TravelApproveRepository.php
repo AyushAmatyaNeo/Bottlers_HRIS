@@ -85,29 +85,27 @@ class TravelApproveRepository implements RepositoryInterface {
         $select->columns([
             new Expression("TR.EMPLOYEE_ID AS EMPLOYEE_ID"),
             new Expression("TR.TRAVEL_ID AS TRAVEL_ID"),
-            new Expression("TR.TRAVEL_ID AS TRAVEL_TYPE"),
             new Expression("TR.TRAVEL_CODE AS TRAVEL_CODE"),
-            new Expression("TR.DEPARTURE AS DEPARTURE"),
             new Expression("TR.DESTINATION AS DESTINATION"),
+            new Expression("TR.DEPARTURE AS DEPARTURE"),
             new Expression("TR.HARDCOPY_SIGNED_FLAG AS HARDCOPY_SIGNED_FLAG"),
             new Expression("TR.REQUESTED_AMOUNT AS REQUESTED_AMOUNT"),
             new Expression("TR.PURPOSE AS PURPOSE"),
             new Expression("TR.TRANSPORT_TYPE AS TRANSPORT_TYPE"),
             new Expression("INITCAP(HRIS_GET_FULL_FORM(TR.TRANSPORT_TYPE,'TRANSPORT_TYPE')) AS TRANSPORT_TYPE_DETAIL"),
             new Expression("TR.REQUESTED_TYPE AS REQUESTED_TYPE"),
-            new Expression("(CASE WHEN LOWER(TR.REQUESTED_TYPE) = 'ad' THEN 'Advance' WHEN LOWER(TR.REQUESTED_TYPE) = 'ia' THEN 'Advance'
-             ELSE 'Expense' END) AS REQUESTED_TYPE_DETAIL"),
-            new Expression("INITCAP(TO_CHAR(TR.FROM_DATE, 'DD-MON-YYYY')) AS DEPARTURE_DATE"),
-            new Expression("INITCAP(TO_CHAR(TR.TO_DATE, 'DD-MON-YYYY')) AS RETURNED_DATE"),
+            new Expression("(CASE WHEN LOWER(TR.REQUESTED_TYPE) = 'ad' THEN 'Advance' ELSE 'Expense' END) AS REQUESTED_TYPE_DETAIL"),
+            new Expression("INITCAP(TO_CHAR(TR.DEPARTURE_DATE, 'DD-MON-YYYY')) AS DEPARTURE_DATE"),
+            new Expression("INITCAP(TO_CHAR(TR.RETURNED_DATE, 'DD-MON-YYYY')) AS RETURNED_DATE"),
             new Expression("INITCAP(TO_CHAR(TR.FROM_DATE, 'DD-MON-YYYY')) AS FROM_DATE"),
             new Expression("BS_DATE(TR.FROM_DATE) AS FROM_DATE_BS"),
             new Expression("INITCAP(TO_CHAR(TR.TO_DATE, 'DD-MON-YYYY')) AS TO_DATE"),
             new Expression("BS_DATE(TR.TO_DATE) AS TO_DATE_BS"),
-            new Expression("((TR.TO_DATE)-TRUNC(TR.FROM_DATE))+1 AS DURATION"),
+            new Expression("trunc(tr.TO_DATE-tr.FROM_DATE + 1) AS DURATION"),
             new Expression("INITCAP(TO_CHAR(TR.REQUESTED_DATE, 'DD-MON-YYYY')) AS REQUESTED_DATE"),
             new Expression("TR.REMARKS AS REMARKS"),
             new Expression("TR.STATUS AS STATUS"),
-            new Expression("LEAVE_STATUS_DESC(TR.STATUS)  AS STATUS_DETAIL"),
+            new Expression("travel_status_desc(TR.STATUS) AS STATUS_DETAIL"),
             new Expression("TR.RECOMMENDED_BY AS RECOMMENDED_BY"),
             new Expression("INITCAP(TO_CHAR(TR.RECOMMENDED_DATE, 'DD-MON-YYYY')) AS RECOMMENDED_DATE"),
             new Expression("TR.RECOMMENDED_REMARKS AS RECOMMENDED_REMARKS"),
@@ -116,6 +114,7 @@ class TravelApproveRepository implements RepositoryInterface {
             new Expression("TR.APPROVED_REMARKS AS APPROVED_REMARKS"),
             new Expression("TR.REFERENCE_TRAVEL_ID AS REFERENCE_TRAVEL_ID"),
             new Expression("TR.TRAVEL_TYPE AS TRAVEL_TYPE"),
+            new Expression("TR.CURRENCY_NAME AS CURRENCY"),
             ], true);
 
         $select->from(['TR' => TravelRequest::TABLE_NAME])
@@ -140,9 +139,7 @@ class TravelApproveRepository implements RepositoryInterface {
         $select->where(["TR.TRAVEL_ID" => $id]);
         $select->order("TR.REQUESTED_DATE DESC");
         $statement = $sql->prepareStatementForSqlObject($select);
-        //  echo '<pre>';print_r($statement );die;
         $result = $statement->execute();
-        
         return $result->current();
     }
 

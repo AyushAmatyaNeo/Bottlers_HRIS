@@ -112,6 +112,10 @@ class TravelStatusRepository extends HrisRepository {
         return $this->rawQuery($finalSql);
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a22011afa63023f9ded85a6c7f625f3258895d41
     public function getFinanceRecord($search):array {
       $condition = "";
       $condition = EntityHelper::getSearchConditon($search['companyId'], $search['branchId'], $search['departmentId'], $search['positionId'], $search['designationId'], $search['serviceTypeId'], $search['serviceEventTypeId'], $search['employeeTypeId'], $search['employeeId'], null, null, $search['functionalTypeId']);
@@ -214,6 +218,11 @@ class TravelStatusRepository extends HrisRepository {
   }
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> a22011afa63023f9ded85a6c7f625f3258895d41
     public function notSettled(): array {
         $sql = "SELECT TR.TRAVEL_ID                   AS TRAVEL_ID,
                   TR.TRAVEL_CODE                      AS TRAVEL_CODE,
