@@ -5,7 +5,7 @@
 
         var subLeaveReference = document.subLeaveReference;
         var subLeaveMaxDays = document.subLeaveMaxDays;
-//        console.log(subLeaveMaxDays);
+    //    console.log(subLeaveMaxDays);
 
         var $employee = $('#employeeId');
         var $leave = $('#leaveId');
@@ -51,7 +51,6 @@
         var leaveList = [];
         var availableDays = null;
 
-
         var calculateAvailableDays = function (startDateStr, endDateStr, halfDay, employeeId, leaveId) {
             if (startDateStr === null || startDateStr == '' || endDateStr === null || endDateStr == '' || employeeId === null || employeeId == '' || leaveId === null || leaveId == '') {
                 return;
@@ -67,7 +66,6 @@
                     app.showMessage(response.error, 'error');
                     return;
                 }
-
                 var dateDiff = parseFloat(response.data['AVAILABLE_DAYS']);
                 var availableDays = parseFloat($availableDays.val());
 

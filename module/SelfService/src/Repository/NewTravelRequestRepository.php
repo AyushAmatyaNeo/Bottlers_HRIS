@@ -141,7 +141,6 @@ class NewTravelRequestRepository extends HrisRepository implements RepositoryInt
         }
         $select->order("TR.REQUESTED_DATE DESC");
         $statement = $sql->prepareStatementForSqlObject($select);
-        // echo '<pre>';print_r($statement);die;
 
         $result = $statement->execute();
         // echo '<pre>';print_r($select);die;

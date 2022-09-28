@@ -59,6 +59,15 @@ class LeaveRequestRepository implements RepositoryInterface {
     public function fetchAll() {
         // TODO: Implement fetchAll() method.
     }
+// to validate leave balance
+
+    public function fetchBalance($leaveId,$employeeId,$endDate){
+        $sql="select LS.balance from hris_employee_leave_assign LS
+        left join hris_month_code MC on  MC.fiscal_year_month_no=LS.fiscal_year_month_no   where leave_id=$leaveId
+        and ls.employee_id=$employeeId and to_char(LS.created_dt,'YYYY')=to_char(TO_DATE('$endDate', 'DD-MM-YYYY'),'YYYY')";
+        $statement=$this->adapter->query($sql);
+        return $statement->execute()->current();
+    }
 
     //to get the all applied leave request list
     public function selectAll($employeeId) {

@@ -32,6 +32,7 @@ class TravelRequest extends Model{
     const TRAVEL_TYPE = "TRAVEL_TYPE";
     const CONVERSION_RATE = "CONVERSION_RATE";
     const CURRENCY_NAME = "CURRENCY_NAME";
+    const REQUESTED_BY = "REQUESTED_BY";
     
     public $travelId;
     public $employeeId;
@@ -60,6 +61,7 @@ class TravelRequest extends Model{
     public $traveltype;
     public $conversionrate;
     public $currencyname;
+    public $requestedBy;
 
     public $mappings= [
         'travelId'=>self::TRAVEL_ID,
@@ -89,5 +91,7 @@ class TravelRequest extends Model{
         'traveltype' => self::TRAVEL_TYPE,
         'conversionrate' => self::CONVERSION_RATE,
         'currencyname' => self::CURRENCY_NAME,
+        'requestedBy' => self::REQUESTED_BY,
+
     ];   
 }

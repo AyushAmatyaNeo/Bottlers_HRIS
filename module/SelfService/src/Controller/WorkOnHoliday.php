@@ -86,7 +86,6 @@ class WorkOnHoliday extends HrisController {
         if ($id === 0) {
             return $this->redirect()->toRoute("workOnHoliday");
         }
-
         $holidays = $this->getHolidayList($this->employeeId);
         $holidaySE = $this->form->get('holidayId');
         $holidaySE->setValueOptions($holidays["holidayKVList"]);

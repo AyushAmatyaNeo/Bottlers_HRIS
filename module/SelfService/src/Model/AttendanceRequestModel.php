@@ -24,11 +24,11 @@ class AttendanceRequestModel extends Model  {
     const APPROVED_BY="APPROVED_BY";
     const APPROVED_DT="APPROVED_DT";
     const REQUESTED_DT="REQUESTED_DT";
-    const APPROVED_REMARKS="APPROVED_REMARKS";
-    
+    const APPROVED_REMARKS="APPROVED_REMARKS"; 
     const RECOMMENDED_BY = "RECOMMENDED_BY";
     const RECOMMENDED_DATE = "RECOMMENDED_DATE";
     const RECOMMENDED_REMARKS = "RECOMMENDED_REMARKS";
+    const REQUESTED_BY="REQUESTED_BY";
 
     public $id;
     public $employeeId;
@@ -43,10 +43,10 @@ class AttendanceRequestModel extends Model  {
     public $approvedDt;
     public $requestedDt;
     public $approvedRemarks;
-    
     public $recommendedBy;
     public $recommendedRemarks;
     public $recommendedDate;
+    public $requestedBy;
 
     public $mappings=[
         'id'=>self::ID,
@@ -64,6 +64,8 @@ class AttendanceRequestModel extends Model  {
         'approvedRemarks'=>self::APPROVED_REMARKS,
         'recommendedBy' => self::RECOMMENDED_BY,
         'recommendedDate' => self::RECOMMENDED_DATE,
-        'recommendedRemarks' => self::RECOMMENDED_REMARKS    
+        'recommendedRemarks' => self::RECOMMENDED_REMARKS,
+        'requestedBy' => self::REQUESTED_BY    
+    
     ];
 }

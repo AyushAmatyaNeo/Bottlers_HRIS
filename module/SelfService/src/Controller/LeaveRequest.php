@@ -107,8 +107,15 @@ class LeaveRequest extends HrisController {
         $request = $this->getRequest();
         if ($request->isPost()) { 
             $postData = $request->getPost(); 
+            //validate balance and user available days from controller
+            $balance=$this->repository->fetchBalance($postData->leaveId,$this->employeeId,$postData->endDate);
             $this->form->setData($postData);
             $leaveSubstitute = $postData->leaveSubstitute;
+            if(($postData->noOfDays)>=$balance['BALANCE'])
+            {
+                throw new Exception("The Requested Days is more than Actual Days");
+            }
+            else{
             if ($this->form->isValid()) {
                 $leaveRequest = new LeaveApply();
                 $leaveRequest->exchangeArrayFromForm($this->form->getData());
@@ -151,6 +158,8 @@ class LeaveRequest extends HrisController {
                 }
                 return $this->redirect()->toRoute("leaverequest");
             }
+         }
+         
         }
         
         $subLeaveReference='N';

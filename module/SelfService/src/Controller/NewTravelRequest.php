@@ -894,12 +894,12 @@ class NewTravelRequest extends HrisController {
         if ($id === 0) {
             return $this->redirect()->toRoute("newtravelrequest");
         }
-        $adid = 
         $detailxdc = $this->repository->fetchById($id);
         
          if ($detailxdc['REFERENCE_TRAVEL_ID'] != null) {
              # code..
              $detail = $this->repository->fetchById($detailxdc['REFERENCE_TRAVEL_ID']);
+
          }else{
             $detail = $this->repository->fetchById($id);
          }
@@ -910,7 +910,6 @@ class NewTravelRequest extends HrisController {
 
         $expenseDtlRepo = new TravelExpenseDtlRepository($this->adapter);
         $result = $expenseDtlRepo->fetchByTravelId($id);
-        // echo '<pre>';print_r($result);die;
         
         $totalAmount = 0;
         $balance = $detail['REQUESTED_AMOUNT'] - $totalAmount;

@@ -144,9 +144,11 @@ class AttendanceByHr extends HrisController {
                     $data = $request->getPost();
                     $data['requestId'] = ((int) Helper::getMaxId($this->adapter, AttendanceRequestModel::TABLE_NAME, "ID")) + 1;
                     $data['status'] = 'AP';
+                    $data['requestedBy'] =$this->employeeId;
                     $data['approvedBy'] = $this->employeeId;
                     $data['approvedRemarks'] = 'Auto Approved By HR';
                     $attendanceRepository = new AttendanceRepository($this->adapter);
+                    // echo '<pre>';print_r($data);die;
                     $attendanceRepository->insertAttendance($data);
                     $this->flashmessenger()->addMessage("Attendance Submitted Successfully!!");
                     return $this->redirect()->toRoute("attendancebyhr");

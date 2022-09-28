@@ -158,6 +158,7 @@ class LeaveReportRepository extends HrisRepository{
             department_name)
             ) group by Head_count
         ";
+        echo '<pre>';print_r($sql);die;
          return $this->rawQuery($sql);
         //  $statement = $this->adapter->query($sql);
         //  $result = $statement->execute();

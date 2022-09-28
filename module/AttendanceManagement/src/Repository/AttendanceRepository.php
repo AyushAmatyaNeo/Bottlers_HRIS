@@ -181,11 +181,11 @@ class AttendanceRepository implements RepositoryInterface {
       V_OUT_REMARKS VARCHAR2(200);
       BEGIN
       INSERT INTO HRIS_ATTENDANCE_REQUEST (ID, EMPLOYEE_ID, ATTENDANCE_DT, IN_TIME, OUT_TIME, 
-      IN_REMARKS, OUT_REMARKS, TOTAL_HOUR, STATUS, APPROVED_BY, APPROVED_DT, REQUESTED_DT, APPROVED_REMARKS)
+      IN_REMARKS, OUT_REMARKS, TOTAL_HOUR, STATUS, APPROVED_BY, APPROVED_DT, REQUESTED_DT, APPROVED_REMARKS,REQUESTED_BY)
       VALUES ({$data['requestId']}, {$data['employeeId']}, TO_DATE('{$data['attendanceDt']}', 'DD-MON-YYYY'), $inTime,
       $outTime,
       '{$data['inRemarks']}', '{$data['outRemarks']}', {$data['totalHour']}, '{$data['status']}', {$data['approvedBy']},
-      trunc(sysdate), trunc(sysdate), '{$data['approvedRemarks']}');
+      trunc(sysdate), trunc(sysdate), '{$data['approvedRemarks']}','{$data['requestedBy']}');
 
       SELECT IN_TIME, OUT_TIME, EMPLOYEE_ID, ATTENDANCE_DT, IN_REMARKS, OUT_REMARKS INTO 
       V_IN_TIME, V_OUT_TIME, V_EMPLOYEE_ID, V_ATTENDANCE_DT, V_IN_REMARKS, V_OUT_REMARKS

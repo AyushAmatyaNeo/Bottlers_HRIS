@@ -121,10 +121,11 @@ class TravelApply extends HrisController {
                 $model->fromDate = Helper::getExpressionDate($model->fromDate);
                 $model->toDate = Helper::getExpressionDate($model->toDate);
                 $model->traveltype = $postData['travelType'];
+                $model->requestedBy=$this->employeeId;
                 if($model->status == 'AP'){
                     $model->hardcopySignedFlag = 'Y';
                 }
-
+                // echo '<pre>';print_r($model);die;
                 $this->travelRequesteRepository->add($model);
 				
                 $this->flashmessenger()->addMessage("Travel Request Successfully added!!!");

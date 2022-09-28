@@ -80,6 +80,9 @@ class LeaveApply extends HrisController {
                 $leaveRequest->endDate = Helper::getExpressionDate($leaveRequest->endDate);
                 $leaveRequest->requestedDt = Helper::getcurrentExpressionDate();
                 $leaveRequest->status = "RQ";
+                $leaveRequest->requestedBy = $this->employeeId;
+                // echo '<pre>';print_r($leaveRequest);die;
+
                 
                 if(isset($postedData['subRefId']) && $postedData['subRefId']!=' '){
                 $leaveRequest->subRefId = $postedData['subRefId'];

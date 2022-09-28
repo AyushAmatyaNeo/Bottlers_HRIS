@@ -65,8 +65,7 @@ class TravelExpenseDtlRepository extends HrisRepository implements RepositoryInt
             HTE.CURRENCY as CURRENCY
         FROM HRIS_TRAVEL_EXPENSE HTE WHERE HTE.TRAVEL_ID = '{$travelId}'";
 
-        // var_dump($sql); die;
-        $result = $this->rawQuery($sql);
+$result = $this->rawQuery($sql);
         return $result;
     }
 
