@@ -282,8 +282,12 @@ class AttendanceByHr extends HrisController {
             $postedData = $request->getPost();
             $inTime = "TO_DATE('{$postedData['in_time']}', 'HH:MI AM')";
             $outTime = "TO_DATE('{$postedData['out_time']}', 'HH:MI AM')";
-            //return new JsonModel(['success' => true, 'data' => $postedData, 'error' => '']);
-            $this->repository->manualAttendance($postedData['employeeId'], Helper::getExpressionDate($postedData['attendanceDt'])->getExpression(), $postedData['action'], $postedData['impactOtherDays'] === 'true', $postedData['shiftId'], $inTime, $outTime);
+            // done for test
+            $createdBy=$this->employeeId;
+            // echo '<pre>';print_r($createdDt);die;
+
+            
+            $this->repository->manualAttendance($postedData['employeeId'], Helper::getExpressionDate($postedData['attendanceDt'])->getExpression(), $postedData['action'], $postedData['impactOtherDays'] === 'true', $postedData['shiftId'], $inTime, $outTime,$createdBy);
             return new JsonModel(['success' => true, 'data' => [], 'error' => '']);
         } catch (Exception $e) {
             return new JsonModel(['success' => false, 'data' => [], 'error' => $e->getMessage()]);
@@ -472,7 +476,6 @@ class AttendanceByHr extends HrisController {
         try {
             $request = $this->getRequest();
             $data = $request->getPost();
-
             $companyId = isset($data['companyId']) ? $data['companyId'] : -1;
             $branchId = isset($data['branchId']) ? $data['branchId'] : -1;
             $departmentId = isset($data['departmentId']) ? $data['departmentId'] : -1;

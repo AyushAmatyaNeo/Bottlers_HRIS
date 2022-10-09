@@ -706,17 +706,22 @@ class AttendanceDetailRepository implements RepositoryInterface {
         $result = $statement->execute();
         return $result->current();
     } 
- 
-    public function manualAttendance($employeeId, $attendanceDt, $action, $impactOtherDays, $shiftId = null, $in_time = null, $out_time = null) {
+    // created by and created Date for test 
+    
+    public function manualAttendance($employeeId, $attendanceDt, $action, $impactOtherDays, $shiftId = null, $in_time = null, $out_time = null,$createdBy) {                
         if ($impactOtherDays) { 
             $sql = "BEGIN
-                  HRIS_MANUAL_ATTENDANCE_ALL({$employeeId},{$attendanceDt},'{$action}', {$shiftId}, {$in_time}, {$out_time});
+                  HRIS_MANUAL_ATTENDANCE_ALL({$employeeId},{$attendanceDt},'{$action}', {$shiftId}, {$in_time}, {$out_time},{$createdBy});
                 END;";
         } else {
+
             $sql = "BEGIN
-                  HRIS_MANUAL_ATTENDANCE({$employeeId},{$attendanceDt},'{$action}', {$shiftId}, {$in_time}, {$out_time});
+                  HRIS_MANUAL_ATTENDANCE({$employeeId},{$attendanceDt},'{$action}', {$shiftId}, {$in_time}, {$out_time},{$createdBy});
                 END;";
+        echo '<pre>';print_r($sql);die;
+
         }
+
         $statement = $this->adapter->query($sql);
         $statement->execute();
     }
