@@ -1171,7 +1171,7 @@ class NewTravelRequest extends HrisController {
             array('gl' => 'Training Expenses', 'name' => 'Training Expenses'),
             array('gl' => 'Uniforms and Towels -Admin', 'name' => 'Uniforms and Towels -Admin'),
         );
-        // echo '<pre>'; print_r($result); die;
+        // echo '<pre>'; print_r($totalAmountSum['TOTAL']); die;
         return Helper::addFlashMessagesToArray($this, [
                     'form' => $this->form,
                     'recommender' => $detail['RECOMMENDED_BY_NAME'] == null ? $detail['RECOMMENDER_NAME'] : $detail['RECOMMENDED_BY_NAME'],
@@ -1183,7 +1183,7 @@ class NewTravelRequest extends HrisController {
                     'expenseHeads' => $expenseHeads,
                     'totalExpenseInWords' => $totalExpenseInWords,
                     'totalExpense' => $totalAmount,
-                    'totalAmountSum' => $totalAmountSum,
+                    'totalAmountSum' => $totalAmountSum['TOTAL'],
                     'balance' => $balance,
                     'detailxdc'=> $detailxdc
         ]);

@@ -707,14 +707,15 @@ class AttendanceDetailRepository implements RepositoryInterface {
         return $result->current();
     } 
  
-    public function manualAttendance($employeeId, $attendanceDt, $action, $impactOtherDays, $shiftId = null, $in_time = null, $out_time = null) {
+    public function manualAttendance($employeeId, $attendanceDt, $action, $impactOtherDays, $shiftId = null, $in_time = null, $out_time = null,$createdBy) {
         if ($impactOtherDays) { 
             $sql = "BEGIN
-                  HRIS_MANUAL_ATTENDANCE_ALL({$employeeId},{$attendanceDt},'{$action}', {$shiftId}, {$in_time}, {$out_time});
+                  HRIS_MANUAL_ATTENDANCE_ALL({$employeeId},{$attendanceDt},'{$action}', {$shiftId}, {$in_time}, {$out_time},{$createdBy});
                 END;";
         } else {
+
             $sql = "BEGIN
-                  HRIS_MANUAL_ATTENDANCE({$employeeId},{$attendanceDt},'{$action}', {$shiftId}, {$in_time}, {$out_time});
+                  HRIS_MANUAL_ATTENDANCE({$employeeId},{$attendanceDt},'{$action}', {$shiftId}, {$in_time}, {$out_time},{$createdBy});
                 END;";
         }
         $statement = $this->adapter->query($sql);
@@ -1194,7 +1195,7 @@ FROM (SELECT
                 ) Q
                 {$rowNums}
                 ";
-				//print_r($sql);die;
+				// print_r($sql);die;
         return EntityHelper::rawQueryResult($this->adapter, $sql);
     }
 	

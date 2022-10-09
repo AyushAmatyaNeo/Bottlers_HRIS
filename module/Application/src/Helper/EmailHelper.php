@@ -14,16 +14,16 @@ class EmailHelper {
     public static function getSmtpTransport(): Smtp {
         $transport = new Smtp();
         $options = new SmtpOptions([
-            'host' => 'smtp.gmail.com',
-            'port' => 587,
-            'connection_class' => 'login',
-            'connection_config' => [
-                // 'username' => 'no-reply@ictcgroups.com',
-                // 'password' => 'pleaseshareitwithRakeshdai123!@#',
-                'username' => 'ayush.amatya79@gmail.com',
-                'password' => 'sqrhbtehhgykfqwo',
-                'ssl' => 'tls',
-            ],
+            // 'host' => 'smtp.gmail.com',
+            // 'port' => 587,
+            // 'connection_class' => 'login',
+            // 'connection_config' => [
+            //     // 'username' => 'no-reply@ictcgroups.com',
+            //     // 'password' => 'pleaseshareitwithRakeshdai123!@#',
+            //     'username' => 'ayush.amatya79@gmail.com',
+            //     'password' => 'sqrhbtehhgykfqwo',
+            //     'ssl' => 'tls',
+            // ],
         ]);
         $transport->setOptions($options);
         return $transport;

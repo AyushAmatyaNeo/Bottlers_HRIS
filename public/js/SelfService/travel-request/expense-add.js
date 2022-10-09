@@ -1,8 +1,11 @@
 (function ($, app) {
     
     $(document).ready(function () {
-        let total = 150;
+        let total = document.totalSum;
         // $("#domesticConfigTable").hide();
+        $('#totalAmountExpI').val(total);
+        app.addDatePicker($('.arrDate'));
+
 
         $("#addDomesticBtn").on('click', function (){
             $("#domesticConfigTable").show();
@@ -19,28 +22,43 @@
             var mul = 1;
             $(".addTotalExp").each(function(){
                 var t2 = $(this).val();
-                conversion =  $(this).closest("tr").find("td:eq(7) input[type='number']").val();
-                mul = parseInt(t2) * conversion;
-                test =  test + mul
+                conversion =  $(this).closest("tr").find("td:eq(8) input[type='number']").val();
+                mul = eval(t2) * eval(conversion);
+                test =  eval(test + mul )
                });
 
-           $('#totalAmountExp').val(test);
+           $('#totalAmountExpI').val(test);
         });
 
+
         $(document).on('change', '.tableForAll .exchangeRate', function(e) {
-            console.log('here');
             var test = 0;
             var conversion = 1;
             var mul = 1;
             $(".exchangeRate").each(function(){
                 var conversion = $(this).val();
-                t2 =  $(this).closest("tr").find("td:eq(6) input[type='number']").val();
-                mul = t2 * conversion;
-                test =  test + mul
+                t2 =  $(this).closest("tr").find("td:eq(7) input[type='number']").val();
+                mul = eval(t2) * eval(conversion);
+                test = eval( test + mul )
                });
 
-           $('#totalAmountExp').val(test);
+           $('#totalAmountExpI').val(test);
         });
+
+        $(document).on('change', '.tableForAll .exchangeRateInternational', function(e) {
+            var test = 0;
+            var conversion = 1;
+            var mul = 1;
+            $(".exchangeRateInternational").each(function(){
+                var conversion = $(this).val();
+                t2 =  $(this).closest("tr").find("td:eq(7) input[type='number']").val();
+                mul =eval(t2) * eval(conversion);
+                test =  eval(test + mul)
+               });
+
+           $('#totalAmountExpI').val(test);
+        });
+
 
 
         $("#deleteDomesticBtn").on('click', function (){
@@ -250,14 +268,15 @@
                                                 </select> 
                                             </td>
                                             <td>
-                                                <input type="number" name="amountExp[]"  class="addTotalExp" >
+                                                <input type="number" name="amountExp[]"  class="addTotalExp" step="any">
                                             </td>
                                             <td>
-                                            <input type="number" name="conversionRate[]" class="exchangeRate" value="1" step="0.001" readonly>
+                                            <input type="text" name="currency[]" value="NPR" readonly disabled>
                                         </td>
-                                        <td>
-                                            <input type="text" name="currency[]" value="NPR" readonly>
+                                            <td>
+                                            <input type="number" name="conversionRate[]" class="exchangeRate" value="1" step="0.001" readonly disabled >
                                         </td>
+                                     
                                             <td>
                                                 <div style="width:150px">
                                                     <textarea name="detRemarks[]"  class="detRemarks"></textarea>
@@ -371,16 +390,15 @@
                                             </select> 
                                             </td>
                                             <td>
-                                            <input type="number" name="amountExp[]" step="0.001"  class="addTotalExp">
-                                            </td>
-                                            <td>
-                                            <input type="number" name="exchangeRateInternational[]"  class="exchangeRate">       
-                                            </td>
-                                            <td>
                                                     <select class='currency form-control' name='currency[]' >
                                                     </select>
-                                            </td>   
-                                           
+                                            </td>  
+                                            <td>
+                                            <input type="number" name="amountExp[]" step="any"  class="addTotalExp">
+                                            </td> 
+                                            <td>
+                                            <input type="number" name="exchangeRateInternational[]"  class="exchangeRateInternational">       
+                                            </td>
                                             <td>
                                                 <textarea name="detRemarks[]"  class="detRemarks form-control"></textarea>
                                             </td>
@@ -424,13 +442,13 @@
         
             $(".addTotalExp").each(function(){
                 var t2 = $(this).val();
-                conversion =  $(this).closest("tr").find("td:eq(7) input[type='number']").val();
-                var  mul = parseInt(t2) * conversion;
-                test =  test + mul
+                conversion =  $(this).closest("tr").find("td:eq(8) input[type='number']").val();
+                var  mul = eval(t2) * eval(conversion);
+                test = eval( test + mul)
                });
-
+               
             
-           $('#totalAmountExp').val(test);
+           $('#totalAmountExpI').val(test);
         });
 
         $('#internationalConfigTable').on('click', '.dtlDelBtnInternational', function () {
@@ -440,11 +458,11 @@
             var conversion  = 1;
             $(".addTotalExp").each(function(){
                 var t2 = $(this).val();
-                conversion =  $(this).closest("tr").find("td:eq(7) input[type='number']").val();
-                var  mul = parseInt(t2) * conversion;
-                test =  test + mul
+                conversion =  $(this).closest("tr").find("td:eq(8) input[type='number']").val();
+                var  mul = eval(t2) * eval(conversion);
+                test =  eval(test + mul)
                });
-           $('#totalAmountExp').val(test);
+           $('#totalAmountExpI').val(test);
         });
 
         // $('#addDocument').on('click', function () {

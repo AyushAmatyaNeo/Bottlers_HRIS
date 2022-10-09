@@ -31,6 +31,8 @@
 
            $('#totalAmountExp').val(test);
         });
+
+        
         $(document).on('change', '.tableForAll .conversionRateL1', function(e) {
             console.log('here');
             var test = 0;
@@ -73,7 +75,7 @@
                 test =  test + mul
                });
 
-           $('#totalAmountExp').val(test);
+           $('#totalAmountExpI').val(test);
         });
         $("#addInternationalBtn").on('click', function (){
             $("#internationalConfigTable").show();

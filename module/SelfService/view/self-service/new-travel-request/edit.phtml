@@ -29,8 +29,9 @@ $this->headScript()
     document.uploadUrl = '<?= $this->url("travelRequest", ["action" => "fileUpload"]); ?>';
     document.pushDCFileLink = '<?php echo $this->url('travelRequest', ['action' => 'pushDCFileLink']); ?>';
     document.getLineTotal = '<?php echo $this->url('travelRequest', ['action' => 'getLineTotal']); ?>';
+    document.totalSum = '<?=$totalAmountSum?>';
     document.expenseItrHeads =<?=json_encode($expenseItrHeads);?>;
-        document.expenseLtrHeads =<?=json_encode($expenseLtrHeads);?>;
+    document.expenseLtrHeads =<?=json_encode($expenseLtrHeads);?>;
 </script>;
 
 <div class="page-bar">
@@ -150,7 +151,7 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                             <div class="margin-top-10 scrollbar-horizantal" id="domesticConfigTable">
                                 <div class="row" >
                                     <div style="margin-left: 20px" >
-                                        <table id="domesticConfigTable" class="table table-bordered">
+                                        <table id="domesticConfigTable" class="table table-bordered tableForAll">
                                             <thead>
                                                 <tr>
                                                     <th colspan="12" style="text-align:center; font-weight:bold; font-size:15px;">Domestic Travel</th>
@@ -174,7 +175,7 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                                         <tr>
                                                             <td><input class="dtlDelBtn btn btn-danger" type="button" value="Del -" style="padding:3px;"></td>
                                                             <td>
-                                                                <select name="erTypeL[]" id="" class="erTypeL form-control">
+                                                                <select name="erTypeL[]" id="" class="erTypeL form-control" style="width: 12rem;">
                                                                     <option value="">Select ER Type</option>
                                                                     <option value="EP" <?php if ($expense['ER_TYPE'] == "Employee Paid") { ?>
                                                                     selected
@@ -185,15 +186,15 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <input type="text" name="locFrom[]" value="<?php echo $expense['LOCATIONG'] ?>"  class="locFrom form-control"> 
+                                                                <input type="text" name="locFrom[]" value="<?php echo $expense['LOCATIONG'] ?>"  class="locFrom form-control" style="width: 8rem;"> 
                                                             </td>
                                                         
                                                             <td>
-                                                                <input type="text" name="arrDate[]" value="<?php echo $expense['ADATE'] ?>"  class="arrDate form-control"> 
+                                                                <input type="text" name="arrDate[]" id="arrDateL1" value="<?php echo $expense['ADATE'] ?>"  class="arrDate form-control" style="width: 8rem;"> 
                                                             </td>
                                                             
                                                             <td>
-                                                                <input type="text" name="ticketNo[]" value="<?php echo $expense['BILL_NO'] ?>" class="ticketNo form-control"> 
+                                                                <input type="text" name="ticketNo[]" value="<?php echo $expense['BILL_NO'] ?>" class="ticketNo form-control" style="width: 6rem;"> 
                                                             </td> 
                                                         
                                                             <td>
@@ -206,13 +207,13 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <input type="number" name="amountExp[]" value="<?php echo $expense['AMOUNT'] ?>" step="0.001"  class="amountExp">
+                                                                <input type="number" name="amountExp[]" value="<?php echo $expense['AMOUNT'] ?>" step="any"  class="addTotalExp">
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control" value="<?= $expense['CURRENCY']; ?>" />
+                                                                <input type="text" class="form-control" value="<?= $expense['CURRENCY']; ?>" disabled/>
                                                             </td>
                                                             <td>
-                                                                <input type="number" class="form-control" value="<?= $expense['EXCHANGE_RATE']; ?>"  readonly="readonly" style="width: 69px;" step="0.01" min="0"/>
+                                                                <input type="number" class="form-control" value="<?= $expense['EXCHANGE_RATE']; ?>" disabled readonly="readonly" style="width: 16rem;" step="0.01" min="0"/>
                                                             </td>
                                                             <td>
                                                                 <div style="width:150px">
@@ -229,6 +230,9 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                         </table>
 
                                     </div>
+
+                                    <div class="col-md-12" style="text-align: right;"><strong>Total Amount: <input type="number" id="totalAmountExpI" value="0" step="0.001"></strong></div>
+
                                     <div class="col-md-1">
                                         <input class="deatilAddBtn btn btn-default" type="button" value="Add +" style="margin-bottom:20px;">
                                     </div>
@@ -244,7 +248,7 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                         <div class="margin-top-10 scrollbar-horizantal" id="internationalConfigTable">
                         <div class="row" >
                             <div style="margin-left: 20px;" >
-                                <table id="internationalConfigTable" class="table table-bordered">
+                                <table id="internationalConfigTable" class="table table-bordered tableForAll">
                                     <thead>
                                         <tr>
                                             <th colspan="12" style="text-align:center; font-weight:bold; font-size:15px;">International Travel</th>
@@ -257,8 +261,8 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                             <th>Ticket/Bill No</th>
                                             <th>Expense Head</th>
                                             <th>Currency</th> 
-                                            <th>Exchange Rate</th>         
                                             <th>Amount</th>     
+                                            <th>Exchange Rate</th>         
                                             <th>Remarks</th>       
                                         </tr>
                                     </thead>
@@ -268,7 +272,7 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                             <tr>
                                                 <td><input class="dtlDelBtnInternational btn btn-danger" type="button" value="Del -" style="padding:3px;"></td>
                                                 <td>
-                                                    <select name="erTypeI[]" id="" class="erTypeL form-control">
+                                                    <select name="erTypeI[]" id="" class="erTypeL form-control" style="width: 12rem;">
                                                         <option value="">Select ER Type</option>
                                                         <option value="EP" <?php if ($expense['ER_TYPE'] == "Employee Paid") { ?>
                                                             selected
@@ -279,13 +283,13 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                                     </select>
                                                 </td>
                                                 <td>
-                                                <input type="text" name="locFrom[]" value="<?php echo $expense['LOCATIONG'] ?>"  class="locFrom form-control"> 
+                                                <input type="text" name="locFrom[]" value="<?php echo $expense['LOCATIONG'] ?>"  class="locFrom form-control" style="width: 8rem;"> 
                                             </td>
                                             <td>
-                                                <input type="text" name="arrDate[]"  value="<?php echo $expense['ADATE'] ?>" class="arrDate form-control"> 
+                                                <input type="text" name="arrDate[]" id="arrDateL1" value="<?php echo $expense['ADATE'] ?>" class="arrDate form-control" style="width: 8rem;"> 
                                             </td>
                                             <td>
-                                                <input type="text" name="ticketNo[]" value="<?php echo $expense['BILL_NO'] ?>" class="ticketNo form-control"> 
+                                                <input type="text" name="ticketNo[]" value="<?php echo $expense['BILL_NO'] ?>" class="ticketNo form-control" style="width: 6rem;"> 
                                             </td> 
                                             <td>
                                                 <select name="expenseHead[]" id="expensehead">
@@ -297,7 +301,7 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                                 </select>
                                             </td>
                                             <td>
-                                                <select class=' form-control'  name='currency[]' >
+                                                <select class=' form-control'  name='currency[]' style="width: 6rem;">
                                                 <?php
                                                       foreach ($currencyList as $key => $value) {
                                                         $selected = ($value['code'] == $expense['CURRENCY']) ? "selected" : "";
@@ -307,13 +311,14 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                                     
                                                 </select>
                                             </td>   
+                                            
                                             <td>
-                                                <input type="number" name="exchangeRateInternational[]" value="<?php echo $expense['EXCHANGE_RATE'] ?>" class="exchangeRateInternational">       
+                                                <input type="number" name="amountExp[]" step="any" value="<?php echo $expense['AMOUNT']/$expense['EXCHANGE_RATE'] ?>"   class="addTotalExp" style="width: 8rem;">
+                                            </td>
+                                            <td>
+                                                <input type="number" name="exchangeRateInternational[]" value="<?php echo $expense['EXCHANGE_RATE'] ?>" class="exchangeRateInternational" style="width: 16rem;">       
                                             </td>
                                            
-                                            <td>
-                                                <input type="number" name="amountExp[]" step="0.001" value="<?php echo $expense['AMOUNT']/$expense['EXCHANGE_RATE'] ?>"  class="amountExp">
-                                            </td>
                                             <td>
                                                 <textarea name="detRemarks[]" class="detRemarks form-control"><?php echo $expense['REMARKS'] ?></textarea>
                                             </td> 
@@ -324,6 +329,8 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                 </table>
 
                             </div>
+                            <div class="col-md-12" style="text-align: right;"><strong>Total Amount: <input type="number" id="totalAmountExpI" value="0" step="0.001"></strong></div>
+
                             <div class="col-md-1">
                                 <input class="deatilAddBtnInternational btn btn-default" type="button" value="Add +" style="margin-bottom:20px;">
                             </div>
@@ -334,7 +341,7 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                          <div class="margin-top-10 scrollbar-horizantal" id="domesticConfigTable">
                          <div class="row" >
                              <div style="margin-left: 20px" >
-                                 <table id="domesticConfigTable" class="table table-bordered">
+                                 <table id="domesticConfigTable" class="table table-bordered tableForAll">
                                      <thead>
                                          <tr>
                                              <th colspan="12" style="text-align:center; font-weight:bold; font-size:15px;">Local Expense</th>
@@ -346,7 +353,9 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                              <th>Date</th>       
                                              <th>Ticket/Bill No</th>
                                              <th>Expense Head</th>
-                                             <th>Amount</th>     
+                                             <th>Amount</th> 
+                                             <th>Currency</th> 
+                                             <th>Exchange Rate</th>     
                                              <th>Remarks</th>  
                                          </tr>
                                      </thead>
@@ -356,7 +365,7 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                                  <tr>
                                                      <td><input class="dtlDelBtn btn btn-danger" type="button" value="Del -" style="padding:3px;"></td>
                                                      <td>
-                                                         <select name="erTypeL[]" id="" class="erTypeL form-control">
+                                                         <select name="erTypeL[]" id="" class="erTypeL form-control" style="width: 12rem;">
                                                              <option value="">Select ER Type</option>
                                                              <option value="EP" <?php if ($expense['ER_TYPE'] == "Employee Paid") { ?>
                                                              selected
@@ -367,15 +376,15 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                                          </select>
                                                      </td>
                                                      <td>
-                                                         <input type="text" name="locFrom[]" value="<?php echo $expense['LOCATIONG'] ?>"  class="locFrom form-control"> 
+                                                         <input type="text" name="locFrom[]" value="<?php echo $expense['LOCATIONG'] ?>"  class="locFrom form-control" style="width: 8rem;"> 
                                                      </td>
                                                  
                                                      <td>
-                                                         <input type="text" name="arrDate[]" value="<?php echo $expense['ADATE'] ?>"  class="arrDate form-control"> 
+                                                         <input type="text" name="arrDate[]" id="arrDateL1" value="<?php echo $expense['ADATE'] ?>"  class="arrDate form-control" style="width: 8rem;"> 
                                                      </td>
                                                      
                                                      <td>
-                                                         <input type="text" name="ticketNo[]" value="<?php echo $expense['BILL_NO'] ?>" class="ticketNo form-control"> 
+                                                         <input type="text" name="ticketNo[]" value="<?php echo $expense['BILL_NO'] ?>" class="ticketNo form-control" style="width: 6rem;"> 
                                                      </td> 
                                                  
                                                      <td>
@@ -388,14 +397,20 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                                          </select>
                                                      </td>
                                                      <td>
-                                                         <input type="number" name="amountExp[]" value="<?php echo $expense['AMOUNT'] ?>" step="0.001"  class="amountExp">
+                                                         <input type="number" name="amountExp[]" value="<?php echo $expense['AMOUNT'] ?>" step="any"  class="addTotalExp">
+                                                     </td>
+                                                     <td>
+                                                        <input type="text" class="form-control" value="<?= $expense['CURRENCY']; ?>" disabled/>
+                                                     </td>
+                                                     <td>
+                                                         <input type="number" class="form-control" value="<?= $expense['EXCHANGE_RATE']; ?>"  readonly="readonly" style="width: 16rem;" step="0.01" min="0" disabled/>
                                                      </td>
                                                      <td>
                                                          <div style="width:150px">
                                                              <textarea name="detRemarks[]"  class="detRemarks"><?php echo $expense['REMARKS'] ?></textarea>
                                                          </div>
                                                      </td>
-
+                                                     
                                                  </tr>
                                           <?php   }
                                          ?>
@@ -405,9 +420,11 @@ if ($this->messages && (sizeof($this->messages) > 1)) {
                                  </table>
 
                              </div>
-                             <div class="col-md-1">
+                             <div class="col-md-12" style="text-align: right;"><strong>Total Amount: <input type="number" id="totalAmountExpI" value="0" step="0.001"></strong></div>
+
+                           <div class="col-md-1">
                                  <input class="deatilAddBtn btn btn-default" type="button" value="Add +" style="margin-bottom:20px;">
-                             </div>
+                             </div> 
 
                          </div>
                      </div>
